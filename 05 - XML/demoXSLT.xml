@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ci dessus, le prologue -->
+<!--<!DOCTYPE banque SYSTEM "demo.dtd">-->
+
+<?xml-stylesheet type="text/xsl" href="demoCsv.xsl"?>
+
+<banque xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="demo2.xsd" libelle="Banque de france">
+	<clients>
+		<client type="pro" sexe="Féminin" numero="clt1" idAgence="ag1">
+			<raisonSociale>afcepf</raisonSociale>
+			<compte numero="cpt_1_1">
+				<!-- ceci est un commentaire -->
+				<tauxInteret taux="0.05"/>
+				<solde>25000</solde>
+				<!-- encore un commentaire -->
+				<dateOuverture>25/01/1992</dateOuverture>
+			</compte>
+			<compte numero="cpt_1_2">
+				<solde>-250</solde>
+				<dateOuverture>12/12/2001</dateOuverture>
+			</compte>
+			<adresse>
+				<numero>3</numero>
+				<voie>rue Danton</voie>
+				<codePostal>92100</codePostal>
+				<ville>Malakoff</ville>
+			</adresse>
+		</client>
+		<client type="perso" numero="clt2" idAgence="ag1">
+			<nom>benoit</nom>
+			<prenom>chauvet</prenom>
+			<compte numero="cpt_2_1">
+				<solde>3</solde>
+				<dateOuverture>25/01/2010</dateOuverture>
+			</compte>
+			<adresse>
+				<numero>45</numero>
+				<voie>rue Dumas</voie>
+				<codePostal>93000</codePostal>
+				<ville>Montreuil</ville>
+			</adresse>
+		</client>
+	</clients>
+	<agences>
+		<agence id="ag1">
+			<adresse>
+				<numero>10</numero>
+				<voie>rue du Midi</voie>
+				<codePostal>94300</codePostal>
+				<ville>Vincennes</ville>
+			</adresse>
+		</agence>
+	</agences>
+</banque>

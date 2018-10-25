@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2018 by PierreGiraud (http://jsbin.com/gopega/82/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+    <head>
+        <title>Le modèle des boîtes</title>
+        <meta charset= "utf-8">
+    <style id="jsbin-css">
+h1{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+    
+    
+div{
+    background-color: #89B;
+    width: 300px;
+    border: 5px solid #777;
+    border-radius: 15px;
+    position: fixed;
+    top: 50px;
+    left: 100px;
+}
+
+.para1{
+    position: absolute;
+    right: 0px;
+    top: 10px;
+}
+</style>
+</head>
+    
+    <body>
+        <h1>Position</h1>
+        <!-- Attention, contrairement aux exemples précédents, h1 n'est
+        plus à l'intérieur de notre élément div ! -->
+        <div>
+            <p class="para1">Un premier paragraphe.</p>
+            <p class="para2">Un autre paragraphe</p>
+        </div>
+        <p>B<br><br><br><br><br>l<br><br><br><br><br>a<br><br><br><br><br></p>
+        <p>B<br><br><br><br><br>l<br><br><br><br><br>a<br><br><br><br><br></p>
+      <p>B<br><br><br><br><br>l<br><br><br><br><br>a<br><br><br><br><br></p>
+    </body>
+</html>

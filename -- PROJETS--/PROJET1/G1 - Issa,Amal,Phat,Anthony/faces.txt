@@ -1,0 +1,4 @@
+<application>
+       <!-- pour que JSF puisse utiliser les beans de Spring / injection de dépendance -->
+       <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+    </application>

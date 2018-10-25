@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="voie">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:string">
+					<xsd:attribute name="type" type="xsd:string"/>
+					<xsd:attribute name="privee" type="xsd:boolean" default="false"/>
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="adresse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="numero" type="xsd:positiveInteger"/>
+				<xsd:element ref="voie"/>
+				<xsd:element name="codePostal" type="xsd:string"/>
+				<xsd:element name="ville" type="xsd:string"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	
+	<xsd:complexType name="personne">
+			<xsd:sequence>
+				<xsd:element name="nom" type="xsd:string"/>
+				<xsd:element name="prenom" type="xsd:string"/>
+				<xsd:element name="email" type="xsd:string"/>
+				<xsd:element ref="adresse"/>
+			</xsd:sequence>
+			<xsd:attribute name="sexe">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="masculin"/>
+						<xsd:enumeration value="feminin"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+			<xsd:attribute name="id" type="xsd:ID"/>
+	</xsd:complexType>
+	
+<xsd:complexType name="stagiaire">
+	<xsd:complexContent>
+		<xsd:extension base="personne">
+			<xsd:sequence>
+				<xsd:element name="promo" type="xsd:string" nillable="false"></xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="delegue" type="xsd:boolean" default="false"></xsd:attribute>
+			<xsd:attribute name="prof" type="xsd:IDREF"></xsd:attribute>
+		</xsd:extension>
+	</xsd:complexContent>
+</xsd:complexType>	
+	
+	<xsd:element name="afcepf">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="formateurs"/>
+				<xsd:element ref="stagiaires"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="formateurs">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="personne" type="personne" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="stagiaires">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="stagiaire" type="stagiaire" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

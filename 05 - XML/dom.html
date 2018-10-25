@@ -1,0 +1,22 @@
+<html>
+<head>
+   <script>
+   
+   function f1(){
+       var za = document.getElementById("a");
+	   var zb = document.getElementById("b");
+	   var zRes = document.getElementById("res");
+	   zRes.innerHTML= Number(za.value)+ Number(zb.value);
+   }
+   </script>
+</head>
+
+<body>
+a:<input id="a" /><br/>
+b:<input id="b" /><br/>
+<input type="button" value="calculer" onclick="f1()" />
+res: <span id="res"></span>
+</body>
+
+
+</html>

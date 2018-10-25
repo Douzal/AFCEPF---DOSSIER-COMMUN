@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="s1.xsl" ?>
+<personne num="2">
+   <prenom>jean</prenom>
+   <nom>Bonot</nom>
+   <adresse type="principale">
+       <rue>12 rue elle</rue><cp>75001</cp><ville>Paris</ville>
+   </adresse>
+   <adresse type="secondaire">
+       <rue>12 rue des champs</rue><cp>02001</cp><ville>TrouPerdu</ville>
+   </adresse>
+</personne>

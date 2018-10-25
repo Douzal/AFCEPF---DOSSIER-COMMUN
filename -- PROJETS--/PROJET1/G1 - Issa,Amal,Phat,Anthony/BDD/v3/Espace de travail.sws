@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?PowerDesigner signature="Workspace" version="15.1.0.2850"?>
+<!-- Veuillez ne pas modifier ce fichier -->
+
+<Workspace>
+	<Local Expanded="Yes">
+		<Model Expanded="Yes" ID="{D927F5FB-543A-4A84-95E8-3438DB61CA65}" Name="ModeleOrienteObjet_1" Selected="Yes" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="Diagramme de classe PowerAMC.moo"/>
+	</Local>
+	<BrowserModule Name="Référentiel"/>
+</Workspace>

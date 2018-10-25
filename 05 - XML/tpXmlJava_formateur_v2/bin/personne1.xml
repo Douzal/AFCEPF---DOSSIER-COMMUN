@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<personne num="1">
+    <nom>Therieur</nom>
+    <prenom>alex</prenom>
+    <adresse>
+        <cp>76000</cp>
+        <ville>Rouen</ville>
+    </adresse>
+</personne>

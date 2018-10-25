@@ -1,0 +1,21 @@
+Vous regrettez l'époque où vous aviez le temps de jouer à Command&Conquer? 
+Voici l'occasion de créer votre version du jeu! Commencez par télécharger le fichier td1war.zip. Importez-le dans le répertoire source de votre projet courant dans Eclipse. 
+ 
+Le but de cet exercice est de modéliser des unités militaires. Certaines unités (AircraftCarrier, ArmyTruck,Helicopter et Destroyer) peuvent jouer un rôle de transport de troupe et contenir d'autres unités. 
+ 
+Vous trouverez toutes sortes d'unités militaires sous forme de classes. 
+ 
+ 
+1. Organisez les classes pour que les unités effectuent du transport de troupe, en utilisant le design pattern Composite. Les transporteurs devront donc posséder des méthodes permettant d'ajouter ou de retirer d'autres unités et de visualiser la liste des unités. Tout transporteur est lui même transportable (pour cette question).
+
+2. Modifier votre implantation pour qu'il soit impossible de transporter une unité étant elle-même un transporteur. 
+
+3. Faites en sorte que la puissance de feu, la vie et la vitesse d'un transporteur soit la somme des caractéristiques des humains uniquement si elles sont  DE  MEME ARMES QUE LUI   . Par exemple si un destroyer transporte un soldat et deux marines, ses caractéristiques ne dépendront que des deux marines. 
+	Un destroyer transporte des marines,
+	Un armyTruck transporte des soldiers,
+	Un hélicopter transporte des aviators, 
+	Un aircraftcarrier transporte des marines
+
+4. Nous allons maintenant ajouter un système de bonus qui permet de booster les fonctionnalités de feu, de vie et de vitesse des humains. On souhaite avoir des bonus qui ajoutent de la puissance de feu, de la vie ou augmentent la vitesse ainsi que des bonus multipliant par un facteur l'ensemble des caractéristiques d'un soldat.  
+
+ 

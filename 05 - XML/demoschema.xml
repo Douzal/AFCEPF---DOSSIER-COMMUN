@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<afcepf xmlns:afc="http://www.w3.org/2001/XMLSchema-instance" afc:noNamespaceSchemaLocation="demo.xsd">
+	<formateurs>
+	<personne id="p42" sexe="feminin">
+		<nom></nom>
+		<prenom></prenom>
+		<email></email>
+		<adresse>
+			<numero></numero>
+			<voie></voie>
+			<codePostal></codePostal>
+			<ville></ville>
+		</adresse>
+	</personne>
+		<personne sexe="masculin" id="p1">
+			<nom>CHAUVET</nom>
+			<prenom>Benoit</prenom>
+			<email>contact@benoitchauvet.com</email>
+			<adresse>
+				<numero>42</numero>
+				<voie type="rue">Danton</voie>
+				<codePostal>92240</codePostal>
+				<ville>Malakoff</ville>
+			</adresse>
+		</personne>
+		<personne sexe="masculin" id="p2">
+			<nom>PERICARD</nom>
+			<prenom>Sébastien</prenom>
+			<email>sp@afcepf.fr</email>
+			<adresse>
+				<numero>42</numero>
+				<voie type="rue">Danton</voie>
+				<codePostal>92240</codePostal>
+				<ville>Malakoff</ville>
+			</adresse>
+		</personne>
+	</formateurs>
+	<stagiaires>
+			<stagiaire sexe="masculin" id="p3" delegue="true" prof="p3">
+			<nom>PERICARD</nom>
+			<prenom>Sébastien</prenom>
+			<email>sp@afcepf.fr</email>
+			<adresse>
+				<numero>42</numero>
+				<voie type="rue">Danton</voie>
+				<codePostal>92240</codePostal>
+				<ville>Malakoff</ville>
+			</adresse>
+			<promo>AL27</promo>
+		</stagiaire>
+	</stagiaires>
+	</afcepf>
