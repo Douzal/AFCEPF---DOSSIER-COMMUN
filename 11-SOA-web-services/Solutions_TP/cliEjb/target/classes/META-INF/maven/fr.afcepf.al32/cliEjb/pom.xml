@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fr.afcepf.al32</groupId>
+  <artifactId>cliEjb</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <properties>
+      <maven.compiler.source>1.8</maven.compiler.source>
+      <maven.compiler.target>1.8</maven.compiler.target> 
+  </properties>
+  
+  <dependencies>
+  
+    <!-- dependance vers la partie interface de la chose à appeler à distance -->
+    <dependency>
+    	<groupId>fr.afcepf.al32</groupId>
+  		<artifactId>servEjb</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    
+    <!-- pour pouvoir se connecter via l'api JNDI à la partie "serveur nom logique JNDI" 
+         de Jboss , il faut une dépendance maven spéciale "jboss-client-all" ou "jboss-client-ejb" -->
+		  
+		<dependency>
+		    <groupId>org.wildfly</groupId>
+		    <artifactId>wildfly-client-all</artifactId>
+		    <version>13.0.0.Final</version>
+		</dependency>
+  
+    
+  
+  </dependencies> 
+</project>
