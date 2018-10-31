@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: tpMvcSpringBootApp
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: formation
+Implementation-Vendor-Id: fr.afcepf.al32
+Build-Jdk: 1.8.0_152
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/tpMvcSpringBootApp
+Created-By: Maven Integration for Eclipse
+
