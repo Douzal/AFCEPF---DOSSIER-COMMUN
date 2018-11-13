@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>appel ajax</title>
+<script>
+   function makeAjaxRequest(url,callback){
+	   console.log("appel ajax via XMLHttpRequest");
+	   var xhr = new XMLHttpRequest();
+	   xhr.onreadystatechange = function() {
+			   if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+			   	callback(xhr.responseText);
+			   }
+	   		};
+	   xhr.open("GET", url, true);//exemple d'url : "rest/blagues?noteMini=2"
+	   xhr.send(null);
+   }
+   
+   function afficherResultatQuandReponseRevient(sData){
+	   console.log("affichage resultat via DOM=Document Object Model");
+	   var spanMessage = document.getElementById("spanMessage");
+	   var zoneUL = document.getElementById("zoneListe");
+	   zoneUL.innerHTML=""; //vider l'eventuel ancien contenu.
+	   spanMessage.innerHTML=sData;
+	   //JSON.parse pour convertir chaine JSON en objet javascript 
+	   var listeBlagues = JSON.parse(sData);
+	   for(var i=0;i<listeBlagues.length;i++){
+		   var blague = listeBlagues[i];
+		   var eltLi = document.createElement("li");
+		   eltLi.innerHTML = blague.texte;
+		   zoneUL.appendChild(eltLi);
+	   }
+   }
+
+   function chercherEtAfficherBlagues(){
+	   //makeAjaxRequest(afficherResultatQuandReponseRevient);
+	   var fonctionCallback = afficherResultatQuandReponseRevient;//sera appelé plus tard
+	   var inputNoteMini = document.getElementById("txtNoteMini");
+	   var valNoteMini = inputNoteMini.value;
+	   var url = "rest/blagues";
+	   if(valNoteMini!=null) url += "?noteMini="+valNoteMini
+	   makeAjaxRequest(url,fonctionCallback);
+   }
+</script>
+</head>
+<body>
+   <h3>Appel de WS REST via ajax/XMLHttpRequest</h3>
+   noteMini: <input type="text" id="txtNoteMini" /><br/>
+   <input type="button" onclick="chercherEtAfficherBlagues()"
+          value="rechercher blagues" /> <br/>
+   <span id="spanMessage"></span><br/>
+   <ul id="zoneListe">
+      <!-- li ajoutés via code js -->
+   </ul>
+</body>
+</html>

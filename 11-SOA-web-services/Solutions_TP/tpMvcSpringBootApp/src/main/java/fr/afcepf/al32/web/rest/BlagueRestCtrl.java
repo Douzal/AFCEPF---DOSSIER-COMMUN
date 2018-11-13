@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ import fr.afcepf.al32.dto.Blague;
 /* WebService Rest sur blagues pourries
    en s'appyant sur le framework Spring-MVC  
  */
-
+@CrossOrigin(origins = "*")//+  .and().cors() dans MultiHttpSecurityConfig
 @RestController //@RestController hérite de @Component de Spring
 @RequestMapping(value="/rest/blagues" , headers="Accept=application/json")
 public class BlagueRestCtrl {
@@ -32,7 +33,8 @@ public class BlagueRestCtrl {
 	public BlagueRestCtrl() {
 		mapBlagues.put(1L, new Blague(1L,"blague1","blague qui n'a pas super marché",1.0));
 		mapBlagues.put(2L, new Blague(2L,"blague2","JSP=je sais pas",2.0));
-		cptBlagues=2L;
+		mapBlagues.put(3L, new Blague(3L,"Halloween","allo ween ici trouille",2.0));
+		cptBlagues=3L;
 	}
 	
 	//URL = http://localhost:8080/tpMvcSpringBootApp/rest/blagues/99

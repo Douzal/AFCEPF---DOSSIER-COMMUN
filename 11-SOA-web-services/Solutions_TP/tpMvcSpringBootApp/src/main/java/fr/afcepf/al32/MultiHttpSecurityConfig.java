@@ -49,7 +49,9 @@ public class MultiHttpSecurityConfig {
  	 		   .anyRequest().permitAll()
  	 		   //.anyRequest().authenticated()
  	 		   //.anyRequest().hasRole("ADMIN")
+ 	 		   .and().cors()
  	 		   .and().csrf().disable();
+        	  
  	 			//.and().httpBasic()
         	
         	logger.debug("configure(1) rest,  http:" + http.toString());
