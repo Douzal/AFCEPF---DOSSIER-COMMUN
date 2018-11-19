@@ -1,0 +1,9 @@
+DIAGRAMME DE SEQUENCES
+
+Règles pas interdites en UML, mais que nous propose le professeur :
+- un message d'un acteur ne doit pas être exprimé sous forme d'action.
+- un acteur ne doit pas envoyer un message à lui même
+- un acteur ne doit pas envoyer un message directement à un autre acteur
+- un message que le systeme envoie à lui-même doit être exprimé sous forme d'action
+- un message envoyé par le système à un acteur est représenté sous forme d'action ssi il représente une action importante du système.
+
