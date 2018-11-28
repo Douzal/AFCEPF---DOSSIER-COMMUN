@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script type="text/javascript" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/track"></script><script async="" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/fbds.js"></script><script type="text/javascript" async="" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/analytics.js"></script><script type="text/javascript" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/visit"></script>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Mastering Async Await in Node.js | @RisingStack</title>
+
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="1VZwYFsfiVb7eRGn7Hx4CQN2PHLUmbYZnlJOXrBaCPA">
+
+<link rel="apple-touch-icon" sizes="180x180" href="https://blog.risingstack.com/assets/favicons/apple-touch-icon.png?v=daf75556cf">
+<link rel="icon" type="image/png" href="https://blog.risingstack.com/assets/favicons/favicon-32x32.png?v=daf75556cf" sizes="32x32">
+<link rel="icon" type="image/png" href="https://blog.risingstack.com/assets/favicons/favicon-16x16.png?v=daf75556cf" sizes="16x16">
+<link rel="manifest" href="https://blog.risingstack.com/assets/favicons/manifest.json?v=daf75556cf">
+<link rel="mask-icon" href="https://blog.risingstack.com/assets/favicons/safari-pinned-tab.svg?v=daf75556cf" color="#5bbad5">
+<meta name="theme-color" content="#ffffff">
+
+<link href="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/css.css" rel="stylesheet">
+<link rel="stylesheet" href="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/default.css">
+<link href="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/main.css">
+
+<meta name="description" content="In this article, you will learn how you can simplify your callback or Promise based Node.js application with async functions (async/await).">
+    <link rel="shortcut icon" href="https://blog.risingstack.com/favicon.png" type="image/png">
+    <link rel="canonical" href="https://blog.risingstack.com/mastering-async-await-in-nodejs/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="RisingStack Engineering - Node.js Tutorials &amp; Resources">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Mastering Async Await in Node.js | @RisingStack">
+    <meta property="og:description" content="In this article, you will learn how you can simplify your callback or Promise based Node.js application with async functions (async/await).">
+    <meta property="og:url" content="https://blog.risingstack.com/mastering-async-await-in-nodejs/">
+    <meta property="og:image" content="https://blog-assets.risingstack.com/2017/07/mastering-async-await-nodejs.png">
+    <meta property="article:published_time" content="2017-07-05T11:00:00.000Z">
+    <meta property="article:modified_time" content="2017-09-05T15:45:18.000Z">
+    <meta property="article:tag" content="Advanced Node.js Tutorials">
+    <meta property="article:tag" content="Asynchronous Programming">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mastering Async Await in Node.js | @RisingStack">
+    <meta name="twitter:description" content="In this article, you will learn how you can simplify your callback or Promise based Node.js application with async functions (async/await).">
+    <meta name="twitter:url" content="https://blog.risingstack.com/mastering-async-await-in-nodejs/">
+    <meta name="twitter:image" content="https://blog-assets.risingstack.com/2017/07/mastering-async-await-nodejs.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Tamas Kadlecsik">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="Advanced Node.js Tutorials, Asynchronous Programming">
+    <meta name="twitter:site" content="@risingstack">
+    <meta name="twitter:creator" content="@tamaskadlecsik">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <script async="" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/gtm.js"></script><script id="twitter-wjs" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/widgets.js"></script><script type="text/javascript" async="" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/drip.js"></script><script type="text/javascript" async="" defer="defer" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/mailchimp-v1.js"></script><script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "RisingStack Engineering - Node.js Tutorials &amp; Resources",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://risingstack-blog.s3.amazonaws.com/2016/Mar/risingstack_logo-1457001742686.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Tamas Kadlecsik",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://blog-assets.risingstack.com/2017/01/kadlecsik-mate-risingstack.jpg",
+            "width": 50,
+            "height": 50
+        },
+        "url": "https://blog.risingstack.com/author/tamas-kadlecsik/",
+        "sameAs": [
+            "https://twitter.com/tamaskadlecsik"
+        ]
+    },
+    "headline": "Mastering Async Await in Node.js | @RisingStack",
+    "url": "https://blog.risingstack.com/mastering-async-await-in-nodejs/",
+    "datePublished": "2017-07-05T11:00:00.000Z",
+    "dateModified": "2017-09-05T15:45:18.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://blog-assets.risingstack.com/2017/07/mastering-async-await-nodejs.png",
+        "width": 1200,
+        "height": 630
+    },
+    "keywords": "Advanced Node.js Tutorials, Asynchronous Programming",
+    "description": "In this article, you will learn how you can simplify your callback or Promise based Node.js application with async functions (async/await).",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://blog.risingstack.com/"
+    }
+}
+    </script>
+
+    <script type="text/javascript" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/ghost-sdk.js"></script>
+<script type="text/javascript">
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "3fe3251906b2"
+});
+</script>
+    <meta name="generator" content="Ghost 1.21">
+    <link rel="alternate" type="application/rss+xml" title="RisingStack Engineering - Node.js Tutorials &amp; Resources" href="https://blog.risingstack.com/rss/">
+    <!-- Mailchimp -->
+<script type="text/javascript">
+	var $mcGoal = {'settings':{'uuid':'510d6f81b948a39e0d9c32ec3','dc':'us9'}};
+	(function() {
+		 var sp = document.createElement('script'); sp.type = 'text/javascript'; sp.async = true; sp.defer = true;
+		sp.src = 'https://resources.risingstack.com/mailchimp-v1.js'
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sp, s);
+	})(); 
+</script>
+
+<script>
+(function (){
+    var tests = [
+    ]
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        var $topCta = $('#top-cta')
+        $topCta.html(tests[Math.floor(Math.random() * tests.length)])
+    });
+}())
+</script>
+<script type="text/javascript" async="" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/embed.js"></script><link rel="prefetch" as="style" href="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/a_data_002/lounge.css"><link rel="prefetch" as="script" href="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/a_data_002/common.js"><link rel="prefetch" as="script" href="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/a_data_002/lounge_002.js"><link rel="prefetch" as="script" href="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/a_data_002/config.js"><script type="text/javascript" charset="utf-8" async="" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/button.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="services/services" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/services.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="156085c5-0017-4150-b225-a731ad248f38/service" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/service.js"></script><style>@-webkit-keyframes insQ_100 {  from {  outline: 1px solid transparent  } to {  outline: 0px solid transparent }  }
+#menufication-top { animation-duration: 0.001s; animation-name: insQ_100; -webkit-animation-duration: 0.001s; -webkit-animation-name: insQ_100;  } </style><style></style><link type="text/css" rel="stylesheet" href="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/listbuilder-popup.css"><link type="text/css" rel="stylesheet" href="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/sumome-share-client.css"></head>
+
+<body class="post-template tag-advanced-node-js-tutorials tag-asynchronous-programming" data-sumo-smart-bar-data="{&quot;originalInlineStyles&quot;:{&quot;top&quot;:&quot;&quot;,&quot;bottom&quot;:&quot;&quot;,&quot;marginTop&quot;:&quot;&quot;,&quot;marginBottom&quot;:&quot;&quot;},&quot;originalOffset&quot;:{&quot;top&quot;:&quot;auto&quot;,&quot;bottom&quot;:&quot;auto&quot;},&quot;originalOffsetTop&quot;:0,&quot;originalTransition&quot;:&quot;&quot;,&quot;originalInlineTransition&quot;:&quot;&quot;,&quot;originalMarginTop&quot;:&quot;0px&quot;,&quot;originalMarginBottom&quot;:&quot;0px&quot;}" style="margin-bottom: 53px;"><div class="s u m o me smartbar-popup"><div class="smartbar-popup-content"><div class="sumome-react-wysiwyg-popup-container sumome-smartbar-popup sumome-react-smartbar-bottom sumome-react-smartbar-fixed" style="min-height: 50px; line-height: 50px;"><link href="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/css_002.css" rel="stylesheet" type="text/css"><span><div class="sumome-react-wysiwyg-component sumome-react-wysiwyg-smart-bar-background sumome-react-wysiwyg-background" style="left: 0px; top: 30px; width: 550px; height: 270px; position: absolute;"><div class="sumome-react-wysiwyg-move-handle" style="height: 100%;"><div style="position: relative; width: 100%; height: 100%; overflow: hidden; z-index: 0; box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px; border-color: rgb(0, 0, 0); border-style: solid; border-radius: 0px; border-width: 0px;"><div style="background-color: rgb(239, 239, 239); fill: rgb(0, 0, 0); padding: 0px; margin: 0px; display: block; width: 100%; height: 100%;"></div><div style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px;"></div></div></div></div></span><span><div class="sumome-react-wysiwyg-component sumome-react-wysiwyg-smart-bar-text sumome-react-wysiwyg-text" style="left: 331px; top: 0px; width: 513px; position: absolute;"><div class="sumome-react-wysiwyg-move-handle" style="height: 100%;"><div><p style="color: rgb(73, 82, 89); background-color: rgba(0, 0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif; font-weight: 400; font-style: normal; font-size: 16px; text-align: center; border-width: 0px; border-color: rgb(0, 0, 0); border-style: solid; border-radius: 0px; line-height: 1.5; box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px inset; text-shadow: rgba(0, 0, 0, 0) 0px 0px 0px; padding: 0px; margin: 0px; letter-spacing: normal;">Become confident with Node.js:</p></div></div></div></span><span><div class="sumome-react-wysiwyg-component sumome-react-wysiwyg-smart-bar-textField sumome-react-wysiwyg-textField" style="left: 578px; top: 9px; width: 220px; height: auto; position: absolute;"><div class="sumome-react-wysiwyg-move-handle" style="height: 100%;"><div><input name="email" style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-family: &quot;Open Sans&quot;, sans-serif; font-weight: 400; font-style: normal; font-size: 14px; text-align: left; border-width: 1px; border-color: rgb(204, 204, 204); border-style: solid; border-radius: 4px; box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px inset; text-shadow: rgba(0, 0, 0, 0) 0px 0px 0px; padding: 0px 14px; margin: 0px; display: block; width: 100%; height: 32px; transition: none 0s ease 0s;" spellcheck="false" placeholder="Enter your Email" type="text"><div></div></div></div></div></span><span><div class="sumome-react-wysiwyg-component sumome-react-wysiwyg-smart-bar-button sumome-react-wysiwyg-button" style="left: 808px; top: 9px; width: 150px; height: 32px; position: absolute;"><div class="sumome-react-wysiwyg-move-handle" style="height: 100%;"><div style="padding: 0px; margin: 0px; display: block; width: 100%; height: 100%; position: relative; overflow: hidden; z-index: 0; box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px; border-color: rgb(0, 0, 0); border-style: solid; border-radius: 4px; border-width: 0px;"><button style="color: rgb(255, 255, 255); background-color: rgb(69, 169, 148); font-family: &quot;Open Sans&quot;, sans-serif; font-weight: 700; font-style: normal; font-size: 14px; line-height: 1.5; text-shadow: rgba(0, 0, 0, 0) 0px 0px 0px; padding: 0px; margin: 0px; display: block; width: 100%; height: 100%; box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px inset; cursor: pointer;">Subscribe Now</button></div></div></div></span><span><div class="sumome-react-wysiwyg-component sumome-react-wysiwyg-outside-horizontal-resize-handles sumome-react-wysiwyg-outside-vertical-resize-handles sumome-react-wysiwyg-close-button sumome-react-wysiwyg-smart-bar-image sumome-react-wysiwyg-image" style="top: 17px; width: 16px; height: 16px; position: absolute;"><div class="sumome-react-wysiwyg-move-handle" style="height: 100%;"><div style="position: relative; width: 100%; height: 100%; overflow: hidden; z-index: 0; box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px; border-color: rgb(0, 0, 0); border-style: solid; border-radius: 0px; border-width: 0px; cursor: pointer;"><div style="background-color: rgba(0, 0, 0, 0); fill: rgb(164, 169, 172); padding: 0px; margin: 0px; display: block; position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; background-size: 100% 100%;" class="sumome-react-svg-image-container"><svg id="4f8ed63b-7ccd-42ac-b57e-2d25323d54a5" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 20" preserveAspectRatio="none" style="height: 100%; width: 100%; position: absolute; top: 0; left: 0;"><defs><style>.ce6357df-3c80-4519-935a-7fdea9b9de07{clip-path:url(#464a6701-eb06-43cb-8f85-6a825f427d30);}.\34
+ 
+e594ea1-a930-4654-9fe2-fd997e75edff{clip-path:url(#e1eed25e-fb9f-4288-919f-efc8910e7c24);}</style><clipPath id="464a6701-eb06-43cb-8f85-6a825f427d30"><path d="M10,8,2.44.42a1.43,1.43,0,0,0-2,2L8,10,.42,17.56a1.43,1.43,0,1,0,2,2L10,12l7.56,7.56a1.43,1.43,0,0,0,2-2L12,10l7.56-7.56a1.43,1.43,0,0,0-2-2Z"></path></clipPath><clipPath id="e1eed25e-fb9f-4288-919f-efc8910e7c24"><rect x="-790" y="-2755" width="2350" height="3951"></rect></clipPath></defs><title>Artboard 6</title><path d="M10,8,2.44.42a1.43,1.43,0,0,0-2,2L8,10,.42,17.56a1.43,1.43,0,1,0,2,2L10,12l7.56,7.56a1.43,1.43,0,0,0,2-2L12,10l7.56-7.56a1.43,1.43,0,0,0-2-2Z"></path><g class="ce6357df-3c80-4519-935a-7fdea9b9de07"><rect x="-790" y="-2755" width="2350" height="3951"></rect><g class="4e594ea1-a930-4654-9fe2-fd997e75edff"><rect x="-5" y="-5" width="30" height="30"></rect></g></g></svg></div><div style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px inset;"></div></div></div></div></span></div></div></div><div class="cc-revoke cc-bottom cc-animate cc-color-override--1836051700" style="display: none;">Cookie Policy</div><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-banner cc-type-info cc-theme-edgeless cc-bottom cc-color-override--1836051700 " style="top: auto; bottom: 53px;" data-sumo-smart-bar-data="{&quot;originalInlineStyles&quot;:{&quot;top&quot;:&quot;&quot;,&quot;bottom&quot;:&quot;&quot;,&quot;marginTop&quot;:&quot;&quot;,&quot;marginBottom&quot;:&quot;&quot;},&quot;originalOffset&quot;:{&quot;top&quot;:&quot;740.167px&quot;,&quot;bottom&quot;:&quot;0px&quot;},&quot;originalOffsetTop&quot;:740,&quot;originalTransition&quot;:&quot;&quot;,&quot;originalInlineTransition&quot;:&quot;&quot;,&quot;originalMarginTop&quot;:&quot;0px&quot;,&quot;originalMarginBottom&quot;:&quot;0px&quot;}"><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">This website uses cookies to ensure you get the best experience on our website. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="https://blog.risingstack.com/privacy-policy/" target="_blank">Learn more</a></span><div class="cc-compliance"><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">Got it!</a></div><!--googleon: all--></div>
+    <div class="progress-container">
+      <span class="progress-bar" style="width: 0%;"></span>
+    </div>
+
+    <header class="site-header text-center">
+  <div class="inline-block valign-middle">
+    <a class="inline-block margin-left-2 margin-top-1" href="https://blog.risingstack.com/">
+      <img class="margin-1" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/risingstack-logo-2017.svg" alt="RisingStack" width="150" height="45">
+    </a>
+  </div>
+  <button class="inline-block valign-middle" id="btn-nav"></button>
+  <nav class="inline-block valign-middle" id="main-nav">
+    <hr>
+    <ul class="nav-items">
+      <li><a href="https://blog.risingstack.com/">Home</a></li>
+      <li><a target="_blank" href="https://risingstack.com/">About Us</a></li>
+      <li class="dropdown-toggle">
+        <a href="#">Trainings<span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+          <li><a target="_blank" href="https://risingstack.com/trainings#designingmicroservicesarchitectures">Designing Microservices Architectures</a></li>
+          <li><a target="_blank" href="https://risingstack.com/trainings#handlingmicroserviceswithkubernetes">Handling Microservices with Kubernetes</a></li>
+          <li><a target="_blank" href="https://risingstack.com/trainings#modernfrontendwithreact">Modern Front-End with React</a></li>
+          <li><a target="_blank" href="https://risingstack.com/trainings#buildingcomplexappswithangular">Building Complex Apps with Angular</a></li>
+          <li><a target="_blank" href="https://risingstack.com/trainings#nodejsfundamentals">Node.js Fundamentals</a></li>
+        </ul>
+      </li>
+      <li class="dropdown-toggle">
+        <a href="#">Services<span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+          <li><a target="_blank" href="https://risingstack.com/nodejs-development-consulting-services?utm_source=rsblog&amp;utm_medium=header">Node.js Consulting &amp; Development</a></li>
+          <li><a target="_blank" href="https://risingstack.com/nodejs-support?utm_source=rsblog&amp;utm_medium=header">24 / 7 Node.js Support</a></li>
+          <li><a target="_blank" href="https://risingstack.com/kubernetes-consulting-training?utm_source=rsblog&amp;utm_medium=header">Kubernetes Consulting</a></li>
+        </ul>
+      </li>
+      <li><a target="_blank" href="https://risingstack.com/resources?utm_source=rsblog&amp;utm_medium=header">Resources</a></li>
+    </ul>
+    <div style="clear:both"></div>
+  </nav>
+</header>
+
+      <div style="height: 50px;"></div>
+
+
+    <aside class="sidebar-column position-fixed ">
+
+
+        <div class="sidebar-box">
+  <h4 class="margin-0" style="background-color: #2c3e50; color: white; margin-bottom: 5px"><a target="_blank" style="color: white" href="https://risingstack.com/?utm_source=rsblog&amp;utm_medium=sidebar">Hire RisingStack</a></h4>
+
+  <a target="_blank" class="list-item font-small margin-left-2 margin-bottom-2" href="https://risingstack.com/nodejs-development-consulting-services?utm_source=rsblog&amp;utm_medium=sidebar">
+    <span class="square grey margin-right-1"></span>Outsourced Development
+  </a>
+
+  <a target="_blank" class="list-item font-small margin-left-2 margin-bottom-2" href="https://risingstack.com/nodejs-support?utm_source=rsblog&amp;utm_medium=sidebar">
+    <span class="square grey margin-right-1"></span>24/7 Node.js Support
+  </a>
+
+  <a target="_blank" class="list-item font-small margin-left-2 margin-bottom-2" href="https://risingstack.com/trainings?utm_source=rsblog&amp;utm_medium=sidebar">
+    <span class="square grey margin-right-1"></span>Training (fullstack &amp; devops)
+  </a>
+
+</div>
+        <!-- Training sidebar, add back if needed-->
+        <!-- <div class="sidebar-box bg-transparent" style="margin-bottom: 0">
+          <iframe width="230px" height="230px" frameBorder="0" src="https://blog-sidebar.risingstack.com/"></iframe>
+        </div> --> 
+
+          <div class="sidebar-box bg-transparent" style="margin-bottom: 0">
+  <iframe src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/a.html" width="230px" height="400px" frameborder="0"></iframe>
+</div>
+
+    </aside>
+
+        <main>
+        <div class="main-inner main-inner-post">
+
+          <section class="padding-top-3" style="padding-top: 0px;" id="results"></section>
+
+          
+<article class="post-page post tag-advanced-node-js-tutorials tag-asynchronous-programming">
+  <div class="hide-tablet-and-smaller">
+    <p class="post-route font-smaller"><a href="https://blog.risingstack.com/">Blog</a> &gt; <b><a href="https://blog.risingstack.com/tag/advanced-node-js-tutorials/">Advanced Node.js Tutorials</a></b></p>
+    <section class="post-meta-post-page">
+      <span class="post-time">
+      <i class="fa fa-calendar"></i>
+      <time datetime="2017-07-05" class="timeago">7 months ago</time>
+      <time datetime="2017-07-05" class="fulldate">July 5th, 2017</time>
+      </span>
+    </section>
+    <div style="clear:both"></div>
+  </div>
+  <header class="post-header">
+    <h1 class="post-title">Mastering Async Await in Node.js</h1>
+    <section>
+      <img class="author inline-block valign-middle" alt="Tamas Kadlecsik's Picture" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/kadlecsik-mate-risingstack.jpg">
+      <span class="inline-block valign-middle font-smaller">by <a class="author-url" href="https://blog.risingstack.com/author/tamas-kadlecsik"><b>Tamas Kadlecsik</b></a>(<a target="_blank" href="https://twitter.com/@tamaskadlecsik">@tamaskadlecsik</a>), CEO of RisingStack.</span>
+    </section>
+  </header>
+  <section class="post-content">
+    <div class="kg-card-markdown"><p><strong>In this article, you will 
+learn how you can simplify your callback or Promise based Node.js 
+application with async functions (async/await).</strong></p>
+<p>Asynchronous language constructs have been around in other languages 
+for a while, like async/await in C#, coroutines in Kotlin and goroutines
+ in Go. With the release of Node.js 8, the long awaited async functions 
+have landed in Node.js as well.</p>
+<p><em>By the end of this tutorial, you should be able to answer the following question too:</em></p>
+<div class="click-to-tweet">
+    <p class="click-to-tweet-text">
+        <a href="https://twitter.com/share?text=Is%20async%2Fawait%20in%20%40nodejs%20the%20next%20best%20thing%20since%20the%20invention%20of%20sliced%20bread%3F;url=https://blog.risingstack.com/mastering-async-await-in-nodejs" target="_blank">Is async/await in @nodejs the next best thing since the invention of sliced bread?</a>
+    </p>
+    <p class="click-to-tweet-button">
+        <a href="https://twitter.com/share?text=Is%20async%2Fawait%20in%20%40nodejs%20the%20next%20best%20thing%20since%20the%20invention%20of%20sliced%20bread%3F;url=https://blog.risingstack.com/mastering-async-await-in-nodejs" target="_blank" c="">Click To Tweet</a>
+    </p>
+</div>
+<h2 id="whatareasyncfunctionsinnode">What are async functions in Node?</h2>
+<p>Async function declarations return an <code>AsyncFunction</code> object. These are similar to <code>Generator</code>-s in the sense that their execution can be halted. The only difference is that they always return a <code>Promise</code> instead of a <code>{ value: any, done: Boolean }</code> object. In fact, they are so similar that you could gain similar functionality using the <a href="https://github.com/tj/co">co</a> package.</p>
+<p>In an async function, you can await for any <code>Promise</code> or catch its rejection cause.</p>
+<p>So if you had some logic implemented with promises:</p>
+<pre><code class="language-js hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handler</span> (<span class="hljs-params">req, res</span>) </span>{
+  <span class="hljs-keyword">return</span> request(<span class="hljs-string">'https://user-handler-service'</span>)
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+      logger.error(<span class="hljs-string">'Http error'</span>, err)
+      error.logged = <span class="hljs-literal">true</span>
+      <span class="hljs-keyword">throw</span> err
+    })
+    .then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> Mongo.findOne({ <span class="hljs-attr">user</span>: response.body.user }))
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+      !error.logged &amp;&amp; logger.error(<span class="hljs-string">'Mongo error'</span>, err)
+      error.logged = <span class="hljs-literal">true</span>
+      <span class="hljs-keyword">throw</span> err
+    })
+    .then(<span class="hljs-function">(<span class="hljs-params"><span class="hljs-built_in">document</span></span>) =&gt;</span> executeLogic(req, res, <span class="hljs-built_in">document</span>))
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+      !error.logged &amp;&amp; <span class="hljs-built_in">console</span>.error(err)
+      res.status(<span class="hljs-number">500</span>).send()
+    })
+}
+</code></pre>
+<p>You can make it look like synchronous code using <code>async/await</code>:</p>
+<pre><code class="language-js hljs javascript"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handler</span> (<span class="hljs-params">req, res</span>) </span>{
+  <span class="hljs-keyword">let</span> response
+  <span class="hljs-keyword">try</span> {
+    response = <span class="hljs-keyword">await</span> request(<span class="hljs-string">'https://user-handler-service'</span>)  
+  } <span class="hljs-keyword">catch</span> (err) {
+    logger.error(<span class="hljs-string">'Http error'</span>, err)
+    <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).send()
+  }
+
+  <span class="hljs-keyword">let</span> <span class="hljs-built_in">document</span>
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-built_in">document</span> = <span class="hljs-keyword">await</span> Mongo.findOne({ <span class="hljs-attr">user</span>: response.body.user })
+  } <span class="hljs-keyword">catch</span> (err) {
+    logger.error(<span class="hljs-string">'Mongo error'</span>, err)
+    <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).send()
+  }
+
+  executeLogic(<span class="hljs-built_in">document</span>, req, res)
+}
+</code></pre>
+<p>In older versions of V8, unhandled promise rejections were silently 
+dropped. Now at least you get a warning from Node, so you don’t 
+necessarily need to bother with creating a listener. However, it is 
+recommended to crash your app in this case as when you don’t handle an 
+error, your app is in an unknown state:</p>
+<pre><code class="language-js hljs javascript">process.on(<span class="hljs-string">'unhandledRejection'</span>, (err) =&gt; { 
+  <span class="hljs-built_in">console</span>.error(err)
+  process.exit(<span class="hljs-number">1</span>)
+})
+</code></pre>
+<h2 id="patternswithasyncfunctions">Patterns with async functions</h2>
+<p>There are quite a couple of use cases when the ability to handle 
+asynchronous operations as if they were synchronous comes very handy, as
+ solving them with Promises or callbacks requires the use of complex 
+patterns or external libraries.</p>
+<p>These are cases when you need to loop through asynchronously gained data or use <code>if-else</code> conditionals.</p>
+<h3 id="retrywithexponentialbackoff">Retry with exponential backoff</h3>
+<p>Implementing retry logic was pretty clumsy with Promises:</p>
+<pre><code class="language-js hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">requestWithRetry</span> (<span class="hljs-params">url, retryCount</span>) </span>{
+  <span class="hljs-keyword">if</span> (retryCount) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> timeout = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">2</span>, retryCount)
+ 
+      setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Waiting'</span>, timeout, <span class="hljs-string">'ms'</span>)
+        _requestWithRetry(url, retryCount)
+          .then(resolve)
+          .catch(reject)
+      }, timeout)
+    })
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> _requestWithRetry(url, <span class="hljs-number">0</span>)
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">_requestWithRetry</span> (<span class="hljs-params">url, retryCount</span>) </span>{
+  <span class="hljs-keyword">return</span> request(url, retryCount)
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (err.statusCode &amp;&amp; err.statusCode &gt;= <span class="hljs-number">500</span>) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Retrying'</span>, err.message, retryCount)
+        <span class="hljs-keyword">return</span> requestWithRetry(url, ++retryCount)
+      }
+      <span class="hljs-keyword">throw</span> err
+    })
+}
+
+requestWithRetry(<span class="hljs-string">'http://localhost:3000'</span>)
+  .then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(res)
+  })
+  .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+    <span class="hljs-built_in">console</span>.error(err)
+  })
+</code></pre>
+<p>It gave me a headache just to look at it. We can rewrite it with <code>async/await</code> and make it a lot more simple.</p>
+<pre><code class="language-js hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">wait</span> (<span class="hljs-params">timeout</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> {
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      resolve()
+    }, timeout)
+  })
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">requestWithRetry</span> (<span class="hljs-params">url</span>) </span>{
+  <span class="hljs-keyword">const</span> MAX_RETRIES = <span class="hljs-number">10</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt;= MAX_RETRIES; i++) {
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> request(url)
+    } <span class="hljs-keyword">catch</span> (err) {
+      <span class="hljs-keyword">const</span> timeout = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">2</span>, i)
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Waiting'</span>, timeout, <span class="hljs-string">'ms'</span>)
+      <span class="hljs-keyword">await</span> wait(timeout)
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Retrying'</span>, err.message, i)
+    }
+  }
+}
+</code></pre>
+<p>A lot more pleasing to the eye isn't it?</p>
+<h3 id="intermediatevalues">Intermediate values</h3>
+<p>Not as hideous as the previous example, but if you have a case where 3
+ asynchronous functions depend on each other the following way, then you
+ have to choose from several ugly solutions.</p>
+<blockquote>
+<p><code>functionA</code> returns a Promise, then <code>functionB</code> needs that value and <code>functionC</code> needs the resolved value of both <code>functionA</code>'s and <code>functionB</code>'s Promise.</p>
+</blockquote>
+<h5 id="solution1thethenchristmastree">Solution 1: The <code>.then</code> Christmas tree</h5>
+<pre><code class="language-js hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">executeAsyncTask</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> functionA()
+    .then(<span class="hljs-function">(<span class="hljs-params">valueA</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> functionB(valueA)
+        .then(<span class="hljs-function">(<span class="hljs-params">valueB</span>) =&gt;</span> {          
+          <span class="hljs-keyword">return</span> functionC(valueA, valueB)
+        })
+    })
+}
+</code></pre>
+<p>With this solution, we get <code>valueA</code> from the surrounding closure of the 3rd <code>then</code> and <code>valueB</code> as the value the previous Promise resolves to. We cannot flatten out the Christmas tree as we would lose the closure and <code>valueA</code> would be unavailable for <code>functionC</code>.</p>
+<br>
+<a class="trace-in-text-cta" href="https://risingstack.com/nodejs-development-consulting-services?utm_source=rsblog&amp;utm_medium=in-article" target="_blank">Need help with enterprise-grade Node.js Development? <br><strong>Hire the experts of RisingStack!</strong>
+</a>
+<br>
+<h5 id="solution2movingtoahigherscope">Solution 2: Moving to a higher scope</h5>
+<pre><code class="language-js hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">executeAsyncTask</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">let</span> valueA
+  <span class="hljs-keyword">return</span> functionA()
+    .then(<span class="hljs-function">(<span class="hljs-params">v</span>) =&gt;</span> {
+      valueA = v
+      <span class="hljs-keyword">return</span> functionB(valueA)
+    })
+    .then(<span class="hljs-function">(<span class="hljs-params">valueB</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> functionC(valueA, valueB)
+    })
+}
+</code></pre>
+<p>In the Christmas tree, we used a higher scope to make <code>valueA</code> available as well. This case works similarly, but now we created the variable <code>valueA</code> outside the scope of the <code>.then</code>-s, so we can assign the value of the first resolved Promise to it.</p>
+<p>This one definitely works, flattens the <code>.then</code> chain and is semantically correct. However, it also opens up ways for new bugs in case the variable name <code>valueA</code> is used elsewhere in the function. We also need to use two names — <code>valueA</code> and <code>v</code> — for the same value.</p>
+<h5 id="solution3theunnecessaryarray">Solution 3: The unnecessary array</h5>
+<pre><code class="language-js hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">executeAsyncTask</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> functionA()
+    .then(<span class="hljs-function"><span class="hljs-params">valueA</span> =&gt;</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.all([valueA, functionB(valueA)])
+    })
+    .then(<span class="hljs-function">(<span class="hljs-params">[valueA, valueB]</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> functionC(valueA, valueB)
+    })
+}
+</code></pre>
+<p>There is no other reason for <code>valueA</code> to be passed on in an array together with the Promise <code>functionB</code>
+ then to be able to flatten the tree. They might be of completely 
+different types, so there is a high probability of them not belonging to
+ an array at all.</p>
+<h5 id="solution4writeahelperfunction">Solution 4: Write a helper function</h5>
+<pre><code class="language-js hljs javascript"><span class="hljs-keyword">const</span> converge = <span class="hljs-function">(<span class="hljs-params">...promises</span>) =&gt;</span> (...args) =&gt; {
+  <span class="hljs-keyword">let</span> [head, ...tail] = promises
+  <span class="hljs-keyword">if</span> (tail.length) {
+    <span class="hljs-keyword">return</span> head(...args)
+      .then(<span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> converge(...tail)(...args.concat([value])))
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> head(...args)
+  }
+}
+
+functionA(<span class="hljs-number">2</span>)
+  .then(<span class="hljs-function">(<span class="hljs-params">valueA</span>) =&gt;</span> converge(functionB, functionC)(valueA))
+</code></pre>
+<p>You can, of course, write a helper function to hide away the context 
+juggling, but it is quite difficult to read, and may not be 
+straightforward to understand for those who are not well versed in 
+functional magic.</p>
+<h5 id="byusingasyncawaitourproblemsaremagicallygone">By using <code>async/await</code> our problems are magically gone:</h5>
+<pre><code class="language-js hljs javascript"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">executeAsyncTask</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> valueA = <span class="hljs-keyword">await</span> functionA()
+  <span class="hljs-keyword">const</span> valueB = <span class="hljs-keyword">await</span> functionB(valueA)
+  <span class="hljs-keyword">return</span> function3(valueA, valueB)
+}
+</code></pre>
+<h3 id="multipleparallelrequestswithasyncawait">Multiple parallel requests with async/await</h3>
+<p>This is similar to the previous one. In case you want to execute 
+several asynchronous tasks at once and then use their values at 
+different places, you can do it easily with <code>async/await</code>:</p>
+<pre><code class="language-js hljs javascript"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">executeParallelAsyncTasks</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> [ valueA, valueB, valueC ] = <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([ functionA(), functionB(), functionC() ])
+  doSomethingWith(valueA)
+  doSomethingElseWith(valueB)
+  doAnotherThingWith(valueC)
+}
+</code></pre>
+<p>As we've seen in the previous example, we would either need to move 
+these values into a higher scope or create a non-semantic array to pass 
+these value on.</p>
+<h3 id="arrayiterationmethods">Array iteration methods</h3>
+<p>You can use <code>map</code>, <code>filter</code> and <code>reduce</code>
+ with async functions, although they behave pretty unintuitively. Try 
+guessing what the following scripts will print to the console:</p>
+<ol>
+<li><em>map</em></li>
+</ol>
+<pre><code class="language-js hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">asyncThing</span> (<span class="hljs-params">value</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> resolve(value), <span class="hljs-number">100</span>)
+  })
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>].map(<span class="hljs-keyword">async</span> (value) =&gt; {
+    <span class="hljs-keyword">const</span> v = <span class="hljs-keyword">await</span> asyncThing(value)
+    <span class="hljs-keyword">return</span> v * <span class="hljs-number">2</span>
+  })
+}
+
+main()
+  .then(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(v))
+  .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> <span class="hljs-built_in">console</span>.error(err))
+</code></pre>
+<ol start="2">
+<li><em>filter</em></li>
+</ol>
+<pre><code class="language-js hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">asyncThing</span> (<span class="hljs-params">value</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> resolve(value), <span class="hljs-number">100</span>)
+  })
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>].filter(<span class="hljs-keyword">async</span> (value) =&gt; {
+    <span class="hljs-keyword">const</span> v = <span class="hljs-keyword">await</span> asyncThing(value)
+    <span class="hljs-keyword">return</span> v % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>
+  })
+}
+
+main()
+  .then(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(v))
+  .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> <span class="hljs-built_in">console</span>.error(err))
+</code></pre>
+<ol start="3">
+<li><em>reduce</em></li>
+</ol>
+<pre><code class="language-js hljs javascript">
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">asyncThing</span> (<span class="hljs-params">value</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> resolve(value), <span class="hljs-number">100</span>)
+  })
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>].reduce(<span class="hljs-keyword">async</span> (acc, value) =&gt; {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> acc + <span class="hljs-keyword">await</span> asyncThing(value)
+  }, <span class="hljs-built_in">Promise</span>.resolve(<span class="hljs-number">0</span>))
+}
+
+main()
+  .then(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(v))
+  .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> <span class="hljs-built_in">console</span>.error(err))
+</code></pre>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li><code>[ Promise { &lt;pending&gt; }, Promise { &lt;pending&gt; }, Promise { &lt;pending&gt; }, Promise { &lt;pending&gt; } ]</code></li>
+<li><code>[ 1, 2, 3, 4 ]</code></li>
+<li><code>10</code></li>
+</ol>
+<p>If you log the returned values of the iteratee with <strong><code>map</code></strong> you will see the array we expect: <code>[ 2, 4, 6, 8 ]</code>. The only problem is that each value is wrapped in a Promise by the <code>AsyncFunction</code>.</p>
+<p>So if you want to get your values, you'll need to unwrap them by passing the returned array to a <code>Promise.all</code>:</p>
+<pre><code class="language-js hljs javascript">main()
+  .then(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> <span class="hljs-built_in">Promise</span>.all(v))
+  .then(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(v))
+  .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> <span class="hljs-built_in">console</span>.error(err))
+</code></pre>
+<p>Originally, you would first wait for all your promises to resolve and then map over the values:</p>
+<pre><code class="language-js hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.all([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>].map(<span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> asyncThing(value)))
+}
+
+main()
+  .then(<span class="hljs-function"><span class="hljs-params">values</span> =&gt;</span> values.map(<span class="hljs-function">(<span class="hljs-params">value</span>) =&gt;</span> value * <span class="hljs-number">2</span>))
+  .then(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(v))
+  .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> <span class="hljs-built_in">console</span>.error(err))
+</code></pre>
+<p><strong>This seems a bit more simple isn't it?</strong></p>
+<p>The <code>async/await</code> version can still be useful if you have 
+some long running synchronous logic in your iteratee and another 
+long-running async task.</p>
+<p>This way you can start calculating as soon as you have the first 
+value - you don't have to wait for all the Promises to be resolved to 
+run your computations. Even though the results will still be wrapped in 
+Promises, those are resolved a lot faster then if you did it the 
+sequential way.</p>
+<p><strong>What about <code>filter</code>? Something is clearly wrong...</strong></p>
+<p>Well, you guessed it: even though the returned values are <code>[ false, true, false, true ]</code>,
+ they will be wrapped in promises, which are truthy, so you'll get back 
+all the values from the original array. Unfortunately, all you can do to
+ fix this is to resolve all the values and then filter them.</p>
+<p><strong>Reducing</strong> is pretty straightforward. Bear in mind though that you need to wrap the initial value into <code>Promise.resolve</code>, as the returned accumulator will be wrapped as well and has to be <code>await</code>-ed.</p>
+<div class="click-to-tweet">
+    <p class="click-to-tweet-text">
+        <a href="https://twitter.com/share?text=If%20you%20wish%20to%20use%20functional%20patterns%2C%20%60async%2Fawait%60%20is%20probably%20not%20for%20you.;url=https://blog.risingstack.com/mastering-async-await-in-nodejs" target="_blank">If you wish to use functional patterns, `async/await` is probably not for you.</a>
+    </p>
+    <p class="click-to-tweet-button">
+        <a href="https://twitter.com/share?text=If%20you%20wish%20to%20use%20functional%20patterns%2C%20%60async%2Fawait%60%20is%20probably%20not%20for%20you.;url=https://blog.risingstack.com/mastering-async-await-in-nodejs" target="_blank" c="">Click To Tweet</a>
+    </p>
+</div>
+<p>.. As it is pretty clearly intended to be used for imperative code styles.</p>
+<p>To make your <code>.then</code> chains more "pure" looking, you can use Ramda's <a href="http://ramdajs.com/0.17/docs/#pipeP"><code>pipeP</code></a> and <a href="http://ramdajs.com/0.17/docs/#composeP"><code>composeP</code></a> functions.</p>
+<br>
+<a class="trace-in-text-cta" href="https://risingstack.com/nodejs-development-consulting-services?utm_source=rsblog&amp;utm_medium=in-article" target="_blank">Need help with enterprise-grade Node.js Development? <br><strong>Hire the experts of RisingStack!</strong>
+</a>
+<br>
+<h2 id="rewritingcallbackbasednodejsapplications">Rewriting callback-based Node.js applications</h2>
+<p>Async functions return a <code>Promise</code> by default, so you can rewrite any callback based function to use Promises, then <code>await</code> their resolution. You can use the <a href="http://2ality.com/2017/05/util-promisify.html"><code>util.promisify</code></a> function in Node.js to turn callback-based functions to return a Promise-based ones.</p>
+<h2 id="rewritingpromisebasedapplications">Rewriting Promise-based applications</h2>
+<p>Simple <code>.then</code> chains can be upgraded in a pretty straightforward way, so you can move to using <code>async/await</code> right away.</p>
+<pre><code class="language-js hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">asyncTask</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> functionA()
+    .then(<span class="hljs-function">(<span class="hljs-params">valueA</span>) =&gt;</span> functionB(valueA))
+    .then(<span class="hljs-function">(<span class="hljs-params">valueB</span>) =&gt;</span> functionC(valueB))
+    .then(<span class="hljs-function">(<span class="hljs-params">valueC</span>) =&gt;</span> functionD(valueC))
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> logger.error(err))
+}
+ 
+</code></pre>
+<p>will turn into</p>
+<pre><code class="language-js hljs javascript"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">asyncTask</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> valueA = <span class="hljs-keyword">await</span> functionA()
+    <span class="hljs-keyword">const</span> valueB = <span class="hljs-keyword">await</span> functionB(valueA)
+    <span class="hljs-keyword">const</span> valueC = <span class="hljs-keyword">await</span> functionC(valueB)
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> functionD(valueC)
+  } <span class="hljs-keyword">catch</span> (err) {
+    logger.error(err)
+  }
+}
+</code></pre>
+<h2 id="rewritingnodejsappswithasyncawait">Rewriting Node.js apps with async/await</h2>
+<ul>
+<li>If you liked the good old concepts of <code>if-else</code> conditionals and <code>for/while</code> loops,</li>
+<li>if you believe that a <code>try-catch</code> block is the way errors are meant to be handled,</li>
+</ul>
+<p><strong>you will have a great time rewriting your services using <code>async/await</code>.</strong></p>
+<p>As we have seen, it can make several patterns a lot more easier to 
+code and read, so it is definitely more suitable in several cases than <code>Promise.then()</code>
+ chains. However, if you are caught up in the functional programming 
+craze of the past years, you might wanna pass on this language feature.</p>
+<p>So what do you guys think? Is <code>async/await</code> is the next best thing since the invention of sliced bread, or is it just as controversial as the addition of <code>class</code> was in <code>es2015</code>?</p>
+<p><strong>Are you already using <code>async/await</code> it in production, or you plan on never touching it?</strong> Let's discuss it in the comments below.</p>
+</div>
+    <center>
+      <iframe id="twitter-widget-0" scrolling="no" allowtransparency="true" class="twitter-follow-button twitter-follow-button-rendered" style="position: static; visibility: visible; width: 262px; height: 28px;" title="Twitter Follow Button" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/follow_button.html" data-screen-name="RisingStack" frameborder="0"></iframe>
+    </center>
+  </section>
+  <footer class="post-footer-post-page">
+    <div class="tags">
+      <p><strong>TAGS:</strong></p>
+      <a href="https://blog.risingstack.com/tag/advanced-node-js-tutorials/">Advanced Node.js Tutorials</a> <a href="https://blog.risingstack.com/tag/asynchronous-programming/">Asynchronous Programming</a>
+    </div>
+  </footer>
+  <div class="bottom-navigation">
+    <span class="font-weight-bold">Read more from us:</span>
+    <ul style="margin: 0px;">
+      <li>
+        <a class="post-nav-item post-nav-prev" href="https://blog.risingstack.com/node-js-performance-monitoring-with-prometheus/">Node.js Performance Monitoring with Prometheus</a>
+      </li>
+      <li>
+        <a class="post-nav-item post-nav-next" href="https://blog.risingstack.com/european-training-tour-node-js-microservices-security/">Upcoming Node.js, Microservices &amp; Security Trainings in Europe</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="text-center">
+    <a data-sumome-listbuilder-id="b4000942-80ee-40b2-955b-7e4bdda02b9a" style="padding: 6px 13px;" class="button hide-desktop" href="http://risingstack.us9.list-manage.com/subscribe/post?u=510d6f81b948a39e0d9c32ec3&amp;id=02a6a69990" target="_blank" data-sumome-trigger="true">
+      Get early access to our posts
+    </a>
+  </div>
+
+  <section class="post-comments">
+    <div id="disqus_thread"><iframe id="dsq-app3081" name="dsq-app3081" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 1px !important; min-width: 100% !important; border: medium none !important; overflow: hidden !important; height: 5485px !important;" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/a_002.html" horizontalscrolling="no" verticalscrolling="no" width="100%" frameborder="0"></iframe></div>
+    <script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'risingstackblog';      
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </section>
+</article>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+  <div class="row group">
+    <div class="col">
+      <h4>Blog</h4>
+      <a href="https://blog.risingstack.com/articles" target="_blank">Best articles</a>
+      <a href="https://blog.risingstack.com/node-hero-tutorial-getting-started-with-node-js/?utm_source=rsblog&amp;utm_medium=footer" target="_blank">Node Hero Tutorials</a>
+      <a href="https://blog.risingstack.com/nodejs-at-scale-npm-best-practices/?utm_source=rsblog&amp;utm_medium=footer" target="_blank">Node.js at Scale Tutorials</a>
+    </div>
+
+
+    <div class="col">
+      <h4>Resources</h4>
+      <a href="https://node-checklist.risingstack.com/?utm_source=rsblog&amp;utm_medium=footer" target="_blank">Node.js Maturity Checklist</a>
+      <a href="https://trace.risingstack.com/?utm_source=rsblog&amp;utm_medium=footer" target="_blank">Trace by RisingStack - Node.js Monitoring</a>
+      <a href="https://risingstack.com/resources/nodejs-is-enterprise-ready?utm_source=rsblog&amp;utm_medium=footer" target="_blank">Node.js is Enterprise Ready</a>
+      <a href="https://community.risingstack.com/?utm_source=rsblog&amp;utm_medium=footer" target="_blank">RisingStack Community</a>
+      <a href="https://news.risingstack.com/?utm_source=rsblog&amp;utm_medium=footer" target="_blank">Node.js Daily</a>
+    </div>
+
+    <div class="col">
+      <h4>Connect</h4>
+      <a href="https://risingstack.com/?utm_source=rsblog&amp;utm_medium=footer" target="_blank">RisingStack.com</a>
+      <a href="https://twitter.com/risingstack" target="_blank">Twitter</a>
+      <a href="https://github.com/risingstack" target="_blank">Github</a>
+      <a href="https://facebook.com/risingstack" target="_blank">Facebook</a>
+    </div>
+
+  </div>
+
+  <div class="text-center opacity-half">
+    We ♥ Node.js © RisingStack, Inc. 2017 | RisingStack® and Trace by 
+RisingStack® are registered trademarks of RisingStack, Inc.
+  </div>
+
+</footer>
+
+<script>
+    console.log("______  _       _                _____  _                 _    \n| ___ \\(_)     (_)              /  ___|| |               | |   \n| |_/ / _  ___  _  _ __    __ _ \\ `--. | |_   __ _   ___ | | __\n|    / | |/ __|| || '_ \\  / _` | `--. \\| __| / _` | / __|| |/ /\n| |\\ \\ | |\\__ \\| || | | || (_| |/\\__/ /| |_ | (_| || (__ |   < \n\\_| \\_||_||___/|_||_| |_| \\__, |\\____/  \\__| \\__,_| \\___||_|\\_\\\n                           __/ |                               \n                          |___/                                \n");
+    console.log("You like to look under the hood? Why not join us? https://risingstack.workable.com")
+</script>
+
+<script type="text/javascript">
+  var _dcq = _dcq || [];
+  var _dcs = _dcs || {}; 
+  _dcs.account = '3044742';
+  
+  (function() {
+    var dc = document.createElement('script');
+    dc.type = 'text/javascript'; dc.async = true; 
+    dc.src = '//resources.risingstack.com/js/drip.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(dc, s);
+  })();
+</script>
+<script data-cfasync="true" type="text/javascript" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/jquery-3.js"></script>
+<script src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/jquery.js"></script>
+<script src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/jquery_002.js"></script>
+<script data-cfasync="true" type="text/javascript" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/highlight-9.js"></script>
+<script data-cfasync="true" type="text/javascript" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/fbds_002.js"></script>
+<script data-cfasync="true" type="text/javascript" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/index.js"></script>
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KV8B2T"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KV8B2T');</script>
+<!-- End Google Tag Manager -->
+<script>
+  var loadDeferredStyles = function() {
+    var addStylesNode = document.getElementById("deferred-styles");
+    var replacement = document.createElement("div");
+    replacement.innerHTML = addStylesNode.textContent;
+    document.body.appendChild(replacement)
+    addStylesNode.parentElement.removeChild(addStylesNode);
+  };
+  var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+      webkitRequestAnimationFrame || msRequestAnimationFrame;
+  if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+  else window.addEventListener('load', loadDeferredStyles);
+</script>
+
+<link rel="stylesheet" type="text/css" href="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/cookieconsent.css">
+<script src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/cookieconsent.js"></script>
+
+
+
+<iframe style="display: none;"></iframe><iframe scrolling="no" allowtransparency="true" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/widget_iframe.html" style="display: none;" frameborder="0"></iframe><div style="display: none; visibility: hidden;"><script>document.write('\x3cscript src\x3d"//load.sumome.com/" data-sumo-site-id\x3d"19a728093fe313666b234d080fe8c55098192f659a47e6fbec25d024c174f226" async\x3d"async"\x3e\x3c/script\x3e');</script><script src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/a" data-sumo-site-id="19a728093fe313666b234d080fe8c55098192f659a47e6fbec25d024c174f226" async="async"></script></div><script type="text/javascript" id="">(function(){var a=window._fbq||(window._fbq=[]);if(!a.loaded){var b=document.createElement("script");b.async=!0;b.src="//connect.facebook.net/en_US/fbds.js";var c=document.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c);a.loaded=!0}a.push(["addPixelId","1412312612411866"])})();window._fbq=window._fbq||[];window._fbq.push(["track","PixelInitialized",{}]);</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?id=1412312612411866&amp;ev=PixelInitialized"></noscript><iframe id="rufous-sandbox" scrolling="no" allowtransparency="true" allowfullscreen="true" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: medium none;" title="Twitter analytics iframe" frameborder="0"></iframe><iframe style="display: none;" id="sumome-jquery-iframe" title="Sumo Hidden Content"></iframe><script type="text/javascript" src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/a_002"></script><a href="javascript:void(0);" title="Sumo" style="background-color: rgb(0, 115, 183); border-radius: 3px 0px 0px 3px; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 10px; position: fixed; display: none !important; z-index: 2147483647; padding: 0px; width: 44px; height: 40px; text-indent: -10000px; opacity: 1;"><span style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;">Sumo</span><span style="display:block;width:40px;height:40px;background:white;margin-left:4px;-webkit-border-radius: 3px 0 0 3px;-moz-border-radius: 3px 0 0 3px;-ms-border-radius: 3px 0 0 3px;-o-border-radius: 3px 0 0 3px;border-radius: 3px 0 0 3px;background-repeat:no-repeat;background-position:8px 8px;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoxZDQ2MjI4YS03NWY2LTRkZTQtOGJjYy1hODc1NjRkMjYxYTUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RDQ3MUVFMDFFMjVDMTFFNjlFQjhBRjdGODU5MDJBMDUiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RDQ3MUVFMDBFMjVDMTFFNjlFQjhBRjdGODU5MDJBMDUiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKE1hY2ludG9zaCkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoxZDQ2MjI4YS03NWY2LTRkZTQtOGJjYy1hODc1NjRkMjYxYTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MWQ0NjIyOGEtNzVmNi00ZGU0LThiY2MtYTg3NTY0ZDI2MWE1Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+8JtvywAAAKhQTFRFzOPxSJvLA3W4Mo7FBna5w97u8vj7EHy8a67VhbzdsdTpVaLPh73d9/v9C3m6QZfJbq/WXKbR3u32JIfB3ez1KorDir/eBHW4+/3+rtPoZarUG4K/LIvDDnu7ocvkf7nbdrTY9fr8E328WKPQO5PITJ3MPpXJstXptdbq+Pv9cbHXaq3VU6HOkMLgnMnjDHq62uv1/P3+6/T53Oz1cLDX/f7+AHO3////ptOZ5QAAADh0Uk5T/////////////////////////////////////////////////////////////////////////wA7XBHKAAAAmUlEQVR42sSRRxLCMAxFRSq9907ovebr/jdDMWYGxmZL3sIqbyFbJv4B/VlkVlerKALTD3G46Mx3AOR1UZ/TsDxW6W0gfYRNVfTCFu2AWpAMgMItMW+zQJU2UjWI29D0+e5KWNPMk+A9Om+B/UgOJyCuwMJCrpuziYkIsglfRByZ/XM3eXnBFEu1kpMpjq9dxQYp/OAXTwEGAB7Rc1xVnPemAAAAAElFTkSuQmCC);"></span></a><iframe style="display: none;"></iframe><div style="position:fixed;top:0;left:0;overflow:hidden;"><label for="focus_retriever" style="position:absolute;left:-1000px;">Focus Retriever</label><input style="position:absolute;left:-1000px;" name="focus_retriever" id="focus_retriever" readonly="true" type="text"></div><div class="sumome-share-client-wrapper sumome-share-client-wrapper-right-page sumome-share-client-light sumome-share-client-medium" style="top: 214px;"><div class="sumome-share-client-show"><span></span></div><div data-sumome-share-pos="rp" class="sumome-share-client sumome-share-client-right-page sumome-share-client-light sumome-share-client-medium"><div class="sumome-share-client-animated sumome-share-client-share sumome-share-client-share-share sumome-share-client-count" data-sumome-share="share" style="background: rgb(255, 255, 255) none repeat scroll 0% 0%; color: black; margin-bottom: 2px;"><span style="bottom: auto; top: 11.5px;"><strong>466</strong><br>Shares</span></div><a title="Facebook" class="sumome-share-client-animated sumome-share-client-share" data-sumome-share="facebook" href="javascript:void(0);" style="background: rgb(59, 89, 152) none repeat scroll 0% 0%; color: rgb(255, 255, 255); margin-bottom: 2px;"><img src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/facebook-white-60.png" alt="Facebook"></a><a title="Reddit" class="sumome-share-client-animated sumome-share-client-share" data-sumome-share="reddit" href="javascript:void(0);" style="background: rgb(255, 87, 0) none repeat scroll 0% 0%; color: rgb(255, 255, 255); margin-bottom: 2px;"><img src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/reddit-white-60.png" alt="Reddit"></a><a title="Twitter" class="sumome-share-client-animated sumome-share-client-share" data-sumome-share="twitter" href="javascript:void(0);" style="background: rgb(0, 172, 237) none repeat scroll 0% 0%; color: rgb(255, 255, 255); margin-bottom: 2px;"><img src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/twitter-white-60.png" alt="Twitter"></a><a title="YC Hacker News" class="sumome-share-client-animated sumome-share-client-share" data-sumome-share="ychackernews" href="javascript:void(0);" style="background: rgb(252, 102, 32) none repeat scroll 0% 0%; color: rgb(255, 255, 255); margin-bottom: 2px;"><img src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/ychackernews-white-60.png" alt="YC Hacker News"></a><a title="Pocket" class="sumome-share-client-animated sumome-share-client-share" data-sumome-share="pocket" href="javascript:void(0);" style="background: rgb(238, 64, 86) none repeat scroll 0% 0%; color: rgb(255, 255, 255); margin-bottom: 2px;"><img src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/pocket-white-60.png" alt="Pocket"></a><a title="Flipboard" class="sumome-share-client-animated sumome-share-client-share" data-sumome-share="flipboard" href="javascript:void(0);" style="background: rgb(204, 7, 19) none repeat scroll 0% 0%; color: rgb(255, 255, 255); margin-bottom: 2px;"><img src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/flipboard-white-60.png" alt="Flipboard"></a></div><div class="sumome-share-client-hide" style="display: none;"><span></span></div></div><img src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/a_003.txt" alt="" style="display: none;"><img src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/a.txt" alt="" style="display: none;"><img src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/a_004.txt" alt="" style="display: none;"><img src="Mastering%20Async%20Await%20in%20Node.js%20%20%20@RisingStack_fichiers/a_002.txt" alt="" style="display: none;"></body></html>

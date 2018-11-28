@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html class="js desktop landscape" lang="fr-FR"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=no">
+
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="https://blog.xebia.fr/xmlrpc.php">
+
+
+	<link rel="icon" type="image/ico" href="https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/favicon.ico">
+
+	<!--[if lt IE 9]>
+	<script src="https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/js/html5.js"></script>
+	<![endif]-->
+	<!--[if (IE 9)|(IE 8)|(IE 7)|(IE 6)]>
+	<script src="https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/js/flexibility.min.js"></script>
+	<![endif]-->
+
+	<script type="text/javascript" async="" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/analytics.js"></script><script type="text/javascript" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/pd.js"></script><script async="" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/gtm.js"></script><script>(function(html){html.className = html.className.replace(/\bno-js\b/,'js')})(document.documentElement);</script>
+<title>async/await, une meilleure façon de faire de l'asynchronisme en JavaScript | Blog Xebia - Cabinet de conseil IT</title>
+		<script type="text/javascript">
+		var ajaxurl = 'https://blog.xebia.fr/wp-admin/admin-ajax.php';
+		</script>
+		
+<!-- All in One SEO Pack 2.4.4.1 by Michael Torbert of Semper Fi Web Design[855,985] -->
+<meta name="description" content="Enfin disponible pour tous Avec le début de la LTS de Node.js en v8 ce 31 octobre, c'est l'occasion de revenir sur ce qui est sans doute la fonctionnalité la plus importante depuis la v6 : le async/await. Disponible depuis la v7.0 de Node.js au travers d'un flag, cette fonctionnalité était cependant déconseillée en">
+
+<meta name="keywords" content="nodejs,javascript,es8,es2017">
+
+<link rel="canonical" href="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/a.html">
+<!-- /all in one seo pack -->
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="Blog Xebia - Cabinet de conseil IT » Flux" href="https://blog.xebia.fr/feed/">
+<link rel="alternate" type="application/rss+xml" title="Blog Xebia - Cabinet de conseil IT » Flux des commentaires" href="https://blog.xebia.fr/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Blog Xebia - Cabinet de conseil IT » async/await, une meilleure façon de faire de l’asynchronisme en JavaScript Flux des commentaires" href="https://blog.xebia.fr/2017/11/14/asyncawait-une-meilleure-facon-de-faire-de-lasynchronisme-en-javascript/feed/">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.4\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.4\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/blog.xebia.fr\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.4"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55357,56692,8205,9792,65039],[55357,56692,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/wp-emoji-release.js" type="text/javascript" defer="defer"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="c2w-author-css" href="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/author.css" type="text/css" media="all">
+<link rel="stylesheet" id="c2w-toc-css" href="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/toc.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentyfifteen-style-css" href="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/style.css" type="text/css" media="all">
+<style id="twentyfifteen-style-inline-css" type="text/css">
+
+			.post-navigation .nav-previous { background-image: url(https://blog.xebia.fr/wp-content/uploads/2017/10/DockerCon-Copenhagen.png); }
+			.post-navigation .nav-previous .post-title, .post-navigation .nav-previous a:hover .post-title, .post-navigation .nav-previous .meta-nav { color: #fff; }
+			.post-navigation .nav-previous a:before { background-color: rgba(0, 0, 0, 0.4); }
+		
+			.post-navigation .nav-next { background-image: url(https://blog.xebia.fr/wp-content/uploads/2017/11/Rétro.png); border-top: 0; }
+			.post-navigation .nav-next .post-title, .post-navigation .nav-next a:hover .post-title, .post-navigation .nav-next .meta-nav { color: #fff; }
+			.post-navigation .nav-next a:before { background-color: rgba(0, 0, 0, 0.4); }
+		
+</style>
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentyfifteen-ie-css'  href='https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/css/ie.css?ver=20141010' type='text/css' media='all' />
+<![endif]-->
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='twentyfifteen-ie7-css'  href='https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/css/ie7.css?ver=20141010' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="arigato-css-css" href="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/front.css" type="text/css" media="all">
+<link rel="stylesheet" id="podpress_frontend_styles-css" href="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/podpress.css" type="text/css" media="all">
+<script type="text/javascript">
+//<![CDATA[
+var podpressL10 = {
+	openblogagain : 'back to:',
+	theblog : 'the blog',
+	close : 'close',
+	playbutton : 'Play &gt;'
+}
+//]]>
+</script>
+<script type="text/javascript" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/1pixelout_audio-player.js"></script>
+<script type="text/javascript">//<![CDATA[
+	var podPressPlayerFile = "1pixelout_player.swf";
+	var podPressPopupPlayerOpt = new Object();
+	podPressPopupPlayerOpt["bg"] = "E5E5E5";
+	podPressPopupPlayerOpt["text"] = "333333";
+	podPressPopupPlayerOpt["leftbg"] = "CCCCCC";
+	podPressPopupPlayerOpt["lefticon"] = "333333";
+	podPressPopupPlayerOpt["volslider"] = "666666";
+	podPressPopupPlayerOpt["voltrack"] = "FFFFFF";
+	podPressPopupPlayerOpt["rightbg"] = "B4B4B4";
+	podPressPopupPlayerOpt["rightbghover"] = "999999";
+	podPressPopupPlayerOpt["righticon"] = "333333";
+	podPressPopupPlayerOpt["righticonhover"] = "FFFFFF";
+	podPressPopupPlayerOpt["loader"] = "009900";
+	podPressPopupPlayerOpt["track"] = "FFFFFF";
+	podPressPopupPlayerOpt["border"] = "CCCCCC";
+	podPressPopupPlayerOpt["tracker"] = "DDDDDD";
+	podPressPopupPlayerOpt["skip"] = "666666";
+	podPressPopupPlayerOpt["slider"] = "666666";
+	podPressPopupPlayerOpt["initialvolume"] = "70";
+	podPressPopupPlayerOpt["buffer"] = "5";
+	podPressPopupPlayerOpt["checkpolicy"] = "no";
+	podPressPopupPlayerOpt["animation"] = "yes";
+	podPressPopupPlayerOpt["remaining"] = "no";
+	podpressAudioPlayer.setup("https://blog.xebia.fr/wp-content/plugins/podpress/players/1pixelout/" + podPressPlayerFile, {bg:"E5E5E5", text:"333333", leftbg:"CCCCCC", lefticon:"333333", volslider:"666666", voltrack:"FFFFFF", rightbg:"B4B4B4", rightbghover:"999999", righticon:"333333", righticonhover:"FFFFFF", loader:"009900", track:"FFFFFF", border:"CCCCCC", tracker:"DDDDDD", skip:"666666", slider:"666666", initialvolume:"70", buffer:"5", checkpolicy:"no", animation:"yes", remaining:"no",  pagebg:"FFFFFF", transparentpagebg:"yes", encode: "no"} );
+//]]></script>
+<script type="text/javascript">//<![CDATA[
+var podPressBlogURL = "https://blog.xebia.fr/";
+var podPressBackendURL = "https://blog.xebia.fr/wp-content/plugins/podpress/";
+var podPressDefaultPreviewImage = "https://blog.xebia.fr/wp-content/plugins/podpress/images/vpreview_center.png";
+var podPressMP3PlayerWrapper = false;
+var podPress_cortado_signed = false;
+var podPressOverwriteTitleandArtist = false;
+var podPressHTML5 = true;
+var podPressHTML5_showplayersdirectly = false;
+var podPressText_PlayNow = "Play Now";
+var podPressText_HidePlayer = "Hide Player";
+//]]></script>
+<script type="text/javascript" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/jquery_003.js"></script>
+<script type="text/javascript" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/jquery-migrate.js"></script>
+<script type="text/javascript" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/podpress.js"></script>
+<link rel="https://api.w.org/" href="https://blog.xebia.fr/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://blog.xebia.fr/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://blog.xebia.fr/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="DockerCon Europe : notre sélection de vidéos" href="https://blog.xebia.fr/2017/11/13/draft-dockercon-europe-notre-selection-de-videos/">
+<link rel="next" title="À chaque sprint sa rétrospective : les funs" href="https://blog.xebia.fr/2017/11/16/agile-a-chaque-sprint-sa-retrospective-les-funs/">
+<meta name="generator" content="WordPress 4.9.4">
+<link rel="shortlink" href="https://blog.xebia.fr/?p=33690">
+<link rel="alternate" type="application/json+oembed" href="https://blog.xebia.fr/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fblog.xebia.fr%2F2017%2F11%2F14%2Fasyncawait-une-meilleure-facon-de-faire-de-lasynchronisme-en-javascript%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://blog.xebia.fr/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fblog.xebia.fr%2F2017%2F11%2F14%2Fasyncawait-une-meilleure-facon-de-faire-de-lasynchronisme-en-javascript%2F&amp;format=xml">
+<link rel="https://github.com/WP-API/WP-API" href="https://blog.xebia.fr/wp-json">
+<script type="text/javascript">
+(function(url){
+	if(/(?:Chrome\/26\.0\.1410\.63 Safari\/537\.31|WordfenceTestMonBot)/.test(navigator.userAgent)){ return; }
+	var addEvent = function(evt, handler) {
+		if (window.addEventListener) {
+			document.addEventListener(evt, handler, false);
+		} else if (window.attachEvent) {
+			document.attachEvent('on' + evt, handler);
+		}
+	};
+	var removeEvent = function(evt, handler) {
+		if (window.removeEventListener) {
+			document.removeEventListener(evt, handler, false);
+		} else if (window.detachEvent) {
+			document.detachEvent('on' + evt, handler);
+		}
+	};
+	var evts = 'contextmenu dblclick drag dragend dragenter dragleave dragover dragstart drop keydown keypress keyup mousedown mousemove mouseout mouseover mouseup mousewheel scroll'.split(' ');
+	var logHuman = function() {
+		var wfscr = document.createElement('script');
+		wfscr.type = 'text/javascript';
+		wfscr.async = true;
+		wfscr.src = url + '&r=' + Math.random();
+		(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(wfscr);
+		for (var i = 0; i < evts.length; i++) {
+			removeEvent(evts[i], logHuman);
+		}
+	};
+	for (var i = 0; i < evts.length; i++) {
+		addEvent(evts[i], logHuman);
+	}
+})('//blog.xebia.fr/?wordfence_lh=1&hid=8014E731C3916FC9A1ABE0182C133516');
+</script>
+<!-- Vipers Video Quicktags v6.6.0 | http://www.viper007bond.com/wordpress-plugins/vipers-video-quicktags/ -->
+<style type="text/css">
+.vvqbox { display: block; max-width: 100%; visibility: visible !important; margin: 10px auto; } .vvqbox img { max-width: 100%; height: 100%; } .vvqbox object { max-width: 100%; } 
+</style>
+<script type="text/javascript">
+// <![CDATA[
+	var vvqflashvars = {};
+	var vvqparams = { wmode: "opaque", allowfullscreen: "true", allowscriptaccess: "always" };
+	var vvqattributes = {};
+	var vvqexpressinstall = "https://blog.xebia.fr/wp-content/plugins/vipers-video-quicktags/resources/expressinstall.swf";
+// ]]>
+</script>
+<link rel="stylesheet" type="text/css" href="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/a_002.html"><style type="text/css" id="syntaxhighlighteranchor"></style>
+
+
+	<link href="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/materialdesignicons.css" media="all" rel="stylesheet" type="text/css">
+	<link href="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/styles.css" media="all" rel="stylesheet" type="text/css">
+
+	<!--[if IE 8]>
+	<script src='https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/libs/es5-shim/4.1.1/es5-shim.min.js'></script>
+	<script src='https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/libs/es5-shim/4.1.1/es5-sham.min.js'></script>
+	<script src='https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/libs/html5shiv/3.7.2/html5shiv.min.js'></script>
+	<script src='https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/libs/console-polyfill/1.0.0/console-polyfill.min.js'></script>
+	<![endif]-->
+
+	<script src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/jquery_004.js"></script>
+	<script src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/jquery_002.js"></script>
+	<script src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/jquery.js"></script>
+
+	<script src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/device.js"></script>
+
+	<link href="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/railscasts.css" media="all" rel="stylesheet" type="text/css">
+	<script src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/highlight.js"></script>
+
+	<link href="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/slick.css" rel="stylesheet" type="text/css">
+	<link href="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/slick-theme.css" rel="stylesheet" type="text/css">
+	<script src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/slick.js"></script>
+
+	<script src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/nanobar.js"></script>
+
+	<!--[if (IE 9)|(IE 8)|(IE 7)|(IE 6)]>
+	<link rel="stylesheet" href="https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/js/placeholder_polyfill.min.css">
+	<script src="https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/js/placeholder_polyfill.min.js" charset="utf-8"></script>
+
+	<script src="https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/js/matchMedia.js" charset="utf-8"></script>
+	<script src="https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/js/matchMedia.addListener.js" charset="utf-8"></script>
+	<![endif]-->
+<script async="" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/modules-4b7912ce300915f66efbf0b8a1493a792ccb85702da4f330ad8f3.js"></script><style type="text/css">#c74aae27cfdea20497777686fb2bbc04e353f7969-container{margin:0;padding:0;border:none;overflow:hidden;position:absolute}body.logged-in.admin-bar #pull-down.hb-top-right,body.logged-in.admin-bar #pull-down.hb-top-left,body.logged-in.admin-bar #pull-down.hb-bar-top,body.logged-in.admin-bar #c74aae27cfdea20497777686fb2bbc04e353f7969-container.HB-Slider.hb-top-right,body.logged-in.admin-bar #c74aae27cfdea20497777686fb2bbc04e353f7969-container.HB-Slider.hb-top-left,body.logged-in.admin-bar #c74aae27cfdea20497777686fb2bbc04e353f7969-container.HB-Bar.hb-bar-top{z-index:99998 !important;top:32px !important}.hellobar#pull-down.hb-animated{animation-duration:1s;-o-animation-duration:1s;-ms-animation-duration:1s;-moz-animation-duration:1s;-webkit-animation-duration:1s;animation-fill-mode:forwards;-o-animation-fill-mode:forwards;-ms-animation-fill-mode:forwards;-moz-animation-fill-mode:forwards;-webkit-animation-fill-mode:forwards}.hellobar#pull-down{top:-1px;right:10px;padding:3px;z-index:10000002;overflow:hidden;position:absolute;border-radius:0 0 5px 5px;transform:translateY(-40px);-o-transform:translateY(-40px);-ms-transform:translateY(-40px);-moz-transform:translateY(-40px);-webkit-transform:translateY(-40px)}.hellobar#pull-down .hellobar-arrow{cursor:pointer;display:flex;height:11px;opacity:0.3;width:11px;filter:flipv;transform:scaleY(-1);-o-transform:scaleY(-1);-ms-transform:scaleY(-1);-moz-transform:scaleY(-1);-webkit-transform:scaleY(-1)}.hellobar#pull-down .hellobar-arrow:hover{opacity:0.6}.hellobar#pull-down .hellobar-arrow svg{fill:white}.hellobar#pull-down.inverted .hellobar-arrow svg{fill:#3C3E3F}#c74aae27cfdea20497777686fb2bbc04e353f7969-container.hb-animated{animation-duration:0.25s;-o-animation-duration:0.25s;-ms-animation-duration:0.25s;-moz-animation-duration:0.25s;-webkit-animation-duration:0.25s;animation-fill-mode:forwards;-o-animation-fill-mode:forwards;-ms-animation-fill-mode:forwards;-moz-animation-fill-mode:forwards;-webkit-animation-fill-mode:forwards}@keyframes hb-bounceInDown{0%,60%,75%,90%,100%{transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1);-o-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1);-ms-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1);-moz-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1);-webkit-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1)}0%{transform:translate3d(0, -3000px, 0);-o-transform:translate3d(0, -3000px, 0);-ms-transform:translate3d(0, -3000px, 0);-moz-transform:translate3d(0, -3000px, 0);-webkit-transform:translate3d(0, -3000px, 0)}60%{transform:translate3d(0, 0px, 0);-o-transform:translate3d(0, 0px, 0);-ms-transform:translate3d(0, 0px, 0);-moz-transform:translate3d(0, 0px, 0);-webkit-transform:translate3d(0, 0px, 0)}75%{transform:translate3d(0, -40px, 0);-o-transform:translate3d(0, -40px, 0);-ms-transform:translate3d(0, -40px, 0);-moz-transform:translate3d(0, -40px, 0);-webkit-transform:translate3d(0, -40px, 0)}90%{transform:translate3d(0, 0px, 0);-o-transform:translate3d(0, 0px, 0);-ms-transform:translate3d(0, 0px, 0);-moz-transform:translate3d(0, 0px, 0);-webkit-transform:translate3d(0, 0px, 0)}100%{transform:none;-o-transform:none;-ms-transform:none;-moz-transform:none;-webkit-transform:none}}@-moz-keyframes hb-bounceInDown{0%,60%,75%,90%,100%{-moz-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1)}0%{-moz-transform:translate3d(0, -3000px, 0)}60%{-moz-transform:translate3d(0, 0px, 0)}75%{-moz-transform:translate3d(0, -40px, 0)}90%{-moz-transform:translate3d(0, 0px, 0)}100%{-moz-transform:none}}@-webkit-keyframes hb-bounceInDown{0%,60%,75%,90%,100%{-webkit-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1)}0%{-webkit-transform:translate3d(0, -3000px, 0)}60%{-webkit-transform:translate3d(0, 0px, 0)}75%{-webkit-transform:translate3d(0, -40px, 0)}90%{-webkit-transform:translate3d(0, 0px, 0)}100%{-webkit-transform:none}}@keyframes hb-bounceInUp{0%,60%,75%,90%,100%{transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1);-o-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1);-ms-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1);-moz-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1);-webkit-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1)}0%{transform:translate3d(0, 3000px, 0);-o-transform:translate3d(0, 3000px, 0);-ms-transform:translate3d(0, 3000px, 0);-moz-transform:translate3d(0, 3000px, 0);-webkit-transform:translate3d(0, 3000px, 0)}60%{transform:translate3d(0, 0, 0);-o-transform:translate3d(0, 0, 0);-ms-transform:translate3d(0, 0, 0);-moz-transform:translate3d(0, 0, 0);-webkit-transform:translate3d(0, 0, 0)}75%{transform:translate3d(0, 40px, 0);-o-transform:translate3d(0, 40px, 0);-ms-transform:translate3d(0, 40px, 0);-moz-transform:translate3d(0, 40px, 0);-webkit-transform:translate3d(0, 40px, 0)}90%{transform:translate3d(0, 0px, 0);-o-transform:translate3d(0, 0px, 0);-ms-transform:translate3d(0, 0px, 0);-moz-transform:translate3d(0, 0px, 0);-webkit-transform:translate3d(0, 0px, 0)}100%{transform:none;-o-transform:none;-ms-transform:none;-moz-transform:none;-webkit-transform:none}}@-moz-keyframes hb-bounceInUp{0%,60%,75%,90%,100%{-moz-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1)}0%{-moz-transform:translate3d(0, 3000px, 0)}60%{-moz-transform:translate3d(0, 0, 0)}75%{-moz-transform:translate3d(0, 40px, 0)}90%{-moz-transform:translate3d(0, 0, 0)}100%{-moz-transform:none}}@-webkit-keyframes hb-bounceInUp{0%,60%,75%,90%,100%{-webkit-transition-timing-function:cubic-bezier(0.215, 0.61, 0.355, 1)}0%{-webkit-transform:translate3d(0, 3000px, 0)}60%{-webkit-transform:translate3d(0, 0px, 0)}75%{-webkit-transform:translate3d(0, 40px, 0)}90%{-webkit-transform:translate3d(0, 0px, 0)}100%{-webkit-transform:none}}@keyframes hb-bounceOutUp{0%,100%{transition-timing-function:ease-in;-o-transition-timing-function:ease-in;-ms-transition-timing-function:ease-in;-moz-transition-timing-function:ease-in;-webkit-transition-timing-function:ease-in}0%{transform:none;-o-transform:none;-ms-transform:none;-moz-transform:none;-webkit-transform:none}100%{transform:translate3d(0, -500px, 0);-o-transform:translate3d(0, -500px, 0);-ms-transform:translate3d(0, -500px, 0);-moz-transform:translate3d(0, -500px, 0);-webkit-transform:translate3d(0, -500px, 0)}}@-moz-keyframes hb-bounceOutUp{0%,100%{-moz-transition-timing-function:ease-in}0%{-moz-transform:none}100%{-moz-transform:translate3d(0, -500px, 0)}}@-webkit-keyframes hb-bounceOutUp{0%,100%{-webkit-transition-timing-function:ease-in}0%{-webkit-transform:none}100%{-webkit-transform:translate3d(0, -500px, 0)}}@keyframes hb-bounceOutDown{0%,100%{transition-timing-function:ease-in;-o-transition-timing-function:ease-in;-ms-transition-timing-function:ease-in;-moz-transition-timing-function:ease-in;-webkit-transition-timing-function:ease-in}0%{transform:none;-o-transform:none;-ms-transform:none;-moz-transform:none;-webkit-transform:none}100%{transform:translate3d(0, 500px, 0);-o-transform:translate3d(0, 500px, 0);-ms-transform:translate3d(0, 500px, 0);-moz-transform:translate3d(0, 500px, 0);-webkit-transform:translate3d(0, 500px, 0)}}@-moz-keyframes hb-bounceOutDown{0%,100%{-moz-transition-timing-function:ease-in}0%{-moz-transform:none}100%{-moz-transform:translate3d(0, 500px, 0)}}@-webkit-keyframes hb-bounceOutDown{0%,100%{-webkit-transition-timing-function:ease-in}0%{-webkit-transform:none}100%{-webkit-transform:translate3d(0, 500px, 0)}}@keyframes hb-bounceInLeft{0%,75%,100%{transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-o-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-ms-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-moz-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-webkit-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255)}0%{transform:translate3d(200%, 0, 0);-o-transform:translate3d(200%, 0, 0);-ms-transform:translate3d(200%, 0, 0);-moz-transform:translate3d(200%, 0, 0);-webkit-transform:translate3d(200%, 0, 0)}75%{transform:translate3d(-10%, 0, 0);-o-transform:translate3d(-10%, 0, 0);-ms-transform:translate3d(-10%, 0, 0);-moz-transform:translate3d(-10%, 0, 0);-webkit-transform:translate3d(-10%, 0, 0)}100%{transform:none;-o-transform:none;-ms-transform:none;-moz-transform:none;-webkit-transform:none}}@-moz-keyframes hb-bounceInLeft{0%,75%,100%{-moz-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255)}0%{-moz-transform:translate3d(200%, 0, 0)}75%{-moz-transform:translate3d(-10%, 0, 0)}100%{-moz-transform:none}}@-webkit-keyframes hb-bounceInLeft{0%,75%,100%{-webkit-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255)}0%{-webkit-transform:translate3d(200%, 0, 0)}75%{-webkit-transform:translate3d(-10%, 0, 0)}100%{-webkit-transform:none}}@keyframes hb-bounceOutRight{0%,25%,100%{transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-o-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-ms-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-moz-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-webkit-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255)}0%{transform:none;-o-transform:none;-ms-transform:none;-moz-transform:none;-webkit-transform:none}25%{transform:translate3d(-10%, 0, 0);-o-transform:translate3d(-10%, 0, 0);-ms-transform:translate3d(-10%, 0, 0);-moz-transform:translate3d(-10%, 0, 0);-webkit-transform:translate3d(-10%, 0, 0)}100%{transform:translate3d(200%, 0, 0);-o-transform:translate3d(200%, 0, 0);-ms-transform:translate3d(200%, 0, 0);-moz-transform:translate3d(200%, 0, 0);-webkit-transform:translate3d(200%, 0, 0)}}@-moz-keyframes hb-bounceOutRight{0%,25%,100%{-moz-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255)}0%{-moz-transform:none}25%{-moz-transform:translate3d(-10%, 0, 0)}100%{-moz-transform:translate3d(200%, 0, 0)}}@-webkit-keyframes hb-bounceOutRight{0%,25%,100%{-webkit-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255)}0%{-webkit-transform:none}25%{-webkit-transform:translate3d(-10%, 0, 0)}100%{-webkit-transform:translate3d(200%, 0, 0)}}@keyframes hb-bounceInRight{0%,75%,100%{transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-o-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-ms-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-moz-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-webkit-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255)}0%{transform:translate3d(-200%, 0, 0);-o-transform:translate3d(-200%, 0, 0);-ms-transform:translate3d(-200%, 0, 0);-moz-transform:translate3d(-200%, 0, 0);-webkit-transform:translate3d(-200%, 0, 0)}75%{transform:translate3d(10%, 0, 0);-o-transform:translate3d(10%, 0, 0);-ms-transform:translate3d(10%, 0, 0);-moz-transform:translate3d(10%, 0, 0);-webkit-transform:translate3d(10%, 0, 0)}100%{transform:none;-o-transform:none;-ms-transform:none;-moz-transform:none;-webkit-transform:none}}@-moz-keyframes hb-bounceInRight{0%,75%,100%{-moz-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255)}0%{-moz-transform:translate3d(-200%, 0, 0)}75%{-moz-transform:translate3d(10%, 0, 0)}100%{-moz-transform:none}}@-webkit-keyframes hb-bounceInRight{0%,75%,100%{-webkit-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255)}0%{-webkit-transform:translate3d(-200%, 0, 0)}75%{-webkit-transform:translate3d(10%, 0, 0)}100%{-webkit-transform:none}}@keyframes hb-bounceOutLeft{0%,25%,100%{transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-o-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-ms-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-moz-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255);-webkit-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255)}0%{transform:none;-o-transform:none;-ms-transform:none;-moz-transform:none;-webkit-transform:none}25%{transform:translate3d(10%, 0, 0);-o-transform:translate3d(10%, 0, 0);-ms-transform:translate3d(10%, 0, 0);-moz-transform:translate3d(10%, 0, 0);-webkit-transform:translate3d(10%, 0, 0)}100%{transform:translate3d(-200%, 0, 0);-o-transform:translate3d(-200%, 0, 0);-ms-transform:translate3d(-200%, 0, 0);-moz-transform:translate3d(-200%, 0, 0);-webkit-transform:translate3d(-200%, 0, 0)}}@-moz-keyframes hb-bounceOutLeft{0%,25%,100%{-moz-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255)}0%{-moz-transform:none}25%{-moz-transform:translate3d(10%, 0, 0)}100%{-moz-transform:translate3d(-200%, 0, 0)}}@-webkit-keyframes hb-bounceOutLeft{0%,25%,100%{-webkit-transition-timing-function:cubic-bezier(0.65, -0.25, 0.325, 1.255)}0%{-webkit-transform:none}25%{-webkit-transform:translate3d(10%, 0, 0)}100%{-webkit-transform:translate3d(-200%, 0, 0)}}@keyframes hb-fadeIn{0%,100%{transition-timing-function:ease-in;-o-transition-timing-function:ease-in;-ms-transition-timing-function:ease-in;-moz-transition-timing-function:ease-in;-webkit-transition-timing-function:ease-in}0%{opacity:0}100%{opacity:1}}@-moz-keyframes hb-fadeIn{0%,100%{-moz-transition-timing-function:ease-in}0%{opacity:0}100%{opacity:1}}@-webkit-keyframes hb-fadeIn{0%,100%{-webkit-transition-timing-function:ease-in}0%{opacity:0}100%{opacity:1}}@keyframes hb-fadeOut{0%,100%{transition-timing-function:ease-in;-o-transition-timing-function:ease-in;-ms-transition-timing-function:ease-in;-moz-transition-timing-function:ease-in;-webkit-transition-timing-function:ease-in}0%{opacity:1}100%{opacity:0}}@-moz-keyframes hb-fadeOut{0%,100%{-moz-transition-timing-function:ease-in}0%{opacity:1}100%{opacity:0}}@-webkit-keyframes hb-fadeOut{0%,100%{-webkit-transition-timing-function:ease-in}0%{opacity:1}100%{opacity:0}}@keyframes hb-fadeInDown{0%,100%{transition-timing-function:ease-in;-o-transition-timing-function:ease-in;-ms-transition-timing-function:ease-in;-moz-transition-timing-function:ease-in;-webkit-transition-timing-function:ease-in}0%{opacity:0;height:110%;margin-top:-5%}100%{opacity:1;height:100%;margin-top:0}}@-moz-keyframes hb-fadeInDown{0%,100%{-moz-transition-timing-function:ease-in}0%{opacity:0;height:110%;margin-top:-5%}100%{opacity:1;height:100%;margin-top:0}}@-webkit-keyframes hb-fadeInDown{0%,100%{-webkit-transition-timing-function:ease-in}0%{opacity:0;height:110%;margin-top:-5%}100%{opacity:1;height:100%;margin-top:0}}@keyframes hb-fadeOutUp{0%,100%{transition-timing-function:ease-in;-o-transition-timing-function:ease-in;-ms-transition-timing-function:ease-in;-moz-transition-timing-function:ease-in;-webkit-transition-timing-function:ease-in}0%{opacity:1;height:100%;margin-top:0}100%{opacity:0;height:110%;margin-top:-5%}}@-moz-keyframes hb-fadeOutUp{0%,100%{-moz-transition-timing-function:ease-in}0%{opacity:1;height:100%;margin-top:0}100%{opacity:0;height:110%;margin-top:-5%}}@-webkit-keyframes hb-fadeOutUp{0%,100%{-webkit-transition-timing-function:ease-in}0%{opacity:1;height:100%;margin-top:0}100%{opacity:0;height:110%;margin-top:-5%}}
+
+#c74aae27cfdea20497777686fb2bbc04e353f7969-container.HB-Bar{top:0;left:0;width:100%;min-height:40px;max-height:40px;z-index:10000001}#c74aae27cfdea20497777686fb2bbc04e353f7969-container.HB-Bar.hb-large{min-height:50px;max-height:50px}#hellobar-pusher{height:30px;overflow:hidden;position:relative;flex:none}#hellobar-pusher.hb-large{height:50px}.hellobar#pull-down.hb-bar-bottom{top:auto;bottom:-1px;position:fixed;border-radius:5px 5px 0 0;transform:translateY(40px);-o-transform:translateY(40px);-ms-transform:translateY(40px);-moz-transform:translateY(40px);-webkit-transform:translateY(40px)}.hellobar#pull-down.hb-bar-bottom .hellobar-arrow{filter:none;transform:none;-o-transform:none;-ms-transform:none;-moz-transform:none;-webkit-transform:none}#c74aae27cfdea20497777686fb2bbc04e353f7969-container.HB-Bar.remains-in-place{top:0;position:fixed;_position:absolute;_top:expression(eval(document.body.scrollTop))}#c74aae27cfdea20497777686fb2bbc04e353f7969-container.HB-Bar.hb-bar-bottom{top:auto;bottom:0;position:fixed;_position:absolute;_bottom:expression(eval(document.body.scrollTop))}#c74aae27cfdea20497777686fb2bbc04e353f7969-container.HB-Bar.hb-animated{animation-duration:1s;-o-animation-duration:1s;-ms-animation-duration:1s;-moz-animation-duration:1s;-webkit-animation-duration:1s}#c74aae27cfdea20497777686fb2bbc04e353f7969-container.HB-Bar.hb-animateIn,.hellobar#pull-down.hb-animateIn{animation-name:hb-bounceInDown;-o-animation-name:hb-bounceInDown;-ms-animation-name:hb-bounceInDown;-moz-animation-name:hb-bounceInDown;-webkit-animation-name:hb-bounceInDown}#c74aae27cfdea20497777686fb2bbc04e353f7969-container.HB-Bar.hb-animateOut,.hellobar#pull-down.hb-animateOut{animation-name:hb-bounceOutUp;-o-animation-name:hb-bounceOutUp;-ms-animation-name:hb-bounceOutUp;-moz-animation-name:hb-bounceOutUp;-webkit-animation-name:hb-bounceOutUp}#c74aae27cfdea20497777686fb2bbc04e353f7969-container.HB-Bar.hb-animateIn.hb-bar-bottom,.hellobar#pull-down.hb-animateIn.hb-bar-bottom{animation-name:hb-bounceInUp;-o-animation-name:hb-bounceInUp;-ms-animation-name:hb-bounceInUp;-moz-animation-name:hb-bounceInUp;-webkit-animation-name:hb-bounceInUp}#c74aae27cfdea20497777686fb2bbc04e353f7969-container.HB-Bar.hb-animateOut.hb-bar-bottom,.hellobar#pull-down.hb-animateOut.hb-bar-bottom{animation-name:hb-bounceOutDown;-o-animation-name:hb-bounceOutDown;-ms-animation-name:hb-bounceOutDown;-moz-animation-name:hb-bounceOutDown;-webkit-animation-name:hb-bounceOutDown}
+
+</style><script type="text/javascript" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/analytics"></script><script type="text/javascript" async="" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/a"></script></head>
+
+<!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
+<!--[if IE 7 ]>    <body class="ie ie7"> <![endif]-->
+<!--[if IE 8 ]>    <body class="ie ie8"> <![endif]-->
+<!--[if IE 9 ]>    <body class="ie ie9"> <![endif]-->
+<!--[if IE 9 ]>    <body class="ie ie9"> <![endif]-->
+<!--[if gt IE 9 ]> <body class="ie"> <![endif]-->
+<!--[if !(IE)]><!--> <body> <!--<![endif]-->
+
+	<iframe src="about:blank" id="c74aae27cfdea20497777686fb2bbc04e353f7969-container" class="HB-Bar hb-animated classic hb-50 hb-bar-bottom remains-in-place hellobar hb-animateIn" name="c74aae27cfdea20497777686fb2bbc04e353f7969-container-0" style="display: inline; max-height: 50px;" scrolling="no" frameborder="0"></iframe><script>
+		if (document.documentMode === 10) {
+			document.documentElement.className += ' ie10';
+		}
+		else if (document.documentMode === 11) {
+			document.documentElement.className += ' ie11';
+		}
+	</script>
+
+	<div id="content">
+		<div class="app-main">
+			<div class="sidebar" style="top: 0px;">
+
+	<div class="menu">
+		<a>
+			<i class="mdi mdi-menu"></i>
+		</a>
+	</div>
+
+	<script>
+		$('.menu').click(function(){
+			$('.sidebar').toggleClass("open");
+		});
+	</script>
+
+	<header>
+		<a href="https://blog.xebia.fr/" class="masterTooltip" title="Accueil">
+			<img class="logo" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/sidebar-xebia-logo.png" alt="Xebia est un cabinet de conseil IT international spécialisé dans les technologies Big Data, Web, les architectures Java et la mobilité dans des environnements agiles.">
+		</a>
+	</header>
+
+	
+<ul class="sidenav">
+			<li id="whoarewe" class="masterTooltip" title="Qui sommes nous ?">
+			<a href="https://blog.xebia.fr/qui-sommes-nous">
+				<i class="whoarewe mdi mdi-earth"></i>
+				<span>Qui sommes nous ?</span>
+			</a>
+		</li>
+			<li id="events" class="masterTooltip" title="Evénements">
+			<a href="https://blog.xebia.fr/category/events">
+				<i class="events mdi mdi-calendar-multiple"></i>
+				<span>Evénements</span>
+			</a>
+		</li>
+			<li id="xebia-life" class="masterTooltip" title="Xebia Life">
+			<a href="https://blog.xebia.fr/xebia-life">
+				<i class="xebia-life mdi mdi-google-circles-extended"></i>
+				<span>Xebia Life</span>
+			</a>
+		</li>
+			<li id="craft" class="masterTooltip" title="Craft">
+			<a href="https://blog.xebia.fr/category/craftsmanship">
+				<i class="craft mdi mdi-diamond"></i>
+				<span>Craft</span>
+			</a>
+		</li>
+			<li id="agile" class="masterTooltip" title="Agile">
+			<a href="https://blog.xebia.fr/category/agilite">
+				<i class="agile mdi mdi-account"></i>
+				<span>Agile</span>
+			</a>
+		</li>
+			<li id="data" class="masterTooltip" title="Data">
+			<a href="https://blog.xebia.fr/category/nosql">
+				<i class="data mdi mdi-database"></i>
+				<span>Data</span>
+			</a>
+		</li>
+			<li id="devops" class="masterTooltip" title="DevOps">
+			<a href="https://blog.xebia.fr/category/devops">
+				<i class="devops mdi mdi-console"></i>
+				<span>DevOps</span>
+			</a>
+		</li>
+			<li id="cloud" class="masterTooltip" title="Cloud">
+			<a href="https://blog.xebia.fr/category/cloud">
+				<i class="cloud mdi mdi-weather-cloudy"></i>
+				<span>Cloud</span>
+			</a>
+		</li>
+			<li id="front" class="masterTooltip" title="Front">
+			<a href="https://blog.xebia.fr/category/woa">
+				<i class="front mdi mdi-desktop-mac"></i>
+				<span>Front</span>
+			</a>
+		</li>
+			<li id="back" class="masterTooltip" title="Back">
+			<a href="https://blog.xebia.fr/category/back">
+				<i class="back mdi mdi-desktop-tower"></i>
+				<span>Back</span>
+			</a>
+		</li>
+			<li id="mobile" class="masterTooltip" title="Mobile">
+			<a href="https://blog.xebia.fr/category/mobilite">
+				<i class="mobile mdi mdi-cellphone-iphone"></i>
+				<span>Mobile</span>
+			</a>
+		</li>
+			<li id="iot" class="masterTooltip" title="IoT">
+			<a href="https://blog.xebia.fr/category/iot">
+				<i class="iot mdi mdi-image-filter-tilt-shift"></i>
+				<span>IoT</span>
+			</a>
+		</li>
+			<li id="whitepapers" class="masterTooltip" title="Publications">
+			<a href="https://blog.xebia.fr/publications">
+				<i class="whitepapers mdi mdi-file-document"></i>
+				<span>Publications</span>
+			</a>
+		</li>
+	</ul>
+
+
+	<script>
+		function hover(element) {
+			element.setAttribute('src', 'https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/images/logo-xebiaTV.png');
+		}
+		function unhover(element) {
+			element.setAttribute('src', 'https://blog.xebia.fr/wp-content/themes/wp-xebiafr-2016/images/logo-xebiaTV-blanc.png');
+		}
+	</script>
+
+	<ul class="footer">
+		<li class="masterTooltip" title="LinkedIn">
+			<a href="https://www.linkedin.com/company/xebia-france" target="_blank">
+				<i class="mdi mdi-linkedin"></i>
+			</a>
+		</li>
+		<li class="masterTooltip" title="Twitter">
+			<a href="https://twitter.com/XebiaFr" target="_blank">
+				<i class="mdi mdi-twitter"></i>
+			</a>
+		</li>
+		<li class="masterTooltip" title="Google+">
+			<a href="https://plus.google.com/u/0/b/100396468532572979348/+XebiaFr/posts" target="_blank">
+				<i class="mdi mdi-google-plus"></i>
+			</a>
+		</li>
+		<li class="masterTooltip" title="SlideShare">
+			<a href="http://fr.slideshare.net/XebiaFrance" target="_blank">
+				<i class="mdi mdi-presentation"></i>
+			</a>
+		</li>
+		<li class="masterTooltip" title="Xebia.TV">
+			<a href="http://www.xebia.tv/" target="_blank">
+				<img src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/logo-xebiaTV-blanc.png" alt="Xebia.TV" onmouseover="hover(this);" onmouseout="unhover(this);">
+			</a>
+		</li>
+	</ul>
+</div>
+
+
+
+	<div class="content single"><!--
+		--><div class="topbar"><!--
+ --><ul class="breadcrumb"><!--
+    --><li class="breadcrumb-item bc-home"><a href="https://blog.xebia.fr/">Accueil</a></li><!--
+    --><li class="chevron"><i class="mdi mdi-chevron-right"></i></li><li class="category woa"><a href="https://blog.xebia.fr/category/woa">Front</a></li><li class="chevron"><i class="mdi mdi-chevron-right"></i></li><li class="breadcrumb-item bc-post"><a href="">async/await, une meilleure façon de faire de l’asynchronisme en JavaScript</a></li><!--
+ --></ul><!--
+
+ --><div class="search">
+        <div class="inner-search">
+            <form action="/" method="get">
+                <i class="mdi mdi-magnify"></i>
+                <input name="s" placeholder="Rechercher" type="text">
+            </form>
+        </div>
+    </div><!--
+
+--></div>
+
+<div id="nanobar-anchor"></div>
+<!--
+		-->
+<article class="item container post-33690 post type-post status-publish format-standard has-post-thumbnail hentry category-woa tag-es2017 tag-es8 tag-javascript tag-nodejs" id="page-article">
+
+		<header>
+            <div class="ui avatar image">
+            <a href="https://blog.xebia.fr/author/jpinsolle/">
+                <img alt="" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/e96313506a1e76779d4bbcc6d93465f8" srcset="https://secure.gravatar.com/avatar/e96313506a1e76779d4bbcc6d93465f8?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" width="60" height="60">            </a>
+        </div>
+                <div class="ui avatar image">
+            <a href="https://blog.xebia.fr/author/aginiers/">
+                <img alt="" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/32f7e43f3dee229f59f235aadebf746b" srcset="https://secure.gravatar.com/avatar/32f7e43f3dee229f59f235aadebf746b?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" width="60" height="60">            </a>
+        </div>
+        
+    <div class="header-content">
+        <div>
+            <span>Publié par <a href="https://blog.xebia.fr/author/jpinsolle/" title="Articles par Jérémy Pinsolle" class="author url fn" rel="author">Jérémy Pinsolle</a> et <a href="https://blog.xebia.fr/author/aginiers/" title="Articles par Anthony Giniers" class="author url fn" rel="author">Anthony Giniers</a></span>
+        </div>
+        <div style="color: #bbb;">
+            Il y a 3 mois            <span style="padding: 0 3px;">·</span>
+            <span class="duration">7 minutes</span>            <span style="padding: 0 3px;">·</span>
+            <span class="categories"><a href="https://blog.xebia.fr/category/woa/" rel="category tag" class="front">Front</a></span>
+        </div>
+    </div>
+</header>
+
+		<h1>
+			async/await, une meilleure façon de faire de l’asynchronisme en JavaScript		</h1>
+
+		<div id="article-content" class="article-content stickem-container">
+			<h1 id="async/await,unemeilleurefaçondefairedel’asynchronismeenJavaScript-Enfindisponiblepourtous"><span style="color: #000000; text-decoration: none;">Enfin disponible pour tous</span></h1>
+<p><span style="color: #000000; text-decoration: none;">Avec le début de
+ la LTS de Node.js en v8 ce 31 octobre, c’est l’occasion de revenir sur 
+ce qui est sans doute la fonctionnalité la plus importante depuis la v6 :
+ le <code>async/await</code>.</span></p>
+<p><span style="color: #000000; text-decoration: none;">Disponible 
+depuis la v7.0 de Node.js au travers d’un flag, cette fonctionnalité 
+était cependant déconseillée en production en raison </span><a style="text-decoration: none;" href="https://github.com/nodejs/node/issues/9339" rel="nofollow"><span style="color: #1155cc; text-decoration: underline;">d’une fuite mémoire</span></a><span style="color: #000000; text-decoration: none;">. C’est avec la version 5.5 de V8 intégrée dans la v7.6 de Node.js que son support devient complet. </span></p>
+<p><span style="color: #000000; text-decoration: none;"><code>async/await</code><span style="color: #000000;">&nbsp;</span>est aussi&nbsp;</span><a style="text-decoration: none;" href="https://caniuse.com/#search=async%20function" rel="nofollow"><span style="color: #1155cc; text-decoration: underline;">supporté par tous les navigateurs evergreen</span></a><span style="color: #000000; text-decoration: none;"> et est depuis longtemps utilisable via </span><a style="text-decoration: none;" href="https://github.com/babel/babel" rel="nofollow"><span style="color: #1155cc; text-decoration: underline;">babel</span><span style="color: #000000; text-decoration: none;">.</span></a></p>
+<h1 id="async/await,unemeilleurefaçondefairedel’asynchronismeenJavaScript-Qu’est-cequeasync/await?"><span style="color: #000000; text-decoration: none;">Qu’est-ce que <code>async/await </code>?</span></h1>
+<p><span style="color: #000000; text-decoration: none;">Rappelons au 
+préalable que par design, Node.js est asynchrone. Le standard est basé 
+sur des callbacks, qui ont vite été supplantées par les promesses, une 
+manière plus élégante et efficace d’écrire du code asynchrone. Il en va 
+de même pour le JavaScript côté client qui se base sur des évènements.</span></p>
+<p><span style="color: #000000; text-decoration: none;">Cependant, l’utilisation de promesses mêne souvent à du code verbeux et qui s’éloigne des pratiques habituelles.&nbsp;</span>Qui n’a jamais rêvé de lire et d’écrire du code asynchrone comme s’il travaillait avec du code synchrone ?&nbsp; <code>async</code><code style="color: #000000;">/await</code> devrait faire le bonheur de tous ces développeurs.</p>
+<h2 id="async/await,unemeilleurefaçondefairedel’asynchronismeenJavaScript-async"><code><span style="color: #000000; text-decoration: none;">async</span></code></h2>
+<p><span style="color: #000000; text-decoration: none;">Une fonction définie avec le mot clé <strong><code>async</code></strong>
+ renvoie systématiquement une promesse : si une erreur est levée pendant
+ l’exécution de la fonction, la promesse est rejetée, et si une valeur 
+est retournée, la promesse est résolue avec cette valeur. Si une 
+promesse est retournée, elle est inchangée.</span></p>
+<pre class="brush: jscript; gutter: true; title: ; notranslate hljs javascript" title=""><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fonctionAsynchroneOk</span>(<span class="hljs-params"></span>) </span>{
+ <span class="hljs-comment">// équivaut à :</span>
+ <span class="hljs-comment">// return Promise.resolve('résultat');</span>
+ <span class="hljs-keyword">return</span> <span class="hljs-string">'résultat'</span>;
+}
+fonctionAsynchroneOk().then(<span class="hljs-built_in">console</span>.log) <span class="hljs-comment">// log "résultat"</span>
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fonctionAsynchroneKo</span>(<span class="hljs-params"></span>) </span>{
+ <span class="hljs-comment">// équivaut à :</span>
+ <span class="hljs-comment">// return Promise.reject(new Error('erreur'));</span>
+ <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'erreur'</span>);
+}
+fonctionAsynchroneKo().catch(err =&gt; <span class="hljs-built_in">console</span>.log(err.message)) <span class="hljs-comment">// log "erreur"</span></pre>
+<p><span style="color: #000000; text-decoration: none;"><span style="color: #000000;">Ce comportement est comparable aux callbacks de résolution et de rejet de promesses (les fonctions dans le&nbsp;</span><code>.then/.catch</code><span style="color: #000000;">), qui de la même façon encapsulent automatiquement les valeurs de retour et les erreurs dans une promesse.</span></span></p>
+<p><span style="color: #000000; text-decoration: none;">Retourner 
+systématiquement une promesse rejetée lorsqu’une erreur est levée est un
+ avantage indéniable qui justifie à lui seul l’utilisation du mot clé <code>async</code>, comme nous allons en parler par la suite. C’est aussi une excellente manière de documenter son code.</span></p>
+<h2 id="async/await,unemeilleurefaçondefairedel’asynchronismeenJavaScript-await"><code><span style="color: #000000; text-decoration: none;">await</span></code></h2>
+<p><span style="color: #000000; text-decoration: none;"><span style="color: #000000; text-decoration: none;">La partie la plus intéressante est l’utilisation du mot clé <strong><code>await</code></strong>, qui ne peut être utilisé </span><span style="color: #000000; text-decoration: none;">que dans une fonction <code>async</code></span><span style="color: #000000; text-decoration: none;">. Il permet d’attendre la résolution d’une promesse et retourner sa valeur.</span></span></p>
+<pre class="brush: jscript; gutter: true; title: ; notranslate hljs javascript" title=""><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getNombreAsynchrone1</span>(<span class="hljs-params"></span>) </span>{<span class="hljs-comment">/* traitement asynchrone (e.g. appel d’une API HTTP) */</span>}
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getNombreAsynchrone2</span>(<span class="hljs-params"></span>) </span>{<span class="hljs-comment">/* traitement asynchrone (e.g. appel d’une API HTTP) */</span>}
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAdditionAsynchrone</span>(<span class="hljs-params"></span>) </span>{
+ <span class="hljs-keyword">const</span> nombre1 = <span class="hljs-keyword">await</span> getNombreAsynchrone1();
+ <span class="hljs-keyword">const</span> nombre2 = <span class="hljs-keyword">await</span> getNombreAsynchrone2();
+ <span class="hljs-keyword">return</span> nombre1 + nombre2;
+}</pre>
+<p><span style="color: #000000; text-decoration: none;">Si on veut le même résultat avec une utilisation “classique” des promesses, on peut par exemple :</span></p>
+<ul>
+<li style="text-decoration: none;"><strong><span style="color: #000000; text-decoration: none;">casser la chaîne de promesses avec un <code>then</code> imbriqué</span></strong></li>
+</ul>
+<pre class="brush: jscript; gutter: true; title: ; notranslate hljs lua" title=""><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAdditionAsynchrone</span><span class="hljs-params">()</span></span> {
+ <span class="hljs-keyword">return</span> getNombreAsynchrone1()
+   .<span class="hljs-keyword">then</span>(nombre1 =&gt; {
+     <span class="hljs-keyword">return</span> getNombreAsynchrone2()
+       .<span class="hljs-keyword">then</span>(nombre2 =&gt; nombre1 + nombre2);
+   });
+}</pre>
+<ul>
+<li><strong><span style="color: #000000; text-decoration: none;"><span style="color: #000000; text-decoration: none;">ou encore déclarer une variable dans le scope de la fonction</span></span></strong></li>
+</ul>
+<pre class="brush: jscript; gutter: true; title: ; notranslate hljs lua" title=""><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAdditionAsynchrone</span><span class="hljs-params">()</span></span> {
+ let nombre1;
+ <span class="hljs-keyword">return</span> getNombreAsynchrone1()
+   .<span class="hljs-keyword">then</span>(vnombre1 =&gt; {
+     nombre1 = vnombre1;
+     <span class="hljs-keyword">return</span> getNombreAsynchrone2();
+   })
+   .<span class="hljs-keyword">then</span>(nombre2 =&gt; nombre1 + nombre2);
+}</pre>
+<p><span style="color: #000000; text-decoration: none;">Comme vous pouvez le voir, ces équivalents sont beaucoup moins clairs et élégants que la version avec <code>async/await</code>.</span></p>
+<p><span style="color: #000000; text-decoration: none;">Le mot clé <code>await</code>
+ peut aussi être utilisé devant une valeur, et n’a alors aucun effet, ce
+ qui peut être utile dans le cas d’un refactoring&nbsp;car on peut 
+interchanger du code synchrone et asynchrone sans modifier le code 
+appelant ; ce n’est cependant pas conseillé.</span></p>
+<pre class="brush: jscript; gutter: true; title: ; notranslate hljs javascript" title=""><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getNombreSynchone</span>(<span class="hljs-params"></span>) </span>{<span class="hljs-comment">/* traitement synchrone */</span>}
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAdditionAsynchrone</span>(<span class="hljs-params"></span>) </span>{
+ <span class="hljs-keyword">const</span> nombre1 = <span class="hljs-keyword">await</span> getNombreSynchone();
+ <span class="hljs-keyword">const</span> nombre2 = <span class="hljs-keyword">await</span> <span class="hljs-number">10</span>;
+ <span class="hljs-keyword">return</span> nombre1 + nombre2;
+}</pre>
+<h3 id="async/await,unemeilleurefaçondefairedel’asynchronismeenJavaScript-Parallélisation"><span style="color: #434343; text-decoration: none;">Parallélisation</span></h3>
+<p><span style="color: #000000; text-decoration: none;">Le premier exemple peut être modifié pour permettre la parallélisation de traitements asynchrones via l’habituel <code>Promise.all</code>&nbsp;; rien de nouveau là-dessus.</span></p>
+<pre class="brush: jscript; gutter: true; title: ; notranslate hljs javascript" title=""><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAdditionAsynchroneParallele</span>(<span class="hljs-params"></span>) </span>{
+&nbsp;<span class="hljs-keyword">const</span> [nombre1, nombre2] = <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all([
+   getNombreAsynchrone1(),
+   getNombreAsynchrone2(),
+ ]);
+ <span class="hljs-keyword">return</span> nombre1 + nombre2;
+}</pre>
+<h1 id="async/await,unemeilleurefaçondefairedel’asynchronismeenJavaScript-Unemeilleuregestiondeserreurs"><span style="color: #000000; text-decoration: none;">Une meilleure gestion des erreurs</span></h1>
+<p><span style="color: #000000; text-decoration: none;">Si vous êtes 
+familier avec les promesses, vous savez déjà que, lorsqu’une promesse 
+est rejetée, le traitement de l’erreur s’effectue dans le <code>.catch</code>. Quand une fonction contient à la fois du code synchrone et asynchrone, la gestion d’erreur se retrouve souvent dupliquée.</span></p>
+<pre class="brush: jscript; gutter: true; title: ; notranslate hljs javascript" title=""><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">appelSynchrone</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">/** traitement synchrone */</span>}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">appelAsynchrone</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">/** traitement asynchrone */</span> }
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">traitementAppel</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">/** traitement synchrone ou asynchrone */</span> }
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span>(<span class="hljs-params"></span>) </span>{
+ <span class="hljs-keyword">try</span> {
+   appelSynchrone();
+   <span class="hljs-keyword">return</span> appelAsynchrone()
+     .then(traitementAppel)
+     .catch(e =&gt; {
+       <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Error'</span>, e);
+     });
+ } <span class="hljs-keyword">catch</span> (e) {
+   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Error'</span>, e);
+ }
+}</pre>
+<p><span style="color: #000000; text-decoration: none;">Les traitements d’erreurs synchrone (dans le <code>try/catch</code>) et asynchrone (dans le <code>.catch</code>) sont dupliqués. On pourrait factoriser le traitement dans une fonction, mais l’appel se ferait toujours à deux endroits.</span></p>
+<p><span style="color: #000000; text-decoration: none;"><code>async<em>/</em>await</code> répond à cette problématique en centralisant le code dans les blocs <code>try/catch</code>.</span></p>
+<pre class="brush: jscript; gutter: true; title: ; notranslate hljs javascript" title=""><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">appelSynchrone</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">/** traitement synchrone */</span>}
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">appelAsynchrone</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">/** traitement asynchrone */</span> }
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">traitementAppel</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">/** traitement synchrone ou asynchrone */</span> }
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span>(<span class="hljs-params"></span>) </span>{
+ <span class="hljs-keyword">try</span> {
+   appelSynchrone();
+   <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> appelAsynchrone();
+   <span class="hljs-keyword">return</span> traitementAppel(result);
+ } <span class="hljs-keyword">catch</span> (e) {
+   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Error'</span>, e);
+ }
+}</pre>
+<p><span style="color: #000000; text-decoration: none;"><span style="color: #000000; text-decoration: none;">Une autre problématique réglée par <code>async</code><em>/</em><code>await</code> est ici l’écriture de notre fonction <code>appelAsynchrone</code>&nbsp;: comment gérer les éventuelles erreurs levées de manière synchrone ?</span></span></p>
+<pre class="brush: jscript; gutter: true; title: ; notranslate hljs javascript" title=""><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">appelAsynchrone</span>(<span class="hljs-params"></span>) </span>{
+&nbsp;<span class="hljs-comment">/** bloc synchrone */</span>
+ <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'synchrone'</span>);
+ <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'oups'</span>); <span class="hljs-comment">// erreur synchrone, ce qui casse notre API et les éventuels .then/.catch de l'appelant</span>
+ <span class="hljs-keyword">return</span> blocAsynchrone();
+}</pre>
+<p><span style="color: #000000; text-decoration: none;">Une erreur peut 
+se glisser dans la partie synchrone, levant une exception ce qui ne 
+respecte pas l’API de notre fonction qui est sensée retourner une 
+promesse. La façon habituelle de contourner ce problème est de toujours 
+commencer une fonction asynchrone par <code>Promise.resolve</code> :</span></p>
+<pre class="brush: jscript; gutter: true; title: ; notranslate hljs javascript" title=""><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">appelAsynchrone</span>(<span class="hljs-params"></span>) </span>{
+&nbsp;<span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.resolve()
+   .then(() =&gt; {
+     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'sychrone'</span>);
+     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'oups'</span>); <span class="hljs-comment">// l’erreur est correctement encapsulée</span>
+   })
+   .then(blocAsynchrone);
+}</pre>
+<p><span style="color: #000000; text-decoration: none;">Grâce au mot clé <code>async</code><em>,</em> ce n’est plus la peine de polluer ainsi notre code, une fonction <code>async</code> renvoyant systématiquement une promesse :</span></p>
+<pre class="brush: jscript; gutter: true; title: ; notranslate hljs javascript" title=""><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">appelAsynchrone</span>(<span class="hljs-params"></span>) </span>{
+&nbsp;<span class="hljs-comment">/** bloc synchrone */</span>
+ <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'synchrone'</span>);
+ <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'oups'</span>); <span class="hljs-comment">// l’erreur est correctement encapsulée grâce au mot clé async</span>
+ <span class="hljs-keyword">return</span> blocAsynchrone();
+}</pre>
+<p><span style="color: #000000; text-decoration: none;"><span style="color: #000000; text-decoration: none;">L’utilisation des blocs&nbsp;<code>try/catch</code> permet également de pallier une limite des promesses natives : l’utilisation possible du bloc&nbsp;<code>finally</code>, qui n’a pas encore d’équivalent (mais qui est </span><a style="text-decoration: none;" href="https://github.com/tc39/proposal-promise-finally" rel="nofollow"><span style="color: #1155cc; text-decoration: underline;">une proposition en stage 3 d’ECMAScript</span></a><span style="color: #000000; text-decoration: none;"> à l’écriture de cet article).</span></span></p>
+<h1 id="async/await,unemeilleurefaçondefairedel’asynchronismeenJavaScript-Migrerversasync/await"><span style="color: #000000; text-decoration: none;">Migrer vers async/await</span></h1>
+<p>Si vous travaillez déjà avec des promesses, la migration est plutôt triviale : rajoutez le mot clé <code>async</code> aux fonctions retournant une promesse, remplacez les&nbsp;<code>.then</code>&nbsp;par des <code>await</code>, et les <code>.catch</code> par des blocs <code>try/catch</code>. Le code sera plus clair et concis.</p>
+<p><span style="color: #000000; text-decoration: none;">Si vous 
+travaillez avec des callbacks, c’est le même travail que pour migrer 
+vers une utilisation de promesses classique : il faut promessifier vos 
+fonctions. Historiquement on se tournait vers Bluebird, mais depuis sa 
+v8.0 Node.js propose une fonction <code>promisify</code> dans le module <code>util</code>.</span></p>
+<pre class="brush: jscript; gutter: true; title: ; notranslate hljs javascript" title=""><span class="hljs-keyword">const</span> { promisify } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'util'</span>);
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+<span class="hljs-keyword">const</span> readFileAsync = promisify(fs.readFile);
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">lireMonFichier</span>(<span class="hljs-params"></span>) </span>{
+ <span class="hljs-keyword">try</span> {
+   <span class="hljs-keyword">const</span> texteDuFichier = <span class="hljs-keyword">await</span> readFileAsync(<span class="hljs-string">'path/du/fichier'</span>, { encoding: <span class="hljs-string">'utf8'</span> });
+   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'contenu :'</span>, texteDuFichier);
+ } <span class="hljs-keyword">catch</span> (err) {
+   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'erreur :'</span>, err);
+ }
+}</pre>
+<h1 id="async/await,unemeilleurefaçondefairedel’asynchronismeenJavaScript-Conclusion"><span style="color: #000000; text-decoration: none;">&nbsp;</span><span style="color: #000000; text-decoration: none;">Conclusion</span><span style="color: #000000; text-decoration: none;">&nbsp;</span></h1>
+<p><span style="color: #000000; text-decoration: none;">Comme nous l’avons vu, <code>async</code><em>/</em><code>await</code> permet d’écrire du code asynchrone de manière très efficace, et rend obsolète l’utilisation des habituels <code>.then/.catch</code>.</span></p>
+<p>Cette fonctionnalité étant supportée par Node.js et les navigateurs evergreen, ou si besoin utilisable&nbsp;<span style="color: #000000;">à l’aide de</span> babel,&nbsp;<span style="color: #000000;">ça serait dommage de s’en priver.</span></p>
+
+			<div class="lateral-actions aside stickem stickit"><!--
+    --><ul class="actions"><!--
+       --> <li class="action">
+                        <a href="https://twitter.com/intent/tweet?url=https://blog.xebia.fr/2017/11/14/asyncawait-une-meilleure-facon-de-faire-de-lasynchronisme-en-javascript/&amp;text=async/await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l%E2%80%99asynchronisme%20en%20JavaScript&amp;via=xebiafr&amp;hashtags=woa"><i class="mdi mdi-twitter" style="color: #4099FF;"></i></a>
+        </li><!--
+        --><li class="action">
+                        <a href="javascript:(function(){var%20d=document,l=d.location,f='http://www.linkedin.com/shareArticle?mini=true&amp;ro=false&amp;trk=bookmarklet&amp;title='+encodeURIComponent(d.title)+'&amp;url='+encodeURIComponent(l.href),a=function(){if(!window.open(f,'News','width=520,height=570,toolbar=0,location=0,status=0,scrollbars=yes')){l.href=f;}};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0);}else{a();}})()"><i class="mdi mdi-linkedin" style="color: #007bb5;"></i></a>
+        </li><!--
+        --><li class="action">
+                        <a href="javascript:var%20d=document,f='https://www.facebook.com/share',l=d.location,e=encodeURIComponent,p='.php?src=bm&amp;v=4&amp;i=1455405516&amp;u='+e(l.href)+'&amp;t='+e(d.title);1;try{if%20(!/^(.*\.)?facebook\.[^.]*$/.test(l.host))throw(0);share_internal_bookmarklet(p)}catch(z)%20{a=function()%20{if%20(!window.open(f+'r'+p,'sharer','toolbar=0,status=0,resizable=1,width=626,height=436'))l.href=f+p};if%20(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else{a()}}void(0)"><i class="mdi mdi-facebook" style="color: #3b5998;"></i></a>
+        </li><!--
+        --><li class="action">
+                        <a href="javascript:void(window.open('https://plus.google.com/share?ur\l='+encodeURIComponent(location),%20'Share%20to%20Google+','width=600,height=460,menubar=no,location=no,status=no'));"><i class="mdi mdi-google-plus" style="color: #dd4b39;"></i></a>
+        </li><!--
+        --><li class="action">
+            <a href="#" rel="sidebar" title="bookmark this page" class="add-bookmark-lateral"><i class="mdi mdi-bookmark-outline"></i></a>
+        </li>
+    </ul><!--
+--></div>
+
+<script>
+    jQuery('.add-bookmark-lateral').click(function() {
+        if (window.sidebar && window.sidebar.addPanel) {
+            // Mozilla Firefox Bookmark
+            window.sidebar.addPanel(document.title,window.location.href,'');
+        }
+        else if(window.sidebar && jQuery.browser.mozilla) {
+            //for other version of FF add rel="sidebar" to link like this:
+            //<a id="bookmarkme" href="#" rel="sidebar" title="bookmark this page">Bookmark This Page</a>
+            jQuery(this).attr('rel', 'sidebar');
+        }
+        else if(window.external && ('AddFavorite' in window.external)) {
+            // IE Favorite
+            window.external.AddFavorite(location.href,document.title);
+        } else if(window.opera && window.print) {
+            // Opera Hotlist
+            this.title=document.title;
+            return true;
+        } else {
+            // webkit - safari/chrome
+            alert('Press ' + (navigator.userAgent.toLowerCase().indexOf('mac') != - 1 ? 'Command/Cmd' : 'CTRL') + ' + D to bookmark this page.');
+
+        }
+    });
+</script>		</div>
+
+		<div class="group"></div>
+
+		<div class="tags">
+    <a href="https://blog.xebia.fr/tag/es2017/" rel="tag">es2017</a><a href="https://blog.xebia.fr/tag/es8/" rel="tag">es8</a><a href="https://blog.xebia.fr/tag/javascript/" rel="tag">JavaScript</a><a href="https://blog.xebia.fr/tag/nodejs/" rel="tag">NodeJS</a></div>
+		<div class="bottom-actions"><!--
+	 --><div class="column">
+        <ul class="actions">
+            <li class="action">
+                <a><i class="mdi mdi-comment-outline"></i><span style="padding-left: 10px;"> Pas de réponse</span></a>
+            </li>
+        </ul>
+    </div><!--
+	 --><div class="column">
+        <ul class="actions">
+            <li class="action">
+                                <a href="https://twitter.com/intent/tweet?url=https://blog.xebia.fr/2017/11/14/asyncawait-une-meilleure-facon-de-faire-de-lasynchronisme-en-javascript/&amp;text=async/await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l%E2%80%99asynchronisme%20en%20JavaScript&amp;via=xebiafr&amp;hashtags=woa"><i class="mdi mdi-twitter" style="color: #4099FF;"></i></a>
+            </li>
+            <li class="action">
+                                <a href="javascript:(function(){var%20d=document,l=d.location,f='http://www.linkedin.com/shareArticle?mini=true&amp;ro=false&amp;trk=bookmarklet&amp;title='+encodeURIComponent(d.title)+'&amp;url='+encodeURIComponent(l.href),a=function(){if(!window.open(f,'News','width=520,height=570,toolbar=0,location=0,status=0,scrollbars=yes')){l.href=f;}};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0);}else{a();}})()"><i class="mdi mdi-linkedin" style="color: #007bb5;"></i></a>
+            </li>
+            <li class="action">
+                                <a href="javascript:var%20d=document,f='https://www.facebook.com/share',l=d.location,e=encodeURIComponent,p='.php?src=bm&amp;v=4&amp;i=1455405516&amp;u='+e(l.href)+'&amp;t='+e(d.title);1;try{if%20(!/^(.*\.)?facebook\.[^.]*$/.test(l.host))throw(0);share_internal_bookmarklet(p)}catch(z)%20{a=function()%20{if%20(!window.open(f+'r'+p,'sharer','toolbar=0,status=0,resizable=1,width=626,height=436'))l.href=f+p};if%20(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else{a()}}void(0)"><i class="mdi mdi-facebook" style="color: #3b5998;"></i></a>
+            </li>
+            <li class="action">
+                                <a href="javascript:void(window.open('https://plus.google.com/share?ur\l='+encodeURIComponent(location),%20'Share%20to%20Google+','width=600,height=460,menubar=no,location=no,status=no'));"><i class="mdi mdi-google-plus" style="color: #dd4b39;"></i></a>
+            </li>
+            <li class="action">
+                <a href="#" rel="sidebar" title="bookmark this page" class="add-bookmark"><i class="mdi mdi-bookmark-outline"></i></a>
+            </li>
+        </ul>
+    </div><!--
+--></div>
+
+<script>
+    jQuery('.add-bookmark').click(function() {
+        if (window.sidebar && window.sidebar.addPanel) {
+            // Mozilla Firefox Bookmark
+            window.sidebar.addPanel(document.title,window.location.href,'');
+        }
+        else if(window.sidebar && jQuery.browser.mozilla) {
+            //for other version of FF add rel="sidebar" to link like this:
+            //<a id="bookmarkme" href="#" rel="sidebar" title="bookmark this page">Bookmark This Page</a>
+            jQuery(this).attr('rel', 'sidebar');
+        }
+        else if(window.external && ('AddFavorite' in window.external)) {
+            // IE Favorite
+            window.external.AddFavorite(location.href,document.title);
+        } else if(window.opera && window.print) {
+            // Opera Hotlist
+            this.title=document.title;
+            return true;
+        } else {
+            // webkit - safari/chrome
+            alert('Press ' + (navigator.userAgent.toLowerCase().indexOf('mac') != - 1 ? 'Command/Cmd' : 'CTRL') + ' + D to bookmark this page.');
+
+        }
+    });
+</script>		
+<div class="author-bio">
+
+            <div class="actions">
+            <a class="btn follow" href="https://blog.xebia.fr/author/jpinsolle/">Articles</a>
+        </div>
+    
+    <div class="ui avatar image">
+        <a href="https://blog.xebia.fr/author/jpinsolle/">
+            <img alt="" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/e96313506a1e76779d4bbcc6d93465f8" srcset="https://secure.gravatar.com/avatar/e96313506a1e76779d4bbcc6d93465f8?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" width="60" height="60">        </a>
+    </div>
+
+    <div class="content">
+        <a class="header" href="https://blog.xebia.fr/author/jpinsolle/">
+            Jérémy Pinsolle        </a>
+        <div class="description">
+                    </div>
+    </div>
+
+</div>
+<div class="author-bio">
+
+            <div class="actions">
+            <a class="btn follow" href="https://blog.xebia.fr/author/aginiers/">Articles</a>
+        </div>
+    
+    <div class="ui avatar image">
+        <a href="https://blog.xebia.fr/author/aginiers/">
+            <img alt="" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/32f7e43f3dee229f59f235aadebf746b" srcset="https://secure.gravatar.com/avatar/32f7e43f3dee229f59f235aadebf746b?s=120&amp;d=mm&amp;r=g 2x" class="avatar avatar-60 photo" width="60" height="60">        </a>
+    </div>
+
+    <div class="content">
+        <a class="header" href="https://blog.xebia.fr/author/aginiers/">
+            Anthony Giniers        </a>
+        <div class="description">
+            Anthony est développeur fullstack, Javaiste repenti 
+spécialisé dans les technologies JavaScript et les problématiques liées 
+au Cloud.
+<br><br>
+Retrouvez le sur Twitter : <a href="https://twitter.com/aginiers">@aginiers</a>        </div>
+    </div>
+
+</div>		    <div class="comments">
+    
+<div id="comments" class="comments-area">
+
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Laisser un commentaire <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://blog.xebia.fr/2017/11/14/asyncawait-une-meilleure-facon-de-faire-de-lasynchronisme-en-javascript/#respond" style="display:none;">Annuler la réponse.</a></small></h3>			<form action="https://blog.xebia.fr/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+				<p class="comment-notes"><span id="email-notes">Votre adresse de messagerie ne sera pas publiée.</span> Les champs obligatoires sont indiqués avec <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Commentaire</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></p><p style="clear: both;" class="subscribe-to-comments">
+			<input name="subscribe" id="subscribe" value="subscribe" style="width: auto;" type="checkbox">
+			<label for="subscribe">Tenez moi informé des nouveaux commentaires par e-mail</label>
+			</p><p class="comment-form-author"><label for="author">Nom <span class="required">*</span></label> <input id="author" name="author" size="30" maxlength="245" aria-required="true" required="required" type="text"></p>
+<p class="comment-form-email"><label for="email">Adresse de messagerie <span class="required">*</span></label> <input id="email" name="email" size="30" maxlength="100" aria-describedby="email-notes" aria-required="true" required="required" type="email"></p>
+<p class="comment-form-url"><label for="url">Site web</label> <input id="url" name="url" size="30" maxlength="200" type="url"></p>
+<p class="form-submit"><input name="submit" id="submit" class="submit" value="Laisser un commentaire" type="submit"> <input name="comment_post_ID" value="33690" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+</p><p style="display: none;"></p>			<input id="ak_js" name="ak_js" value="1518550394617" type="hidden"></form>
+			</div><!-- #respond -->
+	
+</div><!-- .comments-area -->
+</div>
+</article>
+
+        <div class="related-articles">
+
+        <h3>Articles <em>liés à la catégorie Front</em></h3>
+
+        <!--
+				--><!--
+--><div class="post-related">
+	<div class="card">
+		<div class="header">
+			<a href="https://blog.xebia.fr/2017/11/16/revue-de-presse-xebia-2017-46/">
+				<img src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/revue-de-presse-xebia-300x169.png" alt="Revue de Presse Xebia">
+			</a>
+		</div>
+		<div class="content">
+			<div class="date">
+				Il y a 3 mois			</div>
+			<div class="categories">
+				<a href="https://blog.xebia.fr/category/agilite/" rel="category tag" class="agile">Agile</a>, <a href="https://blog.xebia.fr/category/back/" rel="category tag" class="back">Back</a>, <a href="https://blog.xebia.fr/category/craftsmanship/" rel="category tag" class="craft">Craft</a>, <a href="https://blog.xebia.fr/category/woa/" rel="category tag" class="front">Front</a>, <a href="https://blog.xebia.fr/category/revue-de-presse/" rel="category tag" class="revue-de-presse">Revue de presse</a>			</div>
+			<blockquote class="truncate-related-post is-truncated" style="overflow-wrap: break-word;">
+				<h4 style="display: block;">
+					<a href="https://blog.xebia.fr/2017/11/16/revue-de-presse-xebia-2017-46/">Revue de Presse Xebia</a>
+				</h4>
+				<div class="excerpt" style="display: block;">
+					<p style="display: inline;">La revue de presse hebdomadaire des technologies Big Data... </p></div></blockquote>
+		</div>
+	</div>
+</div><!--
+			--><!--
+				--><!--
+--><div class="post-related">
+	<div class="card">
+		<div class="header">
+			<a href="https://blog.xebia.fr/2017/06/29/revue-de-presse-xebia-2017-26/">
+				<img src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/revue-de-presse-xebia-300x169.png" alt="Revue de Presse Xebia">
+			</a>
+		</div>
+		<div class="content">
+			<div class="date">
+				Il y a 8 mois			</div>
+			<div class="categories">
+				<a href="https://blog.xebia.fr/category/craftsmanship/" rel="category tag" class="craft">Craft</a>, <a href="https://blog.xebia.fr/category/devops/" rel="category tag" class="devops">DevOps</a>, <a href="https://blog.xebia.fr/category/mobilite/" rel="category tag" class="mobile">Mobile</a>, <a href="https://blog.xebia.fr/category/revue-de-presse/" rel="category tag" class="revue-de-presse">Revue de presse</a>			</div>
+			<blockquote class="truncate-related-post is-truncated" style="overflow-wrap: break-word;">
+				<h4 style="display: block;">
+					<a href="https://blog.xebia.fr/2017/06/29/revue-de-presse-xebia-2017-26/">Revue de Presse Xebia</a>
+				</h4>
+				<div class="excerpt" style="display: block;">
+					<p style="display: inline;">La revue de presse hebdomadaire des technologies Big Data, DevOps et Web... </p></div></blockquote>
+		</div>
+	</div>
+</div><!--
+			--><!--
+				--><!--
+--><div class="post-related">
+	<div class="card">
+		<div class="header">
+			<a href="https://blog.xebia.fr/2017/06/16/conference-best-of-web-2017/">
+				<img src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/Best-of-Web-01-1-300x169.png" alt="Conférence Best of Web 2017">
+			</a>
+		</div>
+		<div class="content">
+			<div class="date">
+				Il y a 8 mois			</div>
+			<div class="categories">
+				<a href="https://blog.xebia.fr/category/events/" rel="category tag" class="events">Events</a>			</div>
+			<blockquote class="truncate-related-post is-truncated" style="overflow-wrap: break-word;">
+				<h4 style="display: block;">
+					<a href="https://blog.xebia.fr/2017/06/16/conference-best-of-web-2017/">Conférence Best of Web 2017</a>
+				</h4>
+				<div class="excerpt" style="display: block;">
+					<p style="display: inline;">La troisième édition de Best Of Web a eu lieu les 8 et 9 Juin derniers, ce fut... </p></div></blockquote>
+		</div>
+	</div>
+</div><!--
+			--><!--
+        --><!--
+--><div class="post-related recruitement">
+	<div class="card">
+		<div class="header">
+			<a href="http://www.xebia.fr/career.html" target="_blank">
+				<img src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/recrutement-rejoignez-nous.png" alt="Rejoignez-nous !">
+			</a>
+		</div>
+		<div class="content">
+			<blockquote>
+				<h4>
+					<a href="http://www.xebia.fr/career.html" target="_blank">Nous recrutons des passionné(e)s !</a>
+				</h4>
+				<div class="excerpt">
+					<p>
+						<a href="http://www.xebia.fr/career.html" target="_blank">Découvrez nos offres</a>
+					</p>
+				</div>
+			</blockquote>
+		</div>
+	</div>
+</div><!--
+ --></div>        <div class="related-whitepapers">
+
+            <h3>Publications <em>liées à la catégorie Front</em></h3>
+
+            <div class="whitepapers-container"><!--
+            --><div class="card-container whitepaper-container">
+    <div class="card whitepaper">
+        <div class="header">
+            <a href="http://www2.xebia.fr/l/296032/2017-02-09/sl8" target="_blank">
+                <img src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/Techtrends_11_X_WEB-1.png" alt="TECHTRENDS IOT #11" class="img_techtrends">
+            </a>
+        </div>
+        <div class="content">
+            <div class="inner-content is-truncated" style="overflow-wrap: break-word;">
+                <h4 style="display: block;">
+                    <a href="http://www2.xebia.fr/l/296032/2017-02-09/sl8" target="_blank">
+                        TECHTRENDS IOT #11                    </a>
+                </h4>
+                <div class="description" style="display: block;">
+                    <a href="http://www2.xebia.fr/l/296032/2017-02-09/sl8" target="_blank">
+                        En 2017, Internet des Objets (Internet of... </a></div></div>
+            <div class="footer">
+                <a href="http://www2.xebia.fr/l/296032/2017-02-09/sl8" target="_blank" class="link">Télécharger la version numérique</a>
+                <p class="papier">Pour demander une version papier, envoyez un mail à <a href="mailto:marketing@xebia.fr">marketing@xebia.fr</a></p>
+            </div>
+        </div>
+    </div>
+</div><div class="card-container whitepaper-container">
+    <div class="card whitepaper">
+        <div class="header">
+            <a href="http://www2.xebia.fr/l/296032/2017-02-09/s1g" target="_blank">
+                <img src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/techtrends-studio-xebia.png" alt="TechTrends Studio #10" class="img_techtrends">
+            </a>
+        </div>
+        <div class="content">
+            <div class="inner-content is-truncated" style="overflow-wrap: break-word;">
+                <h4 style="display: block;">
+                    <a href="http://www2.xebia.fr/l/296032/2017-02-09/s1g" target="_blank">
+                        TechTrends Studio #10                    </a>
+                </h4>
+                <div class="description" style="display: block;">
+                    <a href="http://www2.xebia.fr/l/296032/2017-02-09/s1g" target="_blank">
+                        Fort de notre expérience chez... </a></div></div>
+            <div class="footer">
+                <a href="http://www2.xebia.fr/l/296032/2017-02-09/s1g" target="_blank" class="link">Télécharger la version numérique</a>
+                <p class="papier">Pour demander une version papier, envoyez un mail à <a href="mailto:marketing@xebia.fr">marketing@xebia.fr</a></p>
+            </div>
+        </div>
+    </div>
+</div><div class="card-container whitepaper-container">
+    <div class="card whitepaper">
+        <div class="header">
+            <a href="http://www2.xebia.fr/l/296032/2017-02-09/rzs" target="_blank">
+                <img src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/techtrends_front_xebia.png" alt="TechTrends Front #5" class="img_techtrends">
+            </a>
+        </div>
+        <div class="content">
+            <div class="inner-content is-truncated" style="overflow-wrap: break-word;">
+                <h4 style="display: block;">
+                    <a href="http://www2.xebia.fr/l/296032/2017-02-09/rzs" target="_blank">
+                        TechTrends Front #5                    </a>
+                </h4>
+                <div class="description" style="display: block;">
+                    <a href="http://www2.xebia.fr/l/296032/2017-02-09/rzs" target="_blank">
+                        L’apparition et la démocratisation de... </a></div></div>
+            <div class="footer">
+                <a href="http://www2.xebia.fr/l/296032/2017-02-09/rzs" target="_blank" class="link">Télécharger la version numérique</a>
+                <p class="papier">Pour demander une version papier, envoyez un mail à <a href="mailto:marketing@xebia.fr">marketing@xebia.fr</a></p>
+            </div>
+        </div>
+    </div>
+</div><!--
+            --></div>
+        </div>
+        
+<script>
+    $(document).ready(function() {
+        $(".whitepaper .inner-content").dotdotdot({
+            height: function() {
+
+                if ((window.innerWidth || $(window).width()) < 520) {
+                    return 1024;
+                }
+
+                var parentElementHeight = $(this.parentElement).height();
+                var footerHeight = $(this).next().height();
+
+                return parentElementHeight - footerHeight - 8;
+            },
+            watch: true
+        });
+    });
+</script>
+
+
+<script>
+
+	var nanobar = new Nanobar( {
+		id: 'nanobar',
+		bg: '#06a99c', percentage: 0
+	} );
+
+	nanobar.go(0.01);
+
+	$(document).ready(function() {
+		var articleElt = $('#article-content');
+
+		function positionScrollbar(event) {
+
+			var percentage = 0.01;
+
+			if (event) {
+
+				var scrollTop = $(window).scrollTop();
+
+//				console.log('articleElt.scrollTop():', scrollTop);
+
+				var offset = articleElt.offset();
+				var top = offset.top;
+				var height = articleElt.height();
+
+				percentage = Math.max(0.01, Math.min(99.99, 100 * ((scrollTop - top) / height)));
+			}
+
+//			console.log("top:", top, ", offset:", offset, ", height:", height, "percentage:", percentage);
+
+			nanobar.go( percentage );
+		}
+
+		positionScrollbar();
+
+		$( window ).scroll(function(event) {
+			positionScrollbar(event);
+		});
+
+		$('.container').stickem();
+
+		$(".truncate-related-post").dotdotdot({
+			height: function() {
+				return (window.innerWidth || $(window).width()) >= 1366 ? 216 : 140;
+			},
+			watch: true
+		});
+	});
+</script>
+
+		<footer>
+    <div class="content">				<!--
+					--><div class="column address">
+            <div class="content">
+                <h4>Adresse</h4>
+
+                <p>156, boulevard Haussmann 75008</p>
+                <p>Paris +33 1 53 89 99 99</p>
+                <p><a href="mailto:info@xebia.fr">info@xebia.fr</a></p>
+            </div>
+        </div><!--
+					--><div class="column newsletter">
+            <div class="content">
+                <h4>Newsletter</h4>
+
+                <script type="text/javascript">
+                    function BTFValidate(frm) {
+                        var email = frm.email.value;
+                        if(email=="" || email.indexOf("@")<1 ||email.indexOf(".")<1) {
+                            alert("Please fill in valid email address!");
+                            frm.email.focus();
+                            return false;
+                        }
+
+                        return true;
+                    }
+                </script>
+
+                <form method="post" action="https://blog.xebia.fr" onsubmit="BTFValidate(this)">
+                    <input name="bft" value="register" type="hidden">
+                    <div class="fields">
+                        <input name="user_name" placeholder="Nom et Prénom*" type="text">
+                    </div>
+                    <div class="fields">
+                        <input name="email" placeholder="E-Mail*" type="text"><!--
+                        --><input value="S'inscrire" type="submit">
+                    </div>
+                </form>
+            </div>
+        </div><!--
+					--><div class="column social">
+
+            <div class="content">
+                <h4>Suivez-nous !</h4>
+
+                <ul>
+                    <li class="twitter">
+                        <a href="https://twitter.com/XebiaFr" target="_blank">
+                            <i class="mdi mdi-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="google-plus">
+                        <a href="https://plus.google.com/u/0/b/100396468532572979348/+XebiaFr/posts" target="_blank">
+                            <i class="mdi mdi-google-plus"></i>
+                        </a>
+                    </li>
+                    <li class="linkedin">
+                        <a href="https://www.linkedin.com/company/xebia-france" target="_blank">
+                            <i class="mdi mdi-linkedin"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div><!--
+			--></div>
+</footer>
+	</div>
+
+
+		</div>
+	</div><div style="width: 100%; height: 4px; z-index: 9999; top: 0px; float: left; position: fixed;" id="nanobar"><div style="background-color: rgb(6, 169, 156); width: 89.1365%; height: 100%; clear: both; transition: height 0.3s ease 0s; float: left;"></div></div>
+
+
+<script>
+	window.matchMedia("(max-width: 667px)").addListener(function (mql) {
+		$('.sidebar').css("top", mql.matches && $('#wpadminbar').length > 0 ? '46px' : '0');
+	});
+	$(document).ready(function() {
+		$('.sidebar').css("top", $(window).width() <= 667 && $('#wpadminbar').length > 0 ? '46px' : '0');
+	});
+</script>
+
+
+<script>
+	$(document).ready(function() {
+// Tooltip only Text
+
+		$('.masterTooltip').hover(function() {
+			if ($(window).width() >= 668 && $(window).width() <= 1023) {
+				// Hover over code
+				var title = $(this).attr('title');
+				$(this).data('tipText', title).removeAttr('title');
+				$('<p class="tooltip"></p>')
+					.text(title)
+					.appendTo('body')
+					.fadeIn('slow');
+			}
+
+		}, function() {
+			// Hover out code
+			$(this).attr('title', $(this).data('tipText'));
+			$('.tooltip').remove();
+		}).mousemove(function(e) {
+			if ($(window).width() >= 668 && $(window).width() <= 1023) {
+				var tooltip = $('.tooltip');
+				var elt = $(e.currentTarget);
+				var p = elt.offset();
+				var mousex = 80; //Get X coordinates
+				var mousey = p.top + ((elt.height() - 40) / 2); //Get Y coordinates
+
+				tooltip.css({ top: mousey, left: mousex });
+			}
+		});
+
+
+
+		$('.sidebar .footer .masterTooltip').hover(function() {
+			if ($(window).width() >= 1024) {
+				// Hover over code
+				var title = $(this).attr('title');
+				$(this).data('tipText', title).removeAttr('title');
+				$('<p class="tooltip"></p>')
+					.text(title)
+					.appendTo('body')
+					.fadeIn('slow');
+			}
+
+		}, function() {
+			// Hover out code
+			$(this).attr('title', $(this).data('tipText'));
+			$('.tooltip').remove();
+		}).mousemove(function(e) {
+			if ($(window).width() >= 1024) {
+				var tooltip = $('.tooltip');
+				var elt = $(e.currentTarget);
+				var p = elt.offset();
+				var mousex = p.left; //Get X coordinates
+				var mousey = p.top - 32; //Get Y coordinates
+
+				tooltip.css({top: mousey, left: mousex});
+			}
+		});
+
+
+	});
+
+</script>
+
+
+<script>
+	SyntaxHighlighter = hljs;
+	SyntaxHighlighter.config = {};
+	SyntaxHighlighter.config.strings = {};
+	SyntaxHighlighter.defaults = {};
+	SyntaxHighlighter.all = function() {};
+	$(document).ready(function() {
+		$('pre').each(function(i, block) {
+			hljs.highlightBlock(block);
+		});
+	});
+</script>
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WZRGGD"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WZRGGD');</script>
+<!-- End Google Tag Manager -->
+
+<script src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/6a54d39ea42445537132e331c00be3dc375ee571.js" type="text/javascript" async="async"></script><script type="text/javascript">
+<!--
+piCId = '3649';
+piAId = '297032';
+
+piHostname = 'pi.pardot.com';
+
+(function() {
+	function async_load(){
+		var s = document.createElement('script'); s.type = 'text/javascript';
+		s.src = ('https:' == document.location.protocol ? 'https://pi' : 'http://cdn') + '.pardot.com/pd.js';
+		var c = document.getElementsByTagName('script')[0]; c.parentNode.insertBefore(s, c);
+	}
+	if(window.attachEvent) { window.attachEvent('onload', async_load); }
+	else { window.addEventListener('load', async_load, false); }
+})();
+-->
+</script><script type="text/javascript">
+//<![CDATA[
+var podpressL10 = {
+	openblogagain : 'back to:',
+	theblog : 'the blog',
+	close : 'close',
+	playbutton : 'Play &gt;'
+}
+//]]>
+</script>
+<script type="text/javascript" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/1pixelout_audio-player.js"></script>
+<script type="text/javascript">//<![CDATA[
+	var podPressPlayerFile = "1pixelout_player.swf";
+	var podPressPopupPlayerOpt = new Object();
+	podPressPopupPlayerOpt["bg"] = "E5E5E5";
+	podPressPopupPlayerOpt["text"] = "333333";
+	podPressPopupPlayerOpt["leftbg"] = "CCCCCC";
+	podPressPopupPlayerOpt["lefticon"] = "333333";
+	podPressPopupPlayerOpt["volslider"] = "666666";
+	podPressPopupPlayerOpt["voltrack"] = "FFFFFF";
+	podPressPopupPlayerOpt["rightbg"] = "B4B4B4";
+	podPressPopupPlayerOpt["rightbghover"] = "999999";
+	podPressPopupPlayerOpt["righticon"] = "333333";
+	podPressPopupPlayerOpt["righticonhover"] = "FFFFFF";
+	podPressPopupPlayerOpt["loader"] = "009900";
+	podPressPopupPlayerOpt["track"] = "FFFFFF";
+	podPressPopupPlayerOpt["border"] = "CCCCCC";
+	podPressPopupPlayerOpt["tracker"] = "DDDDDD";
+	podPressPopupPlayerOpt["skip"] = "666666";
+	podPressPopupPlayerOpt["slider"] = "666666";
+	podPressPopupPlayerOpt["initialvolume"] = "70";
+	podPressPopupPlayerOpt["buffer"] = "5";
+	podPressPopupPlayerOpt["checkpolicy"] = "no";
+	podPressPopupPlayerOpt["animation"] = "yes";
+	podPressPopupPlayerOpt["remaining"] = "no";
+	
+podpressAudioPlayer.setup("https://blog.xebia.fr/wp-content/plugins/podpress/players/1pixelout/"
+ + podPressPlayerFile, {bg:"E5E5E5", text:"333333", leftbg:"CCCCCC", 
+lefticon:"333333", volslider:"666666", voltrack:"FFFFFF", 
+rightbg:"B4B4B4", rightbghover:"999999", righticon:"333333", 
+righticonhover:"FFFFFF", loader:"009900", track:"FFFFFF", 
+border:"CCCCCC", tracker:"DDDDDD", skip:"666666", slider:"666666", 
+initialvolume:"70", buffer:"5", checkpolicy:"no", animation:"yes", 
+remaining:"no",  pagebg:"FFFFFF", transparentpagebg:"yes", encode: "no"}
+ );
+//]]></script>
+<script type="text/javascript">//<![CDATA[
+var podPressBlogURL = "https://blog.xebia.fr/";
+var podPressBackendURL = "https://blog.xebia.fr/wp-content/plugins/podpress/";
+var podPressDefaultPreviewImage = "https://blog.xebia.fr/wp-content/plugins/podpress/images/vpreview_center.png";
+var podPressMP3PlayerWrapper = false;
+var podPress_cortado_signed = false;
+var podPressOverwriteTitleandArtist = false;
+var podPressHTML5 = true;
+var podPressHTML5_showplayersdirectly = false;
+var podPressText_PlayNow = "Play Now";
+var podPressText_HidePlayer = "Hide Player";
+//]]></script>
+<script type="text/javascript">
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var themecssurl = "?ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type="text/javascript" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/skip-link-focus-fix.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var screenReaderText = {"expand":"<span 
+class=\"screen-reader-text\">ouvrir le 
+sous-menu<\/span>","collapse":"<span class=\"screen-reader-text\">fermer
+ le sous-menu<\/span>"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/functions.js"></script>
+<script type="text/javascript" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/wp-embed.js"></script>
+<script async="async" type="text/javascript" src="async_await,%20une%20meilleure%20fa%C3%A7on%20de%20faire%20de%20l'asynchronisme%20en%20JavaScript%20%20%20Blog%20Xebia%20-%20Cabinet%20de%20conseil%20IT_fichiers/form.js"></script>
+
+<div id="hellobar-pusher" class="hb-50" style="height: 50px;"></div></body></html>

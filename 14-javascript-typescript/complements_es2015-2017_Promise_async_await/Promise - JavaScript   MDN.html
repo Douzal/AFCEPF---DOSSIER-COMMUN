@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html dir="ltr" class="" lang="fr"><head prefix="og: http://ogp.me/ns#">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <script async="" src="Promise%20-%20JavaScript%20%20%20MDN_fichiers/analytics.js"></script><script>(function(d) { d.className = d.className.replace(/\bno-js/, ''); })(document.documentElement);</script>
+  <title>Promise - JavaScript | MDN</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  
+<link rel="preload" href="https://developer.mozilla.org/static/fonts/locales/ZillaSlab-Regular.subset.bbc33fb47cf6.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="home" href="https://developer.mozilla.org/fr/">
+    <link rel="license" href="#license">
+  
+
+  
+    
+    
+
+    <link href="Promise%20-%20JavaScript%20%20%20MDN_fichiers/mdn.css" rel="stylesheet" type="text/css">
+
+    
+  
+
+    <link href="Promise%20-%20JavaScript%20%20%20MDN_fichiers/wiki.css" rel="stylesheet" type="text/css">
+
+
+    
+
+  <link href="Promise%20-%20JavaScript%20%20%20MDN_fichiers/locale-fr.css" rel="stylesheet" type="text/css">
+
+  
+    <script>
+    // Mozilla DNT Helper
+    /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/. */ if(typeof Mozilla==='undefined'){var Mozilla={}}Mozilla.dntEnabled=function(dnt,ua){'use strict';var dntStatus=dnt||navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack;var userAgent=ua||navigator.userAgent;var anomalousWinVersions=['Windows NT 6.1','Windows NT 6.2','Windows NT 6.3'];var fxMatch=userAgent.match(/Firefox\/(\d+)/);var ieRegEx=/MSIE|Trident/i;var isIE=ieRegEx.test(userAgent);var platform=userAgent.match(/Windows.+?(?=;)/g);if(isIE&&typeof Array.prototype.indexOf!=='function'){return false}else if(fxMatch&&parseInt(fxMatch[1],10)<32){dntStatus='Unspecified'}else if(isIE&&platform&&anomalousWinVersions.indexOf(platform.toString())!==-1){dntStatus='Unspecified'}else{dntStatus={'0':'Disabled','1':'Enabled'}[dntStatus]||'Unspecified'}return dntStatus==='Enabled'?true:false};
+    // only load GA if DNT is not enabled
+    if (Mozilla && !Mozilla.dntEnabled()) {
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-36116321-5', 'mozilla.org');
+        ga('set', 'anonymizeIp', true);
+
+        
+
+        // dimension9 == "Section editing"
+        
+            // dimension12 == 'Page Revision'
+            ga('set', 'dimension12', '1435787');
+            // dimension17 == 'English Slug'
+            ga('set', 'dimension17', 'Web/JavaScript/Reference/Global_Objects/Promise');
+
+        (function() {
+            // http://cfsimplicity.com/61/removing-analytics-clutter-from-campaign-urls
+            var win = window;
+            var removeUtms = function(){
+                var location = win.location;
+                if (location.href.indexOf('utm') != -1 && win.history.replaceState) {
+                    win.history.replaceState({}, '', location.pathname);
+                }
+            };
+
+            ga('send', 'pageview', {'hitCallback': removeUtms});
+        })();
+    }
+</script>
+  
+
+  
+    <script>
+    // util for setting performance marks and mesaures
+    var mdn=window.mdn||{};mdn.perf={getDuration:function(e){"use strict";if(void 0!==performance.getEntriesByName)return performance.getEntriesByName(e)[0].duration;console.error("performance.getEntriesByName is not supported by your user-agent")},setMark:function(e){"use strict";if(void 0!==performance.mark)try{performance.mark(e)}catch(e){console.error("Error while setting performance mark: ",e)}else console.error("performance.mark is not supported by your user-agent")},setMeasure:function(e){"use strict";void 0!==performance.measure?performance.measure(e.measureName,e.startMark,e.endMark):console.error("performance.measure is not supported by your user-agent")}};
+    /* util specifically for postMessages sent from the
+       `head` of the interactive examples iframe */
+    function handlePerfMarks(e){e.measureName?(window.mdn.perf.setMark(e.markName),window.mdn.perf.setMeasure({measureName:e.measureName,startMark:e.startMark,endMark:e.endMark}),ga&&ga.create&&ga("send",{hitType:"timing",timingCategory:"RUM - Interactive Examples",timingVar:e.measureName,timingValue:window.mdn.perf.getDuration(e.measureName)||0})):window.mdn.perf.setMark(e.markName)}function perfMsgHandler(e){"use strict";var a=window.mdn.interactiveEditor.editorUrl||"https://interactive-examples.mdn.mozilla.net",r=e.data;if(e.origin!==a)return!1;r.markName&&-1<r.markName.indexOf("interactive-editor-")&&handlePerfMarks(r)}window.addEventListener("message",perfMsgHandler,!1);
+</script>
+
+    <!-- common social tags -->
+    
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png">
+    <meta property="og:site_name" content="Documentation du Web - MDN">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png">
+    <meta name="twitter:site" content="@MozDevNet">
+    <meta name="twitter:creator" content="@MozDevNet">
+    <link rel="search" type="application/opensearchdescription+xml" href="https://developer.mozilla.org/fr/search/xml" title="Documentation du Web - MDN">
+    
+  
+  <!-- third-generation iPad with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://developer.mozilla.org/static/img/favicon144.e7e21ca263ca.png">
+  <!-- iPhone with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://developer.mozilla.org/static/img/favicon114.d526f38b09c5.png">
+  <!-- first- and second-generation iPad: -->
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://developer.mozilla.org/static/img/favicon72.cc65d1d762a0.png">
+  <!-- non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+  <link rel="apple-touch-icon-precomposed" href="https://developer.mozilla.org/static/img/favicon57.de33179910ae.png">
+  <!-- basic favicon -->
+  <link rel="shortcut icon" href="https://developer.mozilla.org/static/img/favicon32.7f3da72dcea1.png">
+  <!--[if IE]>
+  <meta http-equiv="imagetoolbar" content="no">
+  <script type="text/javascript" src="https://developer.mozilla.org/static/build/js/html5shiv.ae1ac46eaf58.js" charset="utf-8"></script>
+  <![endif]-->
+
+  
+  <link rel="dns-prefetch" href="https://interactive-examples.mdn.mozilla.net/" pr="0.75">
+  <link rel="preconnect" href="https://interactive-examples.mdn.mozilla.net/" pr="0.75">
+
+  <link rel="alternate" type="application/json" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise$json">
+  <link rel="canonical" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise">
+
+  
+  <link rel="alternate" hreflang="fr" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise" title="Promise">
+  
+    
+      <link rel="alternate" hreflang="en-US" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="ca" href="https://developer.mozilla.org/ca/docs/Web/JavaScript/Referencia/Objectes_globals/Promesa" title="Promesa">
+    
+      <link rel="alternate" hreflang="de" href="https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="es" href="https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="hi-IN" href="https://developer.mozilla.org/hi-IN/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="id" href="https://developer.mozilla.org/id/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="it" href="https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="ja" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="ko" href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="nl" href="https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="pl" href="https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Obiekty/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="pt-BR" href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="ru" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="tr" href="https://developer.mozilla.org/tr/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="uk" href="https://developer.mozilla.org/uk/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="vi" href="https://developer.mozilla.org/vi/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="zh-CN" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+      <link rel="alternate" hreflang="zh-TW" href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Promise" title="Promise">
+    
+  
+
+  <!-- document-specific social tags -->
+  <meta property="og:title" content="Promise">
+  <meta property="og:url" content="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise">
+  <meta name="twitter:url" content="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise">
+  <meta name="twitter:title" content="Promise">
+  
+  <meta property="og:description" content="Le code source de cet exemple interactif est disponible dans un dépôt GitHub. Si vous souhaitez contribuez à ces exemples, n'hésitez pas à cloner https://github.com/mdn/interactive-examples et à envoyer une pull request !">
+  <meta name="description" content="Le code source de cet exemple interactif est disponible dans un dépôt GitHub. Si vous souhaitez contribuez à ces exemples, n'hésitez pas à cloner https://github.com/mdn/interactive-examples et à envoyer une pull request !">
+  <meta name="twitter:description" content="Le code source de cet exemple interactif est disponible dans un dépôt GitHub. Si vous souhaitez contribuez à ces exemples, n'hésitez pas à cloner https://github.com/mdn/interactive-examples et à envoyer une pull request !">
+  
+
+<link href="Promise%20-%20JavaScript%20%20%20MDN_fichiers/wiki-compat-tables.css" type="text/css" rel="stylesheet"><script async="" data-manual="true" src="Promise%20-%20JavaScript%20%20%20MDN_fichiers/syntax-prism.js"></script></head>
+<body data-slug="Web/JavaScript/Reference/Objets_globaux/Promise" contextmenu="edit-history-menu" data-search-url="" class="document">
+
+  <script>
+    // make sure global mdn object exists
+    var mdn = window.mdn || {};
+
+    (function(win) {
+        'use strict';
+
+        (function(){
+  var FLAGS = {
+    'kumaediting': false,'page_move': false,'section_edit': false,'spam_checks_enabled': true,'spam_submissions_enabled': false,'spam_admin_override': false,'spam_spammer_override': false,'spam_testing_mode': false,'sg_task_completion': false,'contrib_beta': false,'recurring_payment_beta': true
+    },
+    SWITCHES = {
+    'welcome_email': true,'application_ACAO': true,'store_revision_ips': true,'foundation_callout': false,'helpful-survey-2': true,'wiki_spam_training': true,'registration_disabled': false
+    },
+    SAMPLES = {
+    
+    };
+  window.waffle = {
+    "flag_is_active": function waffle_flag(flag_name) {
+      
+      return !!FLAGS[flag_name];
+    },
+    "switch_is_active": function waffle_switch(switch_name) {
+      
+      return !!SWITCHES[switch_name];
+    },
+    "sample_is_active": function waffle_sample(sample_name) {
+      
+      return !!SAMPLES[sample_name];
+    },
+    "FLAGS": FLAGS,
+    "SWITCHES": SWITCHES,
+    "SAMPLES": SAMPLES
+  };
+})();
+
+
+        // This needs to be set before ckeditor.js loads
+        window.CKEDITOR_BASEPATH = '/static/js/libs/ckeditor/build/ckeditor/';
+
+        // Site configuration
+        win.mdn.ckeditor = {};
+        win.mdn.features = {};
+        win.mdn.siteUrl = '';
+        win.mdn.staticPath = 'https://developer.mozilla.org/static/';
+        win.mdn.wiki = {
+            autosuggestTitleUrl: '/fr/docs/get-documents'
+        };
+        win.mdn.assets = {
+            css: {
+                'editor-content': ['https://developer.mozilla.org/static/build/styles/editor-content.578029ea71dd.css','https://developer.mozilla.org/static/build/styles/editor-locale-fr.d798f0544bdf.css',
+                ],
+
+                'wiki-compat-tables': ['https://developer.mozilla.org/static/build/styles/wiki-compat-tables.a84b8897a8fb.css',]
+            },
+            js: {
+                'syntax-prism': ['https://developer.mozilla.org/static/build/js/syntax-prism.c3ad62e11c30.js',],
+                'wiki-compat-tables': ['https://developer.mozilla.org/static/build/js/wiki-compat-tables.3a4ab2cc8ca1.js',]
+            }
+        };
+
+        win.mdn.notifications = [];
+        win.mdn.contributions = {
+            enabled: true,
+            popup: false
+        };
+
+        
+
+        // interactive editor config
+        win.mdn.interactiveEditor = {
+            siteUrl: "https://developer.mozilla.org",
+            editorUrl: "https://interactive-examples.mdn.mozilla.net"
+        };
+        win.mdn.langCookieName = "django_language";
+
+    })(this);
+</script>
+    
+    <ul id="nav-access">
+  <li><a href="#content" id="skip-main">Aller au contenu principal</a></li>
+  <li><a id="skip-language" href="#language">Choisir la langue</a></li>
+  <li><a href="#q" id="skip-search">Aller à la recherche</a></li>
+</ul>
+
+    <!-- Header -->
+    <header id="main-header" class="header-main">
+      <a href="https://developer.mozilla.org/fr/" class="logo">Documentation du Web - MDN</a>
+      <div class="nav-toolbox-wrapper">
+        <nav id="main-nav" class="nav-main" role="navigation">
+    <ul>
+        <li class="nav-main-item">
+            <a href="https://developer.mozilla.org/fr/docs/Web">Technologies
+                <svg class="icon icon-caret-down" xmlns="http://www.w3.org/2000/svg" width="16" height="28" viewBox="0 0 16 28"><path d="M16 11a.99.99 0 0 1-.297.703l-7 7C8.516 18.89 8.265 19 8 19s-.516-.109-.703-.297l-7-7A.996.996 0 0 1 0 11c0-.547.453-1 1-1h14c.547 0 1 .453 1 1z"></path></svg>
+            </a>
+            <div class="submenu js-submenu" id="nav-tech-submenu">
+                <div class="submenu-column">
+                  <ul>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Web/HTML">HTML</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Web/CSS">CSS</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript">JavaScript</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Web/Guide/Graphics">Infographies</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Web/HTTP">HTTP</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Web/API">APIs / DOM</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Mozilla/Add-ons/WebExtensions">Extensions des navigateurs</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Web/MathML">MathML</a></li>
+                  </ul>
+                </div>
+            </div>
+        </li>
+        <li class="nav-main-item">
+            <a href="https://developer.mozilla.org/fr/docs/Learn">Guides et références
+                <svg class="icon icon-caret-down" xmlns="http://www.w3.org/2000/svg" width="16" height="28" viewBox="0 0 16 28"><path d="M16 11a.99.99 0 0 1-.297.703l-7 7C8.516 18.89 8.265 19 8 19s-.516-.109-.703-.297l-7-7A.996.996 0 0 1 0 11c0-.547.453-1 1-1h14c.547 0 1 .453 1 1z"></path></svg>
+            </a>
+            <div class="submenu js-submenu" id="nav-learn-submenu" style="z-index: 99998;" aria-hidden="true"><button type="button" class="submenu-close transparent"><span class="offscreen">Fermer le sous-menu</span><svg class="icon icon-close" version="1.1" width="24" height="28" viewBox="0 0 24 28" aria-hidden="true" focusable="false"><path d="M20.281 20.656c0 0.391-0.156 0.781-0.438 1.062l-2.125 2.125c-0.281 0.281-0.672 0.438-1.062 0.438s-0.781-0.156-1.062-0.438l-4.594-4.594-4.594 4.594c-0.281 0.281-0.672 0.438-1.062 0.438s-0.781-0.156-1.062-0.438l-2.125-2.125c-0.281-0.281-0.438-0.672-0.438-1.062s0.156-0.781 0.438-1.062l4.594-4.594-4.594-4.594c-0.281-0.281-0.438-0.672-0.438-1.062s0.156-0.781 0.438-1.062l2.125-2.125c0.281-0.281 0.672-0.438 1.062-0.438s0.781 0.156 1.062 0.438l4.594 4.594 4.594-4.594c0.281-0.281 0.672-0.438 1.062-0.438s0.781 0.156 1.062 0.438l2.125 2.125c0.281 0.281 0.438 0.672 0.438 1.062s-0.156 0.781-0.438 1.062l-4.594 4.594 4.594 4.594c0.281 0.281 0.438 0.672 0.438 1.062z"></path></svg></button>
+                <div class="submenu-column">
+                  <ul>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Learn">Apprendre le développement web</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Web/Tutorials">Tutoriels</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Web/Reference">Références</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Web/Guide">Guides pour développeurs</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Web/Accessibility">Accessibilité</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Games">Développement de jeux</a></li>
+                    <li><a href="https://developer.mozilla.org/fr/docs/Web">... plus de docs</a></li>
+                  </ul>
+                </div>
+            </div>
+        </li>
+        <li class="nav-main-item">
+            <a href="https://developer.mozilla.org/fr/docs/MDN/Feedback">Votre avis
+                <svg class="icon icon-caret-down" xmlns="http://www.w3.org/2000/svg" width="16" height="28" viewBox="0 0 16 28"><path d="M16 11a.99.99 0 0 1-.297.703l-7 7C8.516 18.89 8.265 19 8 19s-.516-.109-.703-.297l-7-7A.996.996 0 0 1 0 11c0-.547.453-1 1-1h14c.547 0 1 .453 1 1z"></path></svg>
+            </a>
+            <div class="submenu js-submenu" id="nav-contact-submenu">
+              <div class="submenu-column">
+                <ul>
+                  <li>
+                      <a href="https://support.mozilla.org/">Demander de l'aide pour Firefox
+                          <svg class="icon icon-external-link" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M22 14.5v5c0 2.484-2.016 4.5-4.5 4.5h-13A4.502 4.502 0 0 1 0 19.5v-13C0 4.016 2.016 2 4.5 2h11c.281 0 .5.219.5.5v1c0 .281-.219.5-.5.5h-11A2.507 2.507 0 0 0 2 6.5v13C2 20.875 3.125 22 4.5 22h13c1.375 0 2.5-1.125 2.5-2.5v-5c0-.281.219-.5.5-.5h1c.281 0 .5.219.5.5zM28 1v8c0 .547-.453 1-1 1a.99.99 0 0 1-.703-.297l-2.75-2.75L13.36 17.14c-.094.094-.234.156-.359.156s-.266-.063-.359-.156l-1.781-1.781c-.094-.094-.156-.234-.156-.359s.063-.266.156-.359L21.048 4.454l-2.75-2.75a.996.996 0 0 1-.297-.703c0-.547.453-1 1-1h8c.547 0 1 .453 1 1z"></path></svg>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="https://stackoverflow.com/">Demander de l'aide pour le développement web
+                          <svg class="icon icon-external-link" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M22 14.5v5c0 2.484-2.016 4.5-4.5 4.5h-13A4.502 4.502 0 0 1 0 19.5v-13C0 4.016 2.016 2 4.5 2h11c.281 0 .5.219.5.5v1c0 .281-.219.5-.5.5h-11A2.507 2.507 0 0 0 2 6.5v13C2 20.875 3.125 22 4.5 22h13c1.375 0 2.5-1.125 2.5-2.5v-5c0-.281.219-.5.5-.5h1c.281 0 .5.219.5.5zM28 1v8c0 .547-.453 1-1 1a.99.99 0 0 1-.703-.297l-2.75-2.75L13.36 17.14c-.094.094-.234.156-.359.156s-.266-.063-.359-.156l-1.781-1.781c-.094-.094-.156-.234-.156-.359s.063-.266.156-.359L21.048 4.454l-2.75-2.75a.996.996 0 0 1-.297-.703c0-.547.453-1 1-1h8c.547 0 1 .453 1 1z"></path></svg>
+                      </a>
+                  </li>
+                </ul>
+                <ul>
+                  <li>
+                      <a href="https://developer.mozilla.org/fr/docs/MDN/Community">Rejoignez la communauté MDN</a>
+                  </li>
+                  <li>
+                      <a target="_blank" rel="noopener" href="https://bugzilla.mozilla.org/form.doc?bug_file_loc=https%3A//developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise">Signaler un problème de contenu
+                          <svg class="icon icon-external-link" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M22 14.5v5c0 2.484-2.016 4.5-4.5 4.5h-13A4.502 4.502 0 0 1 0 19.5v-13C0 4.016 2.016 2 4.5 2h11c.281 0 .5.219.5.5v1c0 .281-.219.5-.5.5h-11A2.507 2.507 0 0 0 2 6.5v13C2 20.875 3.125 22 4.5 22h13c1.375 0 2.5-1.125 2.5-2.5v-5c0-.281.219-.5.5-.5h1c.281 0 .5.219.5.5zM28 1v8c0 .547-.453 1-1 1a.99.99 0 0 1-.703-.297l-2.75-2.75L13.36 17.14c-.094.094-.234.156-.359.156s-.266-.063-.359-.156l-1.781-1.781c-.094-.094-.156-.234-.156-.359s.063-.266.156-.359L21.048 4.454l-2.75-2.75a.996.996 0 0 1-.297-.703c0-.547.453-1 1-1h8c.547 0 1 .453 1 1z"></path></svg>
+                      </a>
+                  </li>
+                  <li>
+                      <a target="_blank" rel="noopener" href="https://bugzilla.mozilla.org/form.mdn">Signaler un bug
+                          <svg class="icon icon-external-link" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M22 14.5v5c0 2.484-2.016 4.5-4.5 4.5h-13A4.502 4.502 0 0 1 0 19.5v-13C0 4.016 2.016 2 4.5 2h11c.281 0 .5.219.5.5v1c0 .281-.219.5-.5.5h-11A2.507 2.507 0 0 0 2 6.5v13C2 20.875 3.125 22 4.5 22h13c1.375 0 2.5-1.125 2.5-2.5v-5c0-.281.219-.5.5-.5h1c.281 0 .5.219.5.5zM28 1v8c0 .547-.453 1-1 1a.99.99 0 0 1-.703-.297l-2.75-2.75L13.36 17.14c-.094.094-.234.156-.359.156s-.266-.063-.359-.156l-1.781-1.781c-.094-.094-.156-.234-.156-.359s.063-.266.156-.359L21.048 4.454l-2.75-2.75a.996.996 0 0 1-.297-.703c0-.547.453-1 1-1h8c.547 0 1 .453 1 1z"></path></svg>
+                      </a>
+                  </li>
+                </ul>
+              </div>
+          </div>
+      </li>
+  </ul>
+</nav>
+        <div id="toolbox" class="toolbox">
+  <ul>
+    
+    <li class="nav-login"><div class="login">
+    
+        
+        <a href="https://developer.mozilla.org/users/github/login/?next=%2Ffr%2Fdocs%2FWeb%2FJavaScript%2FReference%2FObjets_globaux%2FPromise" class="login-link js-login-link" data-service="GitHub" rel="nofollow">
+            Connexion<svg class="icon icon-github" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28" aria-label="GitHub" role="img" focusable="false">
+    <title>Github</title>
+    <path d="M12 2c6.625 0 12 5.375 12 12 0 5.297-3.437 9.797-8.203 11.391-.609.109-.828-.266-.828-.578 0-.391.016-1.687.016-3.297 0-1.125-.375-1.844-.812-2.219 2.672-.297 5.484-1.313 5.484-5.922 0-1.313-.469-2.375-1.234-3.219.125-.313.531-1.531-.125-3.187-1-.313-3.297 1.234-3.297 1.234a11.28 11.28 0 0 0-6 0S6.704 6.656 5.704 6.969c-.656 1.656-.25 2.875-.125 3.187-.766.844-1.234 1.906-1.234 3.219 0 4.594 2.797 5.625 5.469 5.922-.344.313-.656.844-.766 1.609-.688.313-2.438.844-3.484-1-.656-1.141-1.844-1.234-1.844-1.234-1.172-.016-.078.734-.078.734.781.359 1.328 1.75 1.328 1.75.703 2.141 4.047 1.422 4.047 1.422 0 1 .016 1.937.016 2.234 0 .313-.219.688-.828.578C3.439 23.796.002 19.296.002 13.999c0-6.625 5.375-12 12-12zM4.547 19.234c.031-.063-.016-.141-.109-.187-.094-.031-.172-.016-.203.031-.031.063.016.141.109.187.078.047.172.031.203-.031zm.484.532c.063-.047.047-.156-.031-.25-.078-.078-.187-.109-.25-.047-.063.047-.047.156.031.25.078.078.187.109.25.047zm.469.703c.078-.063.078-.187 0-.297-.063-.109-.187-.156-.266-.094-.078.047-.078.172 0 .281s.203.156.266.109zm.656.656c.063-.063.031-.203-.063-.297-.109-.109-.25-.125-.313-.047-.078.063-.047.203.063.297.109.109.25.125.313.047zm.891.391c.031-.094-.063-.203-.203-.25-.125-.031-.266.016-.297.109s.063.203.203.234c.125.047.266 0 .297-.094zm.984.078c0-.109-.125-.187-.266-.172-.141 0-.25.078-.25.172 0 .109.109.187.266.172.141 0 .25-.078.25-.172zm.906-.156c-.016-.094-.141-.156-.281-.141-.141.031-.234.125-.219.234.016.094.141.156.281.125s.234-.125.219-.219z"></path>
+</svg>
+        </a>
+    
+</div></li>
+  </ul>
+</div>
+      </div>
+      <form id="nav-main-search" action="/fr/search" method="get" role="search" class="nav-main-search">
+  <div class="search-wrap">
+    <label for="main-q" class="offscreen">Rechercher</label>
+    <input type="search" id="main-q" name="q" placeholder="Rechercher" data-value="" aria-hidden="true">
+    <span class="search-trigger">
+        <svg class="icon icon-search" xmlns="http://www.w3.org/2000/svg" width="26" height="28" viewBox="0 0 26 28" aria-hidden="true">
+    <path d="M18 13c0-3.859-3.141-7-7-7s-7 3.141-7 7 3.141 7 7 7 7-3.141 7-7zm8 13c0 1.094-.906 2-2 2a1.96 1.96 0 0 1-1.406-.594l-5.359-5.344a10.971 10.971 0 0 1-6.234 1.937c-6.078 0-11-4.922-11-11s4.922-11 11-11 11 4.922 11 11c0 2.219-.672 4.406-1.937 6.234l5.359 5.359c.359.359.578.875.578 1.406z"></path>
+</svg>
+    </span>
+    <button type="submit" class="offscreen">Rechercher</button>
+    <button type="button" id="close-header-search" class="close-header-search transparent">
+        <span class="offscreen">Fermer la recherche</span>
+        <svg class="icon icon-close" xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M20.281 20.656c0 .391-.156.781-.438 1.062l-2.125 2.125c-.281.281-.672.438-1.062.438s-.781-.156-1.062-.438L11 19.249l-4.594 4.594c-.281.281-.672.438-1.062.438s-.781-.156-1.062-.438l-2.125-2.125c-.281-.281-.438-.672-.438-1.062s.156-.781.438-1.062L6.751 15l-4.594-4.594c-.281-.281-.438-.672-.438-1.062s.156-.781.438-1.062l2.125-2.125c.281-.281.672-.438 1.062-.438s.781.156 1.062.438L11 10.751l4.594-4.594c.281-.281.672-.438 1.062-.438s.781.156 1.062.438l2.125 2.125c.281.281.438.672.438 1.062s-.156.781-.438 1.062L15.249 15l4.594 4.594c.281.281.438.672.438 1.062z"></path></svg>
+    </button>
+  </div>
+</form>
+    </header> 
+
+  <!-- Content will go here -->
+  <main id="content" role="main">
+      
+  <!-- heading -->
+  <div id="wiki-document-head" class="document-head">
+    <div class="center">
+      <div class="document-title">
+        <h1>Promise</h1>
+      </div>
+
+      <!-- action buttons -->
+      <div class="document-actions">
+        
+
+  
+    
+    
+  
+
+  
+    
+  
+
+  
+
+  <ul class="page-buttons">
+      <li>
+          <button id="languages-menu" class="transparent" aria-haspopup="true" aria-owns="languages-menu-submenu" aria-expanded="false">
+              <svg class="icon icon-language" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28" aria-hidden="true">
+    <path d="M10.219 16.844c-.031.109-.797-.25-1-.328-.203-.094-1.125-.609-1.359-.766s-1.125-.891-1.234-.938a28.275 28.275 0 0 1-2.094 2.828c-.281.328-1.125 1.391-1.641 1.719-.078.047-.531.094-.594.063.25-.187.969-1.078 1.281-1.437.391-.453 2.25-3.047 2.562-3.641.328-.594 1.312-2.562 1.359-2.75-.156-.016-1.391.406-1.719.516-.313.094-1.172.297-1.234.344-.063.063-.016.25-.047.313s-.313.203-.484.234a1.647 1.647 0 0 1-.734 0c-.203-.047-.391-.25-.438-.328 0 0-.063-.094-.078-.359.187-.063.5-.078.844-.172s1.188-.344 1.641-.5 1.328-.484 1.594-.547c.281-.047.984-.516 1.359-.641s.641-.281.656-.203 0 .422-.016.516c-.016.078-.766 1.547-.875 1.781-.063.125-.5.953-1.203 2.047.25.109.781.328 1 .438.266.125 2.125.906 2.219.938s.266.75.234.875zM7.016 9.25c.047.266-.031.375-.063.438-.156.297-.547.5-.781.594s-.625.187-.938.187c-.141-.016-.422-.063-.766-.406-.187-.203-.328-.75-.266-.688s.516.125.719.078.688-.187.906-.25c.234-.078.703-.203.859-.219.156 0 .281.063.328.266zm10.906 2.016l.984 3.547-2.172-.656zM.609 23.766l10.844-3.625V4.016L.609 7.657v16.109zM20 18.813l1.594.484-2.828-10.266-1.563-.484-3.375 8.375 1.594.484.703-1.719 3.297 1.016zM12.141 3.781l8.953 2.875V.718zM17 24.453l2.469.203-.844 2.5L18 26.125c-1.266.812-2.828 1.437-4.312 1.687-.453.094-.969.187-1.422.187h-1.313c-1.656 0-4.672-.984-5.984-1.937-.094-.078-.125-.141-.125-.25 0-.172.125-.297.281-.297.141 0 .875.453 1.078.547 1.406.703 3.375 1.344 4.953 1.344 1.953 0 3.281-.25 5.063-1.016.516-.234.969-.531 1.453-.797zm7-16.859v16.859c-12.078-3.844-12.094-3.844-12.094-3.844C11.656 20.718.453 24.5.297 24.5a.3.3 0 0 1-.281-.203c0-.016-.016-.031-.016-.047V7.406c.016-.047.031-.125.063-.156.094-.109.219-.141.313-.172.047-.016 1-.328 2.328-.781v-6l8.719 3.094C11.532 3.36 21.251 0 21.392 0c.172 0 .313.125.313.328v6.531z"></path>
+</svg>
+              <span>Langues</span>
+          </button>
+
+        <div class="submenu js-submenu" id="languages-menu-submenu">
+          <div class="submenu-column">
+            <ul id="translations">
+              
+                
+                
+                
+                  <li lang="en-US"><bdi><a rel="internal" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="en-US" title="Anglais américain">English (US) (en-US)</a></bdi></li>
+                
+                  <li lang="ca"><bdi><a rel="internal" href="https://developer.mozilla.org/ca/docs/Web/JavaScript/Referencia/Objectes_globals/Promesa" data-locale="ca" title="Catalan">Català (ca)</a></bdi></li>
+                
+                  <li lang="de"><bdi><a rel="internal" href="https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="de" title="Allemand">Deutsch (de)</a></bdi></li>
+                
+                  <li lang="es"><bdi><a rel="internal" href="https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Promise" data-locale="es" title="Espagnol">Español (es)</a></bdi></li>
+                
+                  <li lang="hi-IN"><bdi><a rel="internal" href="https://developer.mozilla.org/hi-IN/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="hi-IN" title="Hindi (d'Inde)">हिन्दी (भारत) (hi-IN)</a></bdi></li>
+                
+                  <li lang="id"><bdi><a rel="internal" href="https://developer.mozilla.org/id/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="id" title="Indonésien">Bahasa Indonesia (id)</a></bdi></li>
+                
+                  <li lang="it"><bdi><a rel="internal" href="https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="it" title="Italien">Italiano (it)</a></bdi></li>
+                
+                  <li lang="ja"><bdi><a rel="internal" href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="ja" title="Japonais">日本語 (ja)</a></bdi></li>
+                
+                  <li lang="ko"><bdi><a rel="internal" href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="ko" title="Coréen">한국어 (ko)</a></bdi></li>
+                
+                  <li lang="nl"><bdi><a rel="internal" href="https://developer.mozilla.org/nl/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="nl" title="Néerlandais">Nederlands (nl)</a></bdi></li>
+                
+                  <li lang="pl"><bdi><a rel="internal" href="https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Obiekty/Promise" data-locale="pl" title="Polonais">Polski (pl)</a></bdi></li>
+                
+                  <li lang="pt-BR"><bdi><a rel="internal" href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="pt-BR" title="Portugais brésilien">Português (do&nbsp;Brasil) (pt-BR)</a></bdi></li>
+                
+                  <li lang="ru"><bdi><a rel="internal" href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="ru" title="Russe">Русский (ru)</a></bdi></li>
+                
+                  <li lang="tr"><bdi><a rel="internal" href="https://developer.mozilla.org/tr/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="tr" title="Turc">Türkçe (tr)</a></bdi></li>
+                
+                  <li lang="uk"><bdi><a rel="internal" href="https://developer.mozilla.org/uk/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="uk" title="Ukrainien">Українська (uk)</a></bdi></li>
+                
+                  <li lang="vi"><bdi><a rel="internal" href="https://developer.mozilla.org/vi/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="vi" title="Vietnamien">Tiếng Việt (vi)</a></bdi></li>
+                
+                  <li lang="zh-CN"><bdi><a rel="internal" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="zh-CN" title="Chinois (simplifié)">中文 (简体) (zh-CN)</a></bdi></li>
+                
+                  <li lang="zh-TW"><bdi><a rel="internal" href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Promise" data-locale="zh-TW" title="Chinois (traditionnel)">正體中文 (繁體) (zh-TW)</a></bdi></li>
+                
+              
+
+              
+            </ul>
+          </div>
+        </div>
+      </li>
+      
+      <li class="page-buttons-edit">
+          <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise$edit" class="button neutral" id="edit-button" rel="nofollow">
+              <svg class="icon icon-pencil" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28" aria-hidden="true">
+    <path d="M5.672 24l1.422-1.422-3.672-3.672L2 20.328V22h2v2h1.672zm8.172-14.5a.329.329 0 0 0-.344-.344.368.368 0 0 0-.266.109l-8.469 8.469a.366.366 0 0 0-.109.266c0 .203.141.344.344.344a.368.368 0 0 0 .266-.109l8.469-8.469a.366.366 0 0 0 .109-.266zM13 6.5l6.5 6.5-13 13H0v-6.5zM23.672 8c0 .531-.219 1.047-.578 1.406L20.5 12 14 5.5l2.594-2.578c.359-.375.875-.594 1.406-.594s1.047.219 1.422.594l3.672 3.656c.359.375.578.891.578 1.422z"></path>
+</svg>
+              Modifier
+          </a>
+      </li>
+      
+
+        
+
+        <li class="page-buttons-advanced">
+            <button id="advanced-menu" class="only-icon" aria-haspopup="true" aria-owns="advanced-menu-submenu" aria-expanded="false">
+                <svg class="icon icon-gear" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28" aria-hidden="true">
+    <path d="M16 14c0-2.203-1.797-4-4-4s-4 1.797-4 4 1.797 4 4 4 4-1.797 4-4zm8-1.703v3.469c0 .234-.187.516-.438.562l-2.891.438a8.86 8.86 0 0 1-.609 1.422c.531.766 1.094 1.453 1.672 2.156.094.109.156.25.156.391s-.047.25-.141.359c-.375.5-2.484 2.797-3.016 2.797a.795.795 0 0 1-.406-.141l-2.156-1.687a9.449 9.449 0 0 1-1.422.594c-.109.953-.203 1.969-.453 2.906a.573.573 0 0 1-.562.438h-3.469c-.281 0-.531-.203-.562-.469l-.438-2.875a9.194 9.194 0 0 1-1.406-.578l-2.203 1.672c-.109.094-.25.141-.391.141s-.281-.063-.391-.172c-.828-.75-1.922-1.719-2.578-2.625a.607.607 0 0 1 .016-.718c.531-.719 1.109-1.406 1.641-2.141a8.324 8.324 0 0 1-.641-1.547l-2.859-.422A.57.57 0 0 1 0 15.705v-3.469c0-.234.187-.516.422-.562l2.906-.438c.156-.5.359-.969.609-1.437a37.64 37.64 0 0 0-1.672-2.156c-.094-.109-.156-.234-.156-.375s.063-.25.141-.359c.375-.516 2.484-2.797 3.016-2.797.141 0 .281.063.406.156L7.828 5.94a9.449 9.449 0 0 1 1.422-.594c.109-.953.203-1.969.453-2.906a.573.573 0 0 1 .562-.438h3.469c.281 0 .531.203.562.469l.438 2.875c.484.156.953.344 1.406.578l2.219-1.672c.094-.094.234-.141.375-.141s.281.063.391.156c.828.766 1.922 1.734 2.578 2.656a.534.534 0 0 1 .109.344c0 .141-.047.25-.125.359-.531.719-1.109 1.406-1.641 2.141.266.5.484 1.016.641 1.531l2.859.438a.57.57 0 0 1 .453.562z"></path>
+</svg>
+                <span>Avancé</span>
+            </button>
+            <div class="submenu js-submenu" id="advanced-menu-submenu">
+                <!-- this page -->
+                <div class="submenu-column">
+                    <div class="title">Avancé</div>
+                    <ul>
+                        <li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise$history" rel="nofollow">Historique</a></li>
+                        
+                        
+                        
+
+
+                
+
+                <li class="page-print"><a href="#" onclick="return window.print();">Imprimer cet article</a></li>
+            </ul>
+          </div>
+        </div>
+  </li></ul>
+      </div>
+    </div>
+  </div>
+  
+  <div id="toc" class="toc">
+    <div class="center">
+      <div class="toc-head">Aller à :</div>
+        <ol class="toc-links">
+          <li><a rel="internal" href="#Syntaxe" class="">Syntaxe</a></li><li><a rel="internal" href="#Description" class="">Description</a></li><li><a rel="internal" href="#Propriétés" class="">Propriétés</a></li><li><a rel="internal" href="#Méthodes" class="">Méthodes</a></li><li><a rel="internal" href="#Promise_prototype" class=""><code>Promise</code> prototype</a></li><li><a rel="internal" href="#Exemples" class="toc-current">Exemples</a></li><li><a rel="internal" href="#Charger_une_image_en_XHR">Charger une image en XHR</a></li><li><a rel="internal" href="#Spécifications">Spécifications</a></li><li><a rel="internal" href="#Compatibilité_des_navigateurs">Compatibilité des navigateurs</a></li><li><a rel="internal" href="#Voir_aussi">Voir aussi</a>
+        </li></ol>
+    </div>
+  </div>
+  
+
+      <div class="center clear">
+      
+
+    <div class="wiki-main-content" id="document-main"><div class="center">
+      <!-- start the main content container -->
+        <div id="wiki-column-container" class="wiki-left-present">
+
+          <!-- content row with three strips -->
+          <div class="column-container column-container-reverse">
+
+            <!-- center: main article content -->
+            <div id="wiki-content" class="column-main wiki-column text-content">
+
+              
+
+              
+              
+
+              
+
+              
+                
+              
+              
+
+              <!-- just the article content -->
+              <article id="wikiArticle">
+                
+                  
+                    <div></div>
+
+<p>L'objet <code><strong>Promise</strong></code> (pour « promesse ») est
+ utilisé pour réaliser des traitements de façon asynchrone. Une promesse
+ représente une valeur qui peut être disponible maintenant, dans le 
+futur voire jamais.</p>
+
+<div class="note">
+<p><strong>Note :</strong> Cet article décrit le constructeur <code>Promise</code>. Pour en savoir plus sur les promesses en général, nous vous conseillons de lire l'article <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Utiliser_les_promesses">Utiliser les promesses</a>. Le constructeur <code>Promise</code> est principalement utilisé pour envelopper des fonctions qui ne prennent pas en charge les promesses.</p>
+</div>
+
+<div><iframe src="Promise%20-%20JavaScript%20%20%20MDN_fichiers/promise-constructor.html" class="interactive interactive-js" width="100%" height="250" frameborder="0"></iframe></div>
+
+<p class="hidden">Le code source de cet exemple interactif est 
+disponible dans un dépôt GitHub. Si vous souhaitez contribuez à ces 
+exemples, n'hésitez pas à cloner <a rel="noopener" href="https://github.com/mdn/interactive-examples" class="external external-icon">https://github.com/mdn/interactive-examples</a> et à envoyer une <em>pull request</em> !</p>
+
+<h2 id="Syntaxe">Syntaxe<a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Syntaxe" data-heading-id="Syntaxe"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h2>
+
+<pre class="syntaxbox">new Promise( /* exécuteur */ function(resolve, reject) { ... } );</pre>
+
+<h3 id="Paramètres" class="highlight-spanned"><span class="highlight-span">Paramètres</span><a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Param%C3%A8tres" data-heading-id="Paramètres"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h3>
+
+<dl>
+ <dt><code>exécuteur</code></dt>
+ <dd>Une fonction à laquelle on passera deux arguments : <code>resolve</code> et <code>reject</code>. Cette fonction est exécutée immédiatement par l'implémentation de <strong><code>Promise</code></strong> qui fournit les fonctions <code>resolve</code> et <code>reject</code> (elle est exécutée avant que le constructeur <strong><code>Promise</code></strong> ait renvoyé l'objet créé). Les fonctions <code>resolve</code> et <code>reject</code>,
+ lorsqu'elles sont appelées, permettent respectivement de tenir ou de 
+rompre la promesse. On attend de l'exécuteur qu'il démarre un travail 
+asynchrone puis, une fois le travail terminé, appelle la fonction <code>resolve</code> (si tout s'est bien passé) ou la fonction <code>reject</code> (lorsqu'il y a eu un problème) pour définir l'état final de la promesse.<br>
+ Si une erreur est générée par l'exécuteur, la promesse est rompue et la valeur de retour de l'exécuteur est ignorée.</dd>
+</dl>
+
+<h2 id="Description">Description<a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Description" data-heading-id="Description"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h2>
+
+<p>L'interface <strong><code>Promise</code></strong> représente un intermédiaire (<em>proxy</em>)
+ vers une valeur qui n'est pas nécessairement connue au moment de sa 
+création. Cela permet d'associer des gestionnaires au succès éventuel 
+d'une action asynchrone et à la raison d'une erreur. Ainsi, des méthodes
+ asynchrones renvoient des valeurs comme les méthodes synchrones, la 
+seule différence est que la valeur retournée par la méthode asynchrone 
+est une promesse (d'avoir une valeur plus tard).</p>
+
+<p>Une <code>Promise</code> est dans un de ces états :</p>
+
+<ul>
+ <li><em>pending (en attente)</em> : état initial, la promesse n'est ni remplie, ni rompue ;</li>
+ <li><em>fulfilled (tenue</em>) : l'opération a réussi ;</li>
+ <li><em>rejected (rompue)</em> : l'opération a échoué ;</li>
+ <li><em>settled (acquittée)</em> : la promesse est tenue ou rompue mais elle n'est plus en attente.</li>
+</ul>
+
+<p>Une promesse en attente peut être <em>tenue</em> avec une valeur ou <em>rompue</em>
+ avec une raison (erreur). Quand on arrive à l'une des deux situations, 
+les gestionnaires associés lors de l'appel de la méthode <code>then</code>
+ sont alors appelés. (Si la promesse a déjà été tenue ou rompue lorsque 
+le gestionnaire est attaché à la promesse, le gestionnaire est appelé. 
+Cela permet qu'il n'y ait pas de situation de compétition entre une 
+opération asynchrone en cours et les gestionnaires ajoutés).</p>
+
+<p>Les méthodes <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/then" title="La méthode then() renvoie un objet Promise. Elle peut prendre jusqu'à deux arguments qui sont deux fonctions callback à utiliser en cas de complétion ou d'échec de la Promise."><code>Promise.prototype.then()</code></a> et <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/catch" title="La méthode catch() renvoie un objet Promise et ne traite que des cas où la promesse initiale est rejetée. Elle a le même effet qu'un appel à Promise.prototype.then(undefined, siRejetée) (c'est en fait ce qui se passe dans le moteur,&nbsp; obj.catch(onRejected) est traduit en obj.then(undefined, onRejected)). Cela signifie qu'il est nécessaire de fournir une fonction onRejected, même si on souhaite avoir une valeur de secours qui est undefined (par exemple avec obj.catch(() =&gt; {})."><code>Promise.prototype.catch()</code></a> renvoient des promesses et peuvent ainsi être chaînées. C'est ce qu'on appelle une <em>composition</em>.</p>
+
+<p><img src="Promise%20-%20JavaScript%20%20%20MDN_fichiers/promises.png" alt="" style="height: 297px; width: 801px;"></p>
+
+<div class="note">
+<p><strong>Note</strong>: Une promesse est dans l'état <em>settled </em>(acquittée) qu'elle soit tenue ou rompue mais plus en attente. Le terme <em>resolved</em>
+ (résolue) est aussi utilisé concernant les promesses — cela signifie 
+que la promesse est acquittée ou bien enfermée dans une chaine de 
+promesse. Le billet de Domenic Denicola, <a rel="noopener" href="https://github.com/domenic/promises-unwrapping/blob/master/docs/states-and-fates.md" class="external external-icon"><em>States and fates</em> (en anglais)</a>, contient de plus amples détails sur la terminologie utilisée.</p>
+</div>
+
+<div class="warning">
+<p><strong>Attention :</strong> D'autres langages utilisent des mécanismes d'évaluation à la volée (<em>lazy evaluation</em>) et de déport des calculs (<em>deferring computations</em>). Ces mécanismes sont également intitulés promesses (<em>promises</em>).
+ En JavaScript, les promesses correspondent à des processus déjà lancés 
+et qui peuvent être chaînés avec des fonctions de retour. Si vous 
+cherchez à retarder l'évaluation, vous pouvez utiliser les fonctions 
+fléchées sans arguments (ex. <code>f = () =&gt; expression</code>) afin de créer une expression à évaluer plus tard et utiliser <code>f()</code> pour l'évaluer au moment voulu.</p>
+</div>
+
+<h2 id="Propriétés">Propriétés<a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Propri%C3%A9t%C3%A9s" data-heading-id="Propriétés"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h2>
+
+<dl>
+ <dt><code>Promise.length</code></dt>
+ <dd>Une propriété de longueur qui vaut 1 (le nombre d'arguments pour le constructeur).</dd>
+ <dt><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/prototype" title="La propriété Promise.prototype représente le prototype pour le constructeur Promise."><code>Promise.prototype</code></a></dt>
+ <dd>Cette propriété représente le prototype du constructeur <code>Promise</code>.</dd>
+</dl>
+
+<h2 id="Méthodes">Méthodes<a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#M%C3%A9thodes" data-heading-id="Méthodes"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h2>
+
+<dl>
+ <dt><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/all" title="La méthode Promise.all() renvoie une promesse (Promise) qui est résolue lorsque l'ensemble des promesses contenues dans l'itérable passé en argument ont été résolues ou qui échoue avec la raison de la première promesse qui échoue au sein de l'itérable."><code>Promise.all(itérable)</code></a></dt>
+ <dd>Renvoie une promesse tenue lorsque toutes les promesses de 
+l'argument itérable sont tenues ou une promesse rompue dès qu'une 
+promesse de l'argument itérable est rompue. Si la promesse est tenue, 
+elle est résolue avec un tableau contenant les valeurs de résolution des
+ différentes promesses contenues dans l'itérable (dans le même ordre que
+ celui-ci). Si la promesse est rompue, elle contient la raison de la 
+rupture de la part de la promesse en cause, contenue dans l'itérable. 
+Cette méthode est utile pour agréger les résultats de plusieurs 
+promesses tous ensemble.</dd>
+ <dt><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/race" title="La méthode Promise.race(itérable) renvoie une promesse qui est résolue ou rejetée dès qu'une des promesses de l'itérables est résolue ou rejetée. La valeur (dans le cas de la résolution) ou la raison (dans le cas d'un échec) utilisée est celle de la promesse de l'itérable qui est resolue/qui échoue."><code>Promise.race(itérable)</code></a></dt>
+ <dd>Renvoie une promesse qui est tenue ou rompue dès que l'une des 
+promesses de l'itérable est tenue ou rompue avec la valeur ou la raison 
+correspondante.</dd>
+</dl>
+
+<dl>
+ <dt><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/reject" title="La méthode Promise.reject(raison) renvoie un objet Promise qui est rejeté (la promesse n'est pas tenue) à cause d'une raison donnée."><code>Promise.reject(raison)</code></a></dt>
+ <dd>Renvoie un objet <code>Promise</code> qui est rompue avec la raison donnée.</dd>
+</dl>
+
+<dl>
+ <dt><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/resolve" title="Le code source de cet exemple interactif est disponible dans un dépôt GitHub. Si vous souhaitez contribuez à ces exemples, n'hésitez pas à cloner https://github.com/mdn/interactive-examples et à envoyer une pull request !"><code>Promise.resolve(valeur)</code></a></dt>
+ <dd>Renvoie un objet <code>Promise</code> qui est tenue (résolue) avec la valeur donnée. Si la valeur possède une méthode <code>then</code>,
+ la promesse renvoyée « suivra » cette méthode pour arriver dans son 
+état, sinon la promesse renvoyée sera tenue avec la valeur fournie. 
+Généralement, quand on veut savoir si une valeur est une promesse, on 
+utilisera <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/resolve" title="Le code source de cet exemple interactif est disponible dans un dépôt GitHub. Si vous souhaitez contribuez à ces exemples, n'hésitez pas à cloner https://github.com/mdn/interactive-examples et à envoyer une pull request !"><code>Promise.resolve(valeur)</code></a> et on travaillera avec la valeur de retour en tant que promesse.</dd>
+</dl>
+
+<h2 id="Promise_prototype"><code>Promise</code> prototype<a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Promise_prototype" data-heading-id="Promise_prototype"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h2>
+
+<h3 id="Propriétés_2" class="highlight-spanned"><span class="highlight-span">Propriétés</span><a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Propri%C3%A9t%C3%A9s_2" data-heading-id="Propriétés_2"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h3>
+
+<p></p><dl>
+ <dt><code>Promise.prototype.constructor</code></dt>
+ <dd>Renvoie la fonction qui a créé le prototype d'une instance. Ce sera la fonction <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise" title="Le code source de cet exemple interactif est disponible dans un dépôt GitHub. Si vous souhaitez contribuez à ces exemples, n'hésitez pas à cloner https://github.com/mdn/interactive-examples et à envoyer une pull request !"><code>Promise</code></a> par défaut.</dd>
+</dl><p></p>
+
+<h3 id="Méthodes_2" class="highlight-spanned"><span class="highlight-span">Méthodes</span><a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#M%C3%A9thodes_2" data-heading-id="Méthodes_2"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h3>
+
+<p></p><dl>
+ <dt><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/catch" title="La méthode catch() renvoie un objet Promise et ne traite que des cas où la promesse initiale est rejetée. Elle a le même effet qu'un appel à Promise.prototype.then(undefined, siRejetée) (c'est en fait ce qui se passe dans le moteur,&nbsp; obj.catch(onRejected) est traduit en obj.then(undefined, onRejected))."><code>Promise.prototype.catch(onRejected)</code></a></dt>
+ <dd>Ajoute une fonction <em>callback</em> à utiliser en cas de rejet de
+ la promesse. Elle renvoie une nouvelle promesse qui est résolue avec la
+ valeur de retour du callback s'il est appelé ou avec la valeur de 
+résolution initiale si la promesse est tenue (et non rejetée).</dd>
+ <dt><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/then" title="La méthode then() renvoie un objet Promise. Elle peut prendre jusqu'à deux arguments qui sont deux fonctions callback à utiliser en cas de complétion ou d'échec de la Promise."><code>Promise.prototype.then(onFulfilled, onRejected)</code></a></dt>
+ <dd>Ajoute des fonctions à utiliser en cas de résolution ou de rejet de
+ la promesse et renvoie une nouvelle promesse qui est résolue avec la 
+valeur de retour de la fonction utilisée en fonction de la résolution ou
+ non.</dd>
+ <dt><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/finally" title="La méthode finally() renvoie un objet Promise et accepte en argument une fonction de callback qui est appelée lorsque la promesse a été résolue (qu'elle ait été tenue ou rejetée). Cela permet d'exécuter du code une fois que la promesse a été traitée, quel que soit le résultat. On évite ainsi de dupliquer du code entre les gestionnaires then() et catch()."><code>Promise.prototype.finally(onFinally)</code></a></dt>
+ <dd>Ajoute une fonction à la promesse et renvoie une nouvelle promesse 
+qui est résolue lorsque la promesse originale est résolue. La fonction 
+ajoutée est appelée lorsque la promesse est résolue, qu'elle soit tenue 
+ou rejetée.</dd>
+</dl><p></p>
+
+<h2 id="Exemples">Exemples<a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Exemples" data-heading-id="Exemples"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h2>
+
+<h3 id="Créer_une_promesse" class="highlight-spanned"><span class="highlight-span">Créer une promesse</span><a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Cr%C3%A9er_une_promesse" data-heading-id="Créer_une_promesse"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h3>
+
+<p>Pour créer une promesse, on utilise l'opérateur <code>new</code> et 
+le constructeur. Celui-ci prend en argument une fonction qui prend deux 
+fonctions en paramètres. La première est appelée quand la tâche 
+asynchrone est correctement terminée et la seconde est appelée quand la 
+tâche échoue :</p>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js"><span class="token keyword">const</span> maPremierePromesse <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// réaliser une tâche asynchrone et appeler : </span>
+
+  <span class="token comment" spellcheck="true">// resolve(uneValeur); // si la promesse est tenue</span>
+  <span class="token comment" spellcheck="true">// ou </span>
+  <span class="token comment" spellcheck="true">// reject("raison d'echec"); // si elle est rompue</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="line-numbers-rows" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>On peut ainsi obtenir des fonctions asynchrones en renvoyant une promesse :</p>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js"><span class="token keyword">function</span> <span class="token function">maFonctionAsynchrone</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> xhr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XmlHttpRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    xhr<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"GET"</span><span class="token punctuation">,</span> url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    xhr<span class="token punctuation">.</span>onload <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token function">resolve</span><span class="token punctuation">(</span>xhr<span class="token punctuation">.</span>responseText<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    xhr<span class="token punctuation">.</span>onerror <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token function">reject</span><span class="token punctuation">(</span>xhr<span class="token punctuation">.</span>statusText<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="line-numbers-rows" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Exemple_interactif" class="highlight-spanned"><span class="highlight-span">Exemple interactif</span><a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Exemple_interactif" data-heading-id="Exemple_interactif"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h3>
+
+<pre class="brush: html hidden line-numbers  language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>btn<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>button<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Créer un objet Promise !<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>log<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span><span class="line-numbers-rows" aria-hidden="true"><span></span><span></span></span></code></pre>
+
+<p>Dans le court exemple qui suit, on illustre le mécanisme d'une <code>Promise</code>. La méthode <code>testPromise()</code> est appelée chaque fois qu'on clique sur l'élément <a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/button" title="L'élément HTML &lt;button&gt; est utilisé afin de créer un contrôle interactif ayant la forme d'un bouton et qui pourra être utilisé dans un formulaire ou dans le document."><code>&lt;button&gt;</code></a>. Cette méthode crée une promesse qui sera tenue grâce à la fonction <a rel="nofollow" href="https://developer.mozilla.org/fr/docs/Web/API/Window/setTimeout" class="new" title="Cette documentation n'a pas encore été rédigée, vous pouvez aider en contribuant&nbsp;!"><code>window.setTimeout()</code></a>, et avec la valeur comptePromesse (nombre commançant à 1) après <code>1s</code> à <code>3s</code> (aléatoire). Le constructeur Promise() est utilisé pour créer la promesse.</p>
+
+<p>Le fait que la promesse soit tenue est simplement enregistré via un <em>callback</em> sur <code>p1.then()</code>. Quelques indicateurs illustrent la manière dont la partie synchrone est découplée de la partie asynchrone.</p>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js"><span class="token string">'use strict'</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> comptePromesse <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">testPromise</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> thisComptePromesse <span class="token operator">=</span> <span class="token operator">++</span>comptePromesse<span class="token punctuation">;</span>
+
+  <span class="token keyword">var</span> log <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'log'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  log<span class="token punctuation">.</span><span class="token function">insertAdjacentHTML</span><span class="token punctuation">(</span><span class="token string">'beforeend'</span><span class="token punctuation">,</span> thisComptePromesse <span class="token operator">+</span> 
+      <span class="token string">') Started (&lt;small&gt;Début du code synchrone&lt;/small&gt;)&lt;br/&gt;'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// on crée une nouvelle promesse :</span>
+  <span class="token keyword">var</span> p1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span>
+    <span class="token comment" spellcheck="true">// La fonction de résolution est appelée avec la capacité de </span>
+    <span class="token comment" spellcheck="true">// tenir ou de rompre la promesse</span>
+    <span class="token keyword">function</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token punctuation">{</span>       
+      log<span class="token punctuation">.</span><span class="token function">insertAdjacentHTML</span><span class="token punctuation">(</span><span class="token string">'beforeend'</span><span class="token punctuation">,</span> thisComptePromesse <span class="token operator">+</span> 
+          <span class="token string">') Promise started (&lt;small&gt;Début du code asynchrone&lt;/small&gt;)&lt;br/&gt;'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token comment" spellcheck="true">// Voici un exemple simple pour créer un code asynchrone</span>
+      window<span class="token punctuation">.</span><span class="token function">setTimeout</span><span class="token punctuation">(</span>
+        <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment" spellcheck="true">// On tient la promesse !</span>
+          <span class="token function">resolve</span><span class="token punctuation">(</span>thisComptePromesse<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">2000</span> <span class="token operator">+</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// On définit ce qui se passe quand la promesse est tenue</span>
+  <span class="token comment" spellcheck="true">// et ce qu'on appelle (uniquement) dans ce cas</span>
+  <span class="token comment" spellcheck="true">// La méthode catch() définit le traitement à effectuer</span>
+  <span class="token comment" spellcheck="true">// quand la promesse est rompue.</span>
+  p1<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>
+    <span class="token comment" spellcheck="true">// On affiche un message avec la valeur</span>
+    <span class="token keyword">function</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      log<span class="token punctuation">.</span><span class="token function">insertAdjacentHTML</span><span class="token punctuation">(</span><span class="token string">'beforeend'</span><span class="token punctuation">,</span> val <span class="token operator">+</span>
+          <span class="token string">') Promise fulfilled (&lt;small&gt;Fin du code asynchrone&lt;/small&gt;)&lt;br/&gt;'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>
+      <span class="token comment" spellcheck="true">// Promesse rejetée</span>
+      <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"promesse rompue"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  log<span class="token punctuation">.</span><span class="token function">insertAdjacentHTML</span><span class="token punctuation">(</span><span class="token string">'beforeend'</span><span class="token punctuation">,</span> thisComptePromesse <span class="token operator">+</span> 
+      <span class="token string">') Promise made (&lt;small&gt;Fin du code synchrone&lt;/small&gt;)&lt;br/&gt;'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="line-numbers-rows" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="brush: js hidden line-numbers  language-js"><code class=" language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">"Promise"</span> <span class="token keyword">in</span> window<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> btn <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"btn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  btn<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> testPromise<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+  log <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'log'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  log<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">"L'exemple live n'est pas disponible pour votre navigateur car celui-ci ne supporte pas l'interface &lt;code&gt;Promise&lt;code&gt;."</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="line-numbers-rows" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>L'exemple s'exécute lorsqu'on clique sur le bouton. Pour tester cet 
+exemple, il est nécessaire d'utiliser un navigateur qui supporte les 
+objets <code>Promise</code>. En cliquant plusieurs fois sur le bouton en
+ peu de temps, on verra qu'il y a plusieurs promesses tenues les une 
+après les autres.</p>
+
+<p><iframe src="Promise%20-%20JavaScript%20%20%20MDN_fichiers/Exemple_interactif.html" class="live-sample-frame sample-code-frame" id="frame_Exemple_interactif" width="500" height="200" frameborder="0"></iframe><div class="open-in-host-container"><button class="open-in-host button neutral">Ouvrir dans CodePen <i class="icon-codepen" aria-hidden="true"></i></button><button class="open-in-host button neutral">Ouvrir dans JSFiddle <i class="icon-jsfiddle" aria-hidden="true"></i></button></div></p>
+
+<h2 id="Charger_une_image_en_XHR">Charger une image en XHR<a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Charger_une_image_en_XHR" data-heading-id="Charger_une_image_en_XHR"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h2>
+
+<p>Un autre exemple simple utilisant <code>Promise</code> et <a href="https://developer.mozilla.org/fr/docs/Web/API/XMLHttpRequest" title="Cette documentation n'a pas encore été rédigée, vous pouvez aider en contribuant&nbsp;!"><code>XMLHttpRequest</code></a> afin de charger une image est disponible sur le dépôt GitHub MDN <a rel="noopener" href="https://github.com/mdn/js-examples/tree/master/promises-test" class="external external-icon">js-examples</a>. Vous pouvez également <a rel="noopener" href="https://mdn.github.io/js-examples/promises-test/" class="external external-icon">voir le résultat</a>. Chaque étape est commentée afin de vous permettre de suivre l'état de la promesse et l'architecture utilisée avec XHR.</p>
+
+<h2 id="Spécifications">Spécifications<a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Sp%C3%A9cifications" data-heading-id="Spécifications"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h2>
+
+<table class="standard-table">
+ <tbody>
+  <tr>
+   <th scope="col">Spécification</th>
+   <th scope="col">État</th>
+   <th scope="col">Commentaires</th>
+  </tr>
+  <tr>
+   <td><a rel="noopener" href="https://www.ecma-international.org/ecma-262/6.0/#sec-promise-objects" class="external external-icon" hreflang="en" lang="en">ECMAScript 2015 (6th Edition, ECMA-262)<br><small lang="fr">La définition de 'Promise' dans cette spécification.</small></a></td>
+   <td><span class="spec-Standard">Standard</span></td>
+   <td>Définition initiale au sein d'un standard ECMA.</td>
+  </tr>
+  <tr>
+   <td><a rel="noopener" href="https://tc39.github.io/ecma262/#sec-promise-objects" class="external external-icon" hreflang="en" lang="en">ECMAScript Latest Draft (ECMA-262)<br><small lang="fr">La définition de 'Promise' dans cette spécification.</small></a></td>
+   <td><span class="spec-Draft">Projet</span></td>
+   <td>&nbsp;</td>
+  </tr>
+ </tbody>
+</table>
+
+<h2 id="Compatibilité_des_navigateurs">Compatibilité des navigateurs<a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Compatibilit%C3%A9_des_navigateurs" data-heading-id="Compatibilité_des_navigateurs"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h2>
+
+<p class="hidden">Pour contribuer à ces données de compatibilité, vous pouvez envoyer une poule requête sur : <a rel="noopener" href="https://github.com/mdn/browser-compat-data" class="external external-icon">https://github.com/mdn/browser-compat-data</a>.</p>
+
+<p></p><div class="bc-data"><a rel="noopener" href="https://github.com/mdn/browser-compat-data" class="bc-github-link external external-icon">Update compatibility data on GitHub</a><table class="bc-table bc-table-js"><thead><tr class="bc-platforms"><td></td><th colspan="6" class="bc-platform-desktop"><span>Ordinateur</span></th><th colspan="7" class="bc-platform-mobile"><span>Mobile</span></th><th colspan="1" class="bc-platform-server"><span>Serveur</span></th></tr><tr class="bc-browsers"><td></td><th class="bc-browser-chrome"><span class="bc-head-txt-label bc-head-icon-chrome">Chrome</span></th><th class="bc-browser-edge"><span class="bc-head-txt-label bc-head-icon-edge">Edge</span></th><th class="bc-browser-firefox"><span class="bc-head-txt-label bc-head-icon-firefox">Firefox</span></th><th class="bc-browser-ie"><span class="bc-head-txt-label bc-head-icon-ie">Internet Explorer</span></th><th class="bc-browser-opera"><span class="bc-head-txt-label bc-head-icon-opera">Opera</span></th><th class="bc-browser-safari"><span class="bc-head-txt-label bc-head-icon-safari">Safari</span></th><th class="bc-browser-webview_android"><span class="bc-head-txt-label bc-head-icon-webview_android">Webview Android</span></th><th class="bc-browser-chrome_android"><span class="bc-head-txt-label bc-head-icon-chrome_android">Chrome pour Android</span></th><th class="bc-browser-edge_mobile"><span class="bc-head-txt-label bc-head-icon-edge_mobile">Edge Mobile</span></th><th class="bc-browser-firefox_android"><span class="bc-head-txt-label bc-head-icon-firefox_android">Firefox pour Android</span></th><th class="bc-browser-opera_android"><span class="bc-head-txt-label bc-head-icon-opera_android">Opera pour Android</span></th><th class="bc-browser-safari_ios"><span class="bc-head-txt-label bc-head-icon-safari_ios">Safari sur iOS</span></th><th class="bc-browser-samsunginternet_android"><span class="bc-head-txt-label bc-head-icon-samsunginternet_android">Samsung Internet</span></th><th class="bc-browser-nodejs"><span class="bc-head-txt-label bc-head-icon-nodejs">Node.js</span></th></tr></thead><tbody><tr><th scope="row"><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Support simple</a></th><td class="bc-supports-yes bc-browser-chrome"><span class="bc-browser-name">Chrome</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge"><span class="bc-browser-name">Edge</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox"><span class="bc-browser-name">Firefox</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-no bc-browser-ie"><span class="bc-browser-name">IE</span><abbr class="bc-level-no only-icon" title="Aucun support">
+                <span>Aucun support</span>
+              </abbr>
+              Non</td><td class="bc-supports-yes bc-browser-opera"><span class="bc-browser-name">Opera</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              19</td><td class="bc-supports-yes bc-browser-safari"><span class="bc-browser-name">Safari</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-webview_android"><span class="bc-browser-name">WebView Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              4.4.3</td><td class="bc-supports-yes bc-browser-chrome_android"><span class="bc-browser-name">Chrome Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge_mobile"><span class="bc-browser-name">Edge Mobile</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox_android"><span class="bc-browser-name">Firefox Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-yes bc-browser-opera_android"><span class="bc-browser-name">Opera Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-safari_ios"><span class="bc-browser-name">Safari iOS</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-samsunginternet_android"><span class="bc-browser-name">Samsung Internet Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-nodejs"><span class="bc-browser-name">nodejs</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              0.12</td></tr><tr><th scope="row"><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise"><code>Promise()</code> constructor</a></th><td class="bc-supports-yes bc-browser-chrome"><span class="bc-browser-name">Chrome</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge"><span class="bc-browser-name">Edge</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox bc-has-history" tabindex="0" aria-expanded="false" aria-controls="bc-history-1"><span class="bc-browser-name">Firefox</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29<div class="bc-icons"><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> </div><button title="Ouvrir les notes d'implémentation" class="bc-history-link only-icon" tabindex="-1"><span>Ouvrir</span><i class="ic-history" aria-hidden="true"></i></button><section id="bc-history-1" class="bc-history"><dl><dt class="bc-supports-yes bc-supports"><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29<div class="bc-icons"><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> </div></dt><dd><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> Constructor requires a new operator since version 37.</dd></dl></section></td><td class="bc-supports-no bc-browser-ie"><span class="bc-browser-name">IE</span><abbr class="bc-level-no only-icon" title="Aucun support">
+                <span>Aucun support</span>
+              </abbr>
+              Non</td><td class="bc-supports-yes bc-browser-opera"><span class="bc-browser-name">Opera</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              19</td><td class="bc-supports-yes bc-browser-safari bc-has-history" tabindex="0" aria-expanded="false" aria-controls="bc-history-2"><span class="bc-browser-name">Safari</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8<div class="bc-icons"><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> </div><button title="Ouvrir les notes d'implémentation" class="bc-history-link only-icon" tabindex="-1"><span>Ouvrir</span><i class="ic-history" aria-hidden="true"></i></button><section id="bc-history-2" class="bc-history"><dl><dt class="bc-supports-yes bc-supports"><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8<div class="bc-icons"><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> </div></dt><dd><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> Constructor requires a new operator since version 10.</dd></dl></section></td><td class="bc-supports-yes bc-browser-webview_android"><span class="bc-browser-name">WebView Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              4.4.3</td><td class="bc-supports-yes bc-browser-chrome_android"><span class="bc-browser-name">Chrome Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge_mobile"><span class="bc-browser-name">Edge Mobile</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox_android bc-has-history" tabindex="0" aria-expanded="false" aria-controls="bc-history-3"><span class="bc-browser-name">Firefox Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29<div class="bc-icons"><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> </div><button title="Ouvrir les notes d'implémentation" class="bc-history-link only-icon" tabindex="-1"><span>Ouvrir</span><i class="ic-history" aria-hidden="true"></i></button><section id="bc-history-3" class="bc-history"><dl><dt class="bc-supports-yes bc-supports"><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29<div class="bc-icons"><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> </div></dt><dd><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> Constructor requires a new operator since version 37.</dd></dl></section></td><td class="bc-supports-yes bc-browser-opera_android"><span class="bc-browser-name">Opera Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-safari_ios bc-has-history" tabindex="0" aria-expanded="false" aria-controls="bc-history-4"><span class="bc-browser-name">Safari iOS</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8<div class="bc-icons"><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> </div><button title="Ouvrir les notes d'implémentation" class="bc-history-link only-icon" tabindex="-1"><span>Ouvrir</span><i class="ic-history" aria-hidden="true"></i></button><section id="bc-history-4" class="bc-history"><dl><dt class="bc-supports-yes bc-supports"><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8<div class="bc-icons"><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> </div></dt><dd><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> Constructor requires a new operator since version 10.</dd></dl></section></td><td class="bc-supports-yes bc-browser-samsunginternet_android"><span class="bc-browser-name">Samsung Internet Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-nodejs bc-has-history" tabindex="0" aria-expanded="false" aria-controls="bc-history-5"><span class="bc-browser-name">nodejs</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              0.12<div class="bc-icons"><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> </div><button title="Ouvrir les notes d'implémentation" class="bc-history-link only-icon" tabindex="-1"><span>Ouvrir</span><i class="ic-history" aria-hidden="true"></i></button><section id="bc-history-5" class="bc-history"><dl><dt class="bc-supports-yes bc-supports"><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              0.12<div class="bc-icons"><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> </div></dt><dd><abbr class="only-icon" title="Voir les notes d'implémentation"><span>Notes</span><i class="ic-footnote"></i></abbr> Constructor requires a new operator since version 4.</dd></dl></section></td></tr><tr><th scope="row"><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise/all"><code>all</code></a></th><td class="bc-supports-yes bc-browser-chrome"><span class="bc-browser-name">Chrome</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge"><span class="bc-browser-name">Edge</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox"><span class="bc-browser-name">Firefox</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-no bc-browser-ie"><span class="bc-browser-name">IE</span><abbr class="bc-level-no only-icon" title="Aucun support">
+                <span>Aucun support</span>
+              </abbr>
+              Non</td><td class="bc-supports-yes bc-browser-opera"><span class="bc-browser-name">Opera</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              19</td><td class="bc-supports-yes bc-browser-safari"><span class="bc-browser-name">Safari</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-webview_android"><span class="bc-browser-name">WebView Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              4.4.3</td><td class="bc-supports-yes bc-browser-chrome_android"><span class="bc-browser-name">Chrome Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge_mobile"><span class="bc-browser-name">Edge Mobile</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox_android"><span class="bc-browser-name">Firefox Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-yes bc-browser-opera_android"><span class="bc-browser-name">Opera Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-safari_ios"><span class="bc-browser-name">Safari iOS</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-samsunginternet_android"><span class="bc-browser-name">Samsung Internet Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-nodejs"><span class="bc-browser-name">nodejs</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              0.12</td></tr><tr><th scope="row"><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise/prototype"><code>prototype</code></a></th><td class="bc-supports-yes bc-browser-chrome"><span class="bc-browser-name">Chrome</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge"><span class="bc-browser-name">Edge</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox"><span class="bc-browser-name">Firefox</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-no bc-browser-ie"><span class="bc-browser-name">IE</span><abbr class="bc-level-no only-icon" title="Aucun support">
+                <span>Aucun support</span>
+              </abbr>
+              Non</td><td class="bc-supports-yes bc-browser-opera"><span class="bc-browser-name">Opera</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              19</td><td class="bc-supports-yes bc-browser-safari"><span class="bc-browser-name">Safari</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-webview_android"><span class="bc-browser-name">WebView Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              4.4.3</td><td class="bc-supports-yes bc-browser-chrome_android"><span class="bc-browser-name">Chrome Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge_mobile"><span class="bc-browser-name">Edge Mobile</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox_android"><span class="bc-browser-name">Firefox Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-yes bc-browser-opera_android"><span class="bc-browser-name">Opera Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-safari_ios"><span class="bc-browser-name">Safari iOS</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-samsunginternet_android"><span class="bc-browser-name">Samsung Internet Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-nodejs"><span class="bc-browser-name">nodejs</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              0.12</td></tr><tr><th scope="row"><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch"><code>catch</code></a></th><td class="bc-supports-yes bc-browser-chrome"><span class="bc-browser-name">Chrome</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge"><span class="bc-browser-name">Edge</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox"><span class="bc-browser-name">Firefox</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-no bc-browser-ie"><span class="bc-browser-name">IE</span><abbr class="bc-level-no only-icon" title="Aucun support">
+                <span>Aucun support</span>
+              </abbr>
+              Non</td><td class="bc-supports-yes bc-browser-opera"><span class="bc-browser-name">Opera</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              19</td><td class="bc-supports-yes bc-browser-safari"><span class="bc-browser-name">Safari</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-webview_android"><span class="bc-browser-name">WebView Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              4.4.3</td><td class="bc-supports-yes bc-browser-chrome_android"><span class="bc-browser-name">Chrome Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge_mobile"><span class="bc-browser-name">Edge Mobile</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox_android"><span class="bc-browser-name">Firefox Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-yes bc-browser-opera_android"><span class="bc-browser-name">Opera Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-safari_ios"><span class="bc-browser-name">Safari iOS</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-samsunginternet_android"><span class="bc-browser-name">Samsung Internet Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-nodejs"><span class="bc-browser-name">nodejs</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              0.12</td></tr><tr><th scope="row"><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise/finally"><code>finally</code></a></th><td class="bc-supports-yes bc-browser-chrome"><span class="bc-browser-name">Chrome</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              63</td><td class="bc-supports-yes bc-browser-edge"><span class="bc-browser-name">Edge</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              18</td><td class="bc-supports-yes bc-browser-firefox"><span class="bc-browser-name">Firefox</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              58</td><td class="bc-supports-no bc-browser-ie"><span class="bc-browser-name">IE</span><abbr class="bc-level-no only-icon" title="Aucun support">
+                <span>Aucun support</span>
+              </abbr>
+              Non</td><td class="bc-supports-yes bc-browser-opera"><span class="bc-browser-name">Opera</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              50</td><td class="bc-supports-yes bc-browser-safari"><span class="bc-browser-name">Safari</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              11.1</td><td class="bc-supports-yes bc-browser-webview_android"><span class="bc-browser-name">WebView Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              63</td><td class="bc-supports-yes bc-browser-chrome_android"><span class="bc-browser-name">Chrome Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              63</td><td class="bc-supports-no bc-browser-edge_mobile"><span class="bc-browser-name">Edge Mobile</span><abbr class="bc-level-no only-icon" title="Aucun support">
+                <span>Aucun support</span>
+              </abbr>
+              Non</td><td class="bc-supports-yes bc-browser-firefox_android"><span class="bc-browser-name">Firefox Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              58</td><td class="bc-supports-yes bc-browser-opera_android"><span class="bc-browser-name">Opera Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              50</td><td class="bc-supports-yes bc-browser-safari_ios"><span class="bc-browser-name">Safari iOS</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              11.1</td><td class="bc-supports-no bc-browser-samsunginternet_android"><span class="bc-browser-name">Samsung Internet Android</span><abbr class="bc-level-no only-icon" title="Aucun support">
+                <span>Aucun support</span>
+              </abbr>
+              Non</td><td class="bc-supports-yes bc-browser-nodejs"><span class="bc-browser-name">nodejs</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              10.0.0</td></tr><tr><th scope="row"><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise/then"><code>then</code></a></th><td class="bc-supports-yes bc-browser-chrome"><span class="bc-browser-name">Chrome</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge"><span class="bc-browser-name">Edge</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox"><span class="bc-browser-name">Firefox</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-no bc-browser-ie"><span class="bc-browser-name">IE</span><abbr class="bc-level-no only-icon" title="Aucun support">
+                <span>Aucun support</span>
+              </abbr>
+              Non</td><td class="bc-supports-yes bc-browser-opera"><span class="bc-browser-name">Opera</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              19</td><td class="bc-supports-yes bc-browser-safari"><span class="bc-browser-name">Safari</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-webview_android"><span class="bc-browser-name">WebView Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              4.4.3</td><td class="bc-supports-yes bc-browser-chrome_android"><span class="bc-browser-name">Chrome Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge_mobile"><span class="bc-browser-name">Edge Mobile</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox_android"><span class="bc-browser-name">Firefox Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-yes bc-browser-opera_android"><span class="bc-browser-name">Opera Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-safari_ios"><span class="bc-browser-name">Safari iOS</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-samsunginternet_android"><span class="bc-browser-name">Samsung Internet Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-nodejs"><span class="bc-browser-name">nodejs</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              0.12</td></tr><tr><th scope="row"><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise/race"><code>race</code></a></th><td class="bc-supports-yes bc-browser-chrome"><span class="bc-browser-name">Chrome</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge"><span class="bc-browser-name">Edge</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox"><span class="bc-browser-name">Firefox</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-no bc-browser-ie"><span class="bc-browser-name">IE</span><abbr class="bc-level-no only-icon" title="Aucun support">
+                <span>Aucun support</span>
+              </abbr>
+              Non</td><td class="bc-supports-yes bc-browser-opera"><span class="bc-browser-name">Opera</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              19</td><td class="bc-supports-yes bc-browser-safari"><span class="bc-browser-name">Safari</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-webview_android"><span class="bc-browser-name">WebView Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              4.4.3</td><td class="bc-supports-yes bc-browser-chrome_android"><span class="bc-browser-name">Chrome Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge_mobile"><span class="bc-browser-name">Edge Mobile</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox_android"><span class="bc-browser-name">Firefox Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-yes bc-browser-opera_android"><span class="bc-browser-name">Opera Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-safari_ios"><span class="bc-browser-name">Safari iOS</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-samsunginternet_android"><span class="bc-browser-name">Samsung Internet Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-nodejs"><span class="bc-browser-name">nodejs</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              0.12</td></tr><tr><th scope="row"><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject"><code>reject</code></a></th><td class="bc-supports-yes bc-browser-chrome"><span class="bc-browser-name">Chrome</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge"><span class="bc-browser-name">Edge</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox"><span class="bc-browser-name">Firefox</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-no bc-browser-ie"><span class="bc-browser-name">IE</span><abbr class="bc-level-no only-icon" title="Aucun support">
+                <span>Aucun support</span>
+              </abbr>
+              Non</td><td class="bc-supports-yes bc-browser-opera"><span class="bc-browser-name">Opera</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              19</td><td class="bc-supports-yes bc-browser-safari"><span class="bc-browser-name">Safari</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-webview_android"><span class="bc-browser-name">WebView Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              4.4.3</td><td class="bc-supports-yes bc-browser-chrome_android"><span class="bc-browser-name">Chrome Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge_mobile"><span class="bc-browser-name">Edge Mobile</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox_android"><span class="bc-browser-name">Firefox Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-yes bc-browser-opera_android"><span class="bc-browser-name">Opera Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-safari_ios"><span class="bc-browser-name">Safari iOS</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-samsunginternet_android"><span class="bc-browser-name">Samsung Internet Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-nodejs"><span class="bc-browser-name">nodejs</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              0.12</td></tr><tr><th scope="row"><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve"><code>resolve</code></a></th><td class="bc-supports-yes bc-browser-chrome"><span class="bc-browser-name">Chrome</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge"><span class="bc-browser-name">Edge</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox"><span class="bc-browser-name">Firefox</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-no bc-browser-ie"><span class="bc-browser-name">IE</span><abbr class="bc-level-no only-icon" title="Aucun support">
+                <span>Aucun support</span>
+              </abbr>
+              Non</td><td class="bc-supports-yes bc-browser-opera"><span class="bc-browser-name">Opera</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              19</td><td class="bc-supports-yes bc-browser-safari"><span class="bc-browser-name">Safari</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-webview_android"><span class="bc-browser-name">WebView Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              4.4.3</td><td class="bc-supports-yes bc-browser-chrome_android"><span class="bc-browser-name">Chrome Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              32</td><td class="bc-supports-yes bc-browser-edge_mobile"><span class="bc-browser-name">Edge Mobile</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-firefox_android"><span class="bc-browser-name">Firefox Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              29</td><td class="bc-supports-yes bc-browser-opera_android"><span class="bc-browser-name">Opera Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-safari_ios"><span class="bc-browser-name">Safari iOS</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              8</td><td class="bc-supports-yes bc-browser-samsunginternet_android"><span class="bc-browser-name">Samsung Internet Android</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              Oui</td><td class="bc-supports-yes bc-browser-nodejs"><span class="bc-browser-name">nodejs</span><abbr class="bc-level-yes only-icon" title="Support complet">
+                <span>Support complet</span>
+              </abbr>
+              0.12</td></tr></tbody></table><section id="sect6" class="bc-legend"><h3 id="Légende" class="offscreen highlight-spanned"><span class="highlight-span">Légende</span></h3><dl><dt><span class="bc-supports-yes bc-supports">
+                <abbr class="bc-level bc-level-yes only-icon" title="Support complet">
+                 <span>Support complet</span>
+                 &nbsp;
+                </abbr></span></dt><dd>Support complet</dd><dt><span class="bc-supports-no bc-supports">
+                <abbr class="bc-level bc-level-no only-icon" title="Aucun support">
+                 <span>Aucun support</span>
+                 &nbsp;
+                </abbr></span></dt><dd>Aucun support</dd><dt><abbr class="only-icon" title="Voir les notes d'implémentation."><span>Voir les notes d'implémentation.</span><i class="ic-footnote"></i></abbr></dt><dd>Voir les notes d'implémentation.</dd></dl></section></div><p></p>
+
+<h2 id="Voir_aussi">Voir aussi<a class="local-anchor" href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise#Voir_aussi" data-heading-id="Voir_aussi"><svg class="icon icon-link" version="1.1" width="24" height="28" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg><span>Section</span></a></h2>
+
+<ul>
+ <li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Utiliser_les_promesses">Manipuler les promesses</a></li>
+ <li><a rel="noopener" href="https://promisesaplus.com/" class="external external-icon">Promises/A+ specification</a></li>
+ <li><a rel="noopener" href="https://medium.com/@ramsunvtech/promises-of-promise-part-1-53f769245a53" class="external external-icon">Venkatraman.R - JS Promise (Part 1, Basics) </a>(en anglais)</li>
+ <li><a rel="noopener" href="https://medium.com/@ramsunvtech/js-promise-part-2-q-js-when-js-and-rsvp-js-af596232525c#.dzlqh6ski" class="external external-icon">Venkatraman.R - JS Promise (Part 2 - Using Q.js, When.js and RSVP.js) </a>(en anglais)</li>
+ <li><a rel="noopener" href="https://tech.io/playgrounds/11107/tools-for-promises-unittesting/introduction" class="external external-icon">Venkatraman.R - Tools for Promises Unit Testing </a>(en anglais)</li>
+ <li><a rel="noopener" href="https://www.html5rocks.com/en/tutorials/es6/promises/" class="external external-icon">Jake Archibald : <em>JavaScript Promises : There and Back Again</em></a> (tutoriel en anglais)</li>
+ <li><a rel="noopener" href="https://de.slideshare.net/domenicdenicola/callbacks-promises-and-coroutines-oh-my-the-evolution-of-asynchronicity-in-javascript" class="external external-icon">Domenic Denicola : <em>Callbacks, Promises, and Coroutines – Asynchronous Programming Patterns in JavaScript</em></a> (présentation en anglais sur l'asynchronisme en JavaScript)</li>
+ <li><a rel="noopener" href="https://www.mattgreer.org/articles/promises-in-wicked-detail/" class="external external-icon">Matt Greer : <em>JavaScript Promises ... In Wicked Detail</em></a> (en anglais)</li>
+ <li><a rel="noopener" href="https://www.promisejs.org/" class="external external-icon">Forbes Lindesay : promisejs.org</a> (en anglais)</li>
+ <li><a rel="noopener" href="https://github.com/jakearchibald/es6-promise/" class="external external-icon">Prothèse pour les promesses par Jake Archibald</a></li>
+ <li><a rel="noopener" href="https://www.udacity.com/course/javascript-promises--ud898" class="external external-icon">Les promesses JavaScript sur Udacity</a> (en anglais)</li>
+</ul>
+                  
+                
+              </article>
+
+              <!-- contributors -->
+              <div class="wiki-block contributors">
+                <h2 class="offscreen">Étiquettes et contributeurs liés au document</h2>
+                
+                
+  <div class="tag-attach-list contributors-sub">
+    <svg class="icon icon-tags" xmlns="http://www.w3.org/2000/svg" width="30" height="28" viewBox="0 0 30 28" aria-hidden="true">
+    <path d="M7 7c0-1.109-.891-2-2-2s-2 .891-2 2 .891 2 2 2 2-.891 2-2zm16.672 9c0 .531-.219 1.047-.578 1.406l-7.672 7.688c-.375.359-.891.578-1.422.578s-1.047-.219-1.406-.578L1.422 13.906C.625 13.125 0 11.609 0 10.5V4c0-1.094.906-2 2-2h6.5c1.109 0 2.625.625 3.422 1.422l11.172 11.156c.359.375.578.891.578 1.422zm6 0c0 .531-.219 1.047-.578 1.406l-7.672 7.688a2.08 2.08 0 0 1-1.422.578c-.812 0-1.219-.375-1.75-.922l7.344-7.344c.359-.359.578-.875.578-1.406s-.219-1.047-.578-1.422L14.422 3.422C13.625 2.625 12.11 2 11 2h3.5c1.109 0 2.625.625 3.422 1.422l11.172 11.156c.359.375.578.891.578 1.422z"></path>
+</svg>
+    <strong>Étiquettes :</strong>&nbsp;
+    <ul class="tags tags-small">
+      
+        <li><a href="https://developer.mozilla.org/fr/docs/tag/ECMAScript%202015" rel="nofollow">ECMAScript 2015</a></li>
+      
+        <li><a href="https://developer.mozilla.org/fr/docs/tag/JavaScript" rel="nofollow">JavaScript</a></li>
+      
+        <li><a href="https://developer.mozilla.org/fr/docs/tag/Promise" rel="nofollow">Promise</a></li>
+      
+        <li><a href="https://developer.mozilla.org/fr/docs/tag/Reference" rel="nofollow">Reference</a></li>
+      
+    </ul>
+  </div>
+
+
+                
+                  <div class="contributors-sub">
+                    <svg class="icon icon-group" xmlns="http://www.w3.org/2000/svg" width="30" height="28" viewBox="0 0 30 28" aria-hidden="true">
+    <path d="M9.266 14a5.532 5.532 0 0 0-4.141 2H3.031C1.468 16 0 15.25 0 13.516 0 12.25-.047 8 1.937 8c.328 0 1.953 1.328 4.062 1.328.719 0 1.406-.125 2.078-.359A7.624 7.624 0 0 0 7.999 10c0 1.422.453 2.828 1.266 4zM26 23.953C26 26.484 24.328 28 21.828 28H8.172C5.672 28 4 26.484 4 23.953 4 20.422 4.828 15 9.406 15c.531 0 2.469 2.172 5.594 2.172S20.063 15 20.594 15C25.172 15 26 20.422 26 23.953zM10 4c0 2.203-1.797 4-4 4S2 6.203 2 4s1.797-4 4-4 4 1.797 4 4zm11 6c0 3.313-2.688 6-6 6s-6-2.688-6-6 2.688-6 6-6 6 2.688 6 6zm9 3.516C30 15.25 28.531 16 26.969 16h-2.094a5.532 5.532 0 0 0-4.141-2A7.066 7.066 0 0 0 22 10a7.6 7.6 0 0 0-.078-1.031A6.258 6.258 0 0 0 24 9.328C26.109 9.328 27.734 8 28.062 8c1.984 0 1.937 4.25 1.937 5.516zM28 4c0 2.203-1.797 4-4 4s-4-1.797-4-4 1.797-4 4-4 4 1.797 4 4z"></path>
+</svg>
+                    <strong>Contributeurs à cette page&nbsp;:</strong>
+                    
+        <a href="https://developer.mozilla.org/fr/profiles/SphinxKnight">SphinxKnight</a>, 
+    
+        <a href="https://developer.mozilla.org/fr/profiles/hellosct1">hellosct1</a>, 
+    
+        <a href="https://developer.mozilla.org/fr/profiles/bbouvier">bbouvier</a>, 
+    
+        <a href="https://developer.mozilla.org/fr/profiles/VivienZo">VivienZo</a>, 
+    
+        <a href="https://developer.mozilla.org/fr/profiles/sammy44nts">sammy44nts</a>, 
+    
+        <a href="https://developer.mozilla.org/fr/profiles/Mr21">Mr21</a>, 
+    
+        <a href="https://developer.mozilla.org/fr/profiles/toons3000">toons3000</a>, 
+    
+        <a href="https://developer.mozilla.org/fr/profiles/teoli">teoli</a>, 
+    
+        <a href="https://developer.mozilla.org/fr/profiles/neveldo">neveldo</a>, 
+    
+        <a href="https://developer.mozilla.org/fr/profiles/nicodel">nicodel</a>, 
+    
+        <a href="https://developer.mozilla.org/fr/profiles/Goofy">Goofy</a>, 
+    
+        <a href="https://developer.mozilla.org/fr/profiles/P45QU10U">P45QU10U</a>
+    
+                  </div>
+                
+
+                
+                  <div class="contributors-sub">
+                    <svg class="icon icon-clock" xmlns="http://www.w3.org/2000/svg" width="24" height="28" viewBox="0 0 24 28" aria-hidden="true">
+    <path d="M14 8.5v7c0 .281-.219.5-.5.5h-5a.494.494 0 0 1-.5-.5v-1c0-.281.219-.5.5-.5H12V8.5c0-.281.219-.5.5-.5h1c.281 0 .5.219.5.5zm6.5 5.5c0-4.688-3.813-8.5-8.5-8.5S3.5 9.313 3.5 14s3.813 8.5 8.5 8.5 8.5-3.813 8.5-8.5zm3.5 0c0 6.625-5.375 12-12 12S0 20.625 0 14 5.375 2 12 2s12 5.375 12 12z"></path>
+</svg>
+                    <strong>Dernière mise à jour par :</strong>
+                    <a href="https://developer.mozilla.org/fr/profiles/SphinxKnight">SphinxKnight</a>,
+                    <time datetime="2018-11-16T01:08:09.754358-08:00">16 nov. 2018 à 01:08:09</time>
+                  </div>
+                
+              </div>
+            </div>
+
+            
+              <!-- quick links and approvals strip -->
+              <div id="wiki-left" class="column-strip wiki-column">
+
+                <!-- crumbs -->
+                
+  
+    <nav class="crumbs" role="navigation">
+      <ol typeof="BreadcrumbList" vocab="https://schema.org/" aria-label="fils d'ariane">
+        
+          <li property="itemListElement" typeof="ListItem" class="crumb">
+            <a href="https://developer.mozilla.org/fr/docs/Web" property="item" typeof="WebPage">
+              <span property="name">Technologies web pour développeurs</span>
+            </a>
+            <meta property="position" content="1">
+          </li>
+        
+          <li property="itemListElement" typeof="ListItem" class="crumb">
+            <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript" property="item" typeof="WebPage">
+              <span property="name">Java<wbr>Script</span>
+            </a>
+            <meta property="position" content="2">
+          </li>
+        
+          <li property="itemListElement" typeof="ListItem" class="crumb">
+            <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference" property="item" typeof="WebPage">
+              <span property="name">Référence Java<wbr>Script</span>
+            </a>
+            <meta property="position" content="3">
+          </li>
+        
+          <li property="itemListElement" typeof="ListItem" class="crumb">
+            <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux" property="item" typeof="WebPage">
+              <span property="name">Objets globaux</span>
+            </a>
+            <meta property="position" content="4">
+          </li>
+        
+        <li property="itemListElement" typeof="ListItem" class="crumb">
+          <span property="name" aria-current="page">Promise</span>
+        </li>
+      </ol>
+    </nav>
+  
+
+                
+                  <!-- quick links -->
+                  
+  <div class="quick-links" id="quick-links">
+    <div class="quick-links-head">Sujets associés</div>
+    <ol><li><strong><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux">Objets standards</a></strong></li><li><strong><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise"><code>Promise</code></a></strong></li><li data-default-state="open"><a href="#"><strong>Propriétés</strong></a><ol><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/prototype" title="La propriété Promise.prototype représente le prototype pour le constructeur Promise."><code>Promise<wbr>.prototype</code></a></li></ol></li><li data-default-state="open"><a href="#"><strong>Méthodes</strong></a><ol><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/all" title="La méthode Promise.all() renvoie une promesse (Promise) qui est résolue lorsque l'ensemble des promesses contenues dans l'itérable passé en argument ont été résolues ou qui échoue avec la raison de la première promesse qui échoue au sein de l'itérable."><code>Promise<wbr>.all()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/catch" title="La méthode catch() renvoie un objet Promise et ne traite que des cas où la promesse initiale est rejetée. Elle a le même effet qu'un appel à Promise.prototype.then(undefined, siRejetée) (c'est en fait ce qui se passe dans le moteur,&nbsp; obj.catch(onRejected) est traduit en obj.then(undefined, onRejected)). Cela signifie qu'il est nécessaire de fournir une fonction onRejected, même si on souhaite avoir une valeur de secours qui est undefined (par exemple avec obj.catch(() =&gt; {})."><code>Promise<wbr>.prototype<wbr>.catch()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/finally" title="La méthode finally() renvoie un objet Promise et accepte en argument une fonction de callback qui est appelée lorsque la promesse a été résolue (qu'elle ait été tenue ou rejetée). Cela permet d'exécuter du code une fois que la promesse a été traitée, quel que soit le résultat. On évite ainsi de dupliquer du code entre les gestionnaires then() et catch()."><code>finally</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/then" title="La méthode then() renvoie un objet Promise. Elle peut prendre jusqu'à deux arguments qui sont deux fonctions callback à utiliser en cas de complétion ou d'échec de la Promise."><code>Promise<wbr>.prototype<wbr>.then()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/race" title="La méthode Promise.race(itérable) renvoie une promesse qui est résolue ou rejetée dès qu'une des promesses de l'itérables est résolue ou rejetée. La valeur (dans le cas de la résolution) ou la raison (dans le cas d'un échec) utilisée est celle de la promesse de l'itérable qui est resolue/qui échoue."><code>Promise<wbr>.race()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/reject" title="La méthode Promise.reject(raison) renvoie un objet Promise qui est rejeté (la promesse n'est pas tenue) à cause d'une raison donnée."><code>Promise<wbr>.reject()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise/resolve" title="Le code source de cet exemple interactif est disponible dans un dépôt GitHub. Si vous souhaitez contribuez à ces exemples, n'hésitez pas à cloner https://github.com/mdn/interactive-examples et à envoyer une pull request !"><code>Promise<wbr>.resolve()</code></a></li></ol></li><li><strong>Héritage&nbsp;:</strong></li><li><strong><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function"><code>Function</code></a></strong></li><li><a href="#"><strong>Propriétés</strong></a><ol><li><span class="sidebar-icon"><span title="Cette API obsolète ne doit plus être utilisée, mais elle peut continuer à fonctionner."><i class="icon-thumbs-down-alt"> </i></span></span><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/arguments" title="La propriété function.arguments fait référence à un objet dont la structure est semblable à celle d'un tableau dont les éléments correspondent aux arguments passés à une fonction. En lieu et place, il faut désormais utiliser arguments. Cette propriété est interdite en mode stricte à cause de l'optimisation de la queue des appels (tail call optimization)."><code>Function<wbr>.arguments</code></a></li><li><span class="sidebar-icon"><span class="icon-only-inline" title="This is an obsolete API and is no longer guaranteed to work."><i class="icon-trash"> </i></span></span><s class="obsoleteElement"><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/arity" title="La propriété arity était utilisée pour renvoyer le nombre d'arguments attendu par la fonction. Elle n'existe plus et a été remplacée par la propriété Function.prototype.length."><code>Function<wbr>.arity</code></a></s></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/caller" title="La propriété function.caller renvoie la fonction qui a appelé la fonction donnée. Cette propriété est interdite en mode stricte à cause de l'optimisation de la queue des appels."><code>Function<wbr>.caller</code></a></li><li><span class="sidebar-icon"><span class="icon-only-inline" title="Cette API n'a pas été standardisée."><i class="icon-warning-sign"> </i></span></span><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/displayName" title="La propriété function.displayName renvoie le nom affiché de la fonction."><code>Function<wbr>.display<wbr>Name</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/length" title="La propriété length définit le nombre d'arguments attendus par la fonction."><code>Function<wbr>.length</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/prototype" title="La propriété Function.prototype représente le prototype de l'objet Function."><code>Function<wbr>.prototype</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/name" title="La propriété function.name est une propriété en lecture seule qui renvoie le nom de la fonction courante ou &quot;anonymous&quot; si celle-ci a été créée de façon anonyme."><code>Function<wbr>.name</code></a></li></ol></li><li><a href="#"><strong>Méthodes</strong></a><ol><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/apply" title="La méthode apply() appelle une fonction en lui passant une valeur this et des arguments sous forme d'un tableau (ou d'un objet semblable à un tableau)."><code>Function<wbr>.prototype<wbr>.apply()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/bind" title="La fonction bind() crée une nouvelle fonction qui, lorsqu'elle est appelée, a pour contexte this la valeur passée en paramètre et éventuellement une suite d'arguments qui précéderont ceux fournis à l'appel de la fonction créée."><code>Function<wbr>.prototype<wbr>.bind()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/call" title="La méthode call() réalise un appel à une fonction avec une valeur this donnée et des arguments fournis individuellement."><code>Function<wbr>.prototype<wbr>.call()</code></a></li><li><span class="sidebar-icon"><span class="icon-only-inline" title="Cette API n'a pas été standardisée."><i class="icon-warning-sign"> </i></span></span><span class="sidebar-icon"><span class="icon-only-inline" title="This is an obsolete API and is no longer guaranteed to work."><i class="icon-trash"> </i></span></span><s class="obsoleteElement"><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/isGenerator" title="La méthode non-standard isGenerator() permettait de déterminer si une fonction était un générateur. Cette fonction a été retirée de Firefox à partir de Firefox 58."><code>Function<wbr>.prototype<wbr>.isGenerator()</code></a></s></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/toSource" title="La méthode toSource() renvoie une chaîne de caractères représentant le code source de l'objet."><code>Function<wbr>.prototype<wbr>.toSource()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Function/toString" title="La méthode toString() renvoie une chaîne de caractères représentant le code source de la fonction."><code>Function<wbr>.prototype<wbr>.toString()</code></a></li></ol></li><li><strong><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object"><code>Object</code></a></strong></li><li><a href="#"><strong>Propriétés</strong></a><ol><li><span class="sidebar-icon"><span class="icon-only-inline" title="Cette API n'a pas été standardisée."><i class="icon-warning-sign"> </i></span></span><span class="sidebar-icon"><span class="icon-only-inline" title="This is an obsolete API and is no longer guaranteed to work."><i class="icon-trash"> </i></span></span><s class="obsoleteElement"><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/count" title="La propriété __count__ était utilisée pour compter les propriétés énumérables d'un objet mais a été retiréee."><code>Object<wbr>.prototype.__count__</code></a></s></li><li><span class="sidebar-icon"><span class="icon-only-inline" title="Cette API n'a pas été standardisée."><i class="icon-warning-sign"> </i></span></span><span class="sidebar-icon"><span class="icon-only-inline" title="This is an obsolete API and is no longer guaranteed to work."><i class="icon-trash"> </i></span></span><s class="obsoleteElement"><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/noSuchMethod" title="La propriété __noSuchMethod__ était utilisée pour faire référence à une fonction qui devait être utilisée lorsqu'on appelait une méthode inexistante d'un objet. Cette fonction n'est plus disponible."><code>Object<wbr>.prototype.__noSuch<wbr>Method__</code></a></s></li><li><span class="sidebar-icon"><span class="icon-only-inline" title="Cette API n'a pas été standardisée."><i class="icon-warning-sign"> </i></span></span><span class="sidebar-icon"><span class="icon-only-inline" title="This is an obsolete API and is no longer guaranteed to work."><i class="icon-trash"> </i></span></span><s class="obsoleteElement"><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/Parent" title="La propriété __parent__ était utilisée pour pointer vers le contexte d'un objet mais elle a été supprimée."><code>Object<wbr>.prototype.__parent__</code></a></s></li><li><span class="sidebar-icon"><span title="Cette API obsolète ne doit plus être utilisée, mais elle peut continuer à fonctionner."><i class="icon-thumbs-down-alt"> </i></span></span><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/proto" title="La propriété __proto__ de Object.prototype est une propriété accesseur (un couple de fonction avec un accesseur (getter) et un mutateur (setter)) qui expose le [[Prototype]] interne (qui est soit un objet, soit null) de l'objet courant."><code>Object<wbr>.prototype.__proto__</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/constructor" title="Cette propriété renvoie une référence à la fonction Object qui a créé le prototype de l'instance. La valeur de cette propriété est une référence à la fonction elle-même, ce n'est pas une chaîne de caractères représentant le nom de la fonction. Cette valeur est en lecture seule pour les valeurs de types primitifs comme 1,&nbsp;true et &quot;test&quot;."><code>Object<wbr>.prototype<wbr>.constructor</code></a></li></ol></li><li><a href="#"><strong>Méthodes</strong></a><ol><li><span class="sidebar-icon"><span title="Cette API obsolète ne doit plus être utilisée, mais elle peut continuer à fonctionner."><i class="icon-thumbs-down-alt"> </i></span></span><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/defineGetter" title="La méthode __defineGetter__ permet de lier une propriété d'un objet à une fonction à exécuter lorsqu'on accède à la propriété."><code>Object<wbr>.prototype.__define<wbr>Getter__()</code></a></li><li><span class="sidebar-icon"><span title="Cette API obsolète ne doit plus être utilisée, mais elle peut continuer à fonctionner."><i class="icon-thumbs-down-alt"> </i></span></span><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/defineSetter" title="La méthode __defineSetter__ permet de lier une propriété d'un objet à une fonction qui sera exécutée pour toute tentative de définition/changement de cette propriété."><code>Object<wbr>.prototype.__define<wbr>Setter__()</code></a></li><li><span class="sidebar-icon"><span title="Cette API obsolète ne doit plus être utilisée, mais elle peut continuer à fonctionner."><i class="icon-thumbs-down-alt"> </i></span></span><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/lookupGetter" title="La méthode __lookupGetter__ renvoie la fonction liée comme accesseur d'une propriété donnée."><code>Object<wbr>.prototype.__lookup<wbr>Getter__()</code></a></li><li><span class="sidebar-icon"><span title="Cette API obsolète ne doit plus être utilisée, mais elle peut continuer à fonctionner."><i class="icon-thumbs-down-alt"> </i></span></span><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/lookupSetter" title="La méthode __lookupSetter__ renvoie la fonction définie comme mutateur pour une propriété donnée."><code>Object<wbr>.prototype.__lookup<wbr>Setter__()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/hasOwnProperty" title="La méthode&nbsp;hasOwnProperty()&nbsp;retourne un booléen indiquant si l'objet possède la propriété spécifiée &quot;en propre&quot;, sans que celle-ci provienne de la chaîne de prototypes de l'objet."><code>Object<wbr>.prototype<wbr>.has<wbr>OwnProperty()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/isPrototypeOf" title="La méthode isPrototypeOf() permet de tester si un objet existe&nbsp;dans&nbsp;la chaîne de prototypes d'un autre objet."><code>Object<wbr>.prototype<wbr>.isPrototypeOf()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/propertyIsEnumerable" title="La méthode propertyIsEnumerable() renvoie un booléen qui indique si la propriété donnée est énumérable."><code>Object<wbr>.prototype<wbr>.property<wbr>IsEnumerable()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/toLocaleString" title="La méthode&nbsp;toLocaleString() renvoie une chaine de caractères représentant l'objet. Cette méthode est destinée à être surchargée par les objets dérivés à des fins spécifiques pour prendre en compte les locales."><code>Object<wbr>.prototype<wbr>.toLocale<wbr>String()</code></a></li><li><span class="sidebar-icon"><span class="icon-only-inline" title="Cette API n'a pas été standardisée."><i class="icon-warning-sign"> </i></span></span><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/toSource" title="La méthode toSource() renvoie une chaîne de caractères représentant le code source d'un objet."><code>Object<wbr>.prototype<wbr>.toSource()</code></a></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/toString" title="La méthode toString() renvoie une chaîne de caractères représentant l'objet."><code>Object<wbr>.prototype<wbr>.toString()</code></a></li><li><span class="sidebar-icon"><span title="Cette API obsolète ne doit plus être utilisée, mais elle peut continuer à fonctionner."><i class="icon-thumbs-down-alt"> </i></span></span><span class="sidebar-icon"><span class="icon-only-inline" title="This is an obsolete API and is no longer guaranteed to work."><i class="icon-trash"> </i></span></span><s class="obsoleteElement"><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/unwatch" title="La méthode unwatch() permet de retirer un point d'arrêt conditionnel créé par la méthode watch()."><code>Object<wbr>.prototype<wbr>.unwatch()</code></a></s></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/valueOf" title="La méthode valueOf() renvoie la valeur primitive d'un objet donné."><code>Object<wbr>.prototype<wbr>.valueOf()</code></a></li><li><span class="sidebar-icon"><span title="Cette API obsolète ne doit plus être utilisée, mais elle peut continuer à fonctionner."><i class="icon-thumbs-down-alt"> </i></span></span><span class="sidebar-icon"><span class="icon-only-inline" title="This is an obsolete API and is no longer guaranteed to work."><i class="icon-trash"> </i></span></span><s class="obsoleteElement"><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/watch" title="La méthode watch() permet d'appeler une fonction lorsqu'une propriété est affectée."><code>Object<wbr>.prototype<wbr>.watch()</code></a></s></li><li><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Object/setPrototypeOf" title="La méthode Object.setPrototypeOf() définit le prototype (autrement dit la propriété interne [[Prototype]]) d'un objet donné avec un autre objet ou null."><code>Object<wbr>.set<wbr>PrototypeOf()</code></a></li></ol></li></ol>
+  </div>
+                
+
+                <!-- approvals -->
+                
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div> <!-- ends "main-content" -->
+
+    
+      <div class="newsletter-box">
+        <div class="newsletter">
+    <form id="newsletterForm" class="newsletter-form nodisable" name="newsletter-form" action="https://www.mozilla.org/en-US/newsletter/" method="post">
+        <div class="newsletter-head">
+            <h2 class="newsletter-teaser">Recevez le meilleur du développement web</h2>
+            <p class="newsletter-description">Recevez le meilleur de MDN, directement dans votre boîte de réception.</p>
+            
+            <p class="newsletter-lang">Cette lettre d'information est uniquement disponible en anglais pour l'instant.</p>
+            
+        </div>
+
+        <div class="newsletter-fields">
+            <input type="hidden" id="fmt" name="fmt" value="H">
+            <input type="hidden" id="newsletterNewslettersInput" name="newsletters" value="app-dev">
+            <div id="newsletterErrors" class="newsletter-errors"></div>
+
+            <div id="newsletterEmail" class="form-group newsletter-group-email">
+                <label for="newsletterEmailInput" class="form-label offscreen">Adresse électronique</label>
+                <input type="email" id="newsletterEmailInput" name="email" class="form-input newsletter-input-email" required="" placeholder="adresse@example.com" size="30">
+            </div>
+
+            <div id="newsletterPrivacy" class="form-group form-group-agree newsletter-group-privacy hidden">
+                <input type="checkbox" id="newsletterPrivacyInput" name="privacy" required="">
+                <label for="newsletterPrivacyInput">
+                J’accepte que Mozilla utilise mes informations conformément à cette <a href="https://www.mozilla.org/privacy/">politique de confidentialité</a>.
+                </label>
+            </div>
+            <div id="newsletterSubmit" class="newsletter-group-submit">
+                <button id="newsletter-submit" type="submit" class="button neutral newsletter-submit">
+                    S'inscrire maintenant<svg class="icon icon-arrow" xmlns="http://www.w3.org/2000/svg" width="23" height="28" viewBox="0 0 23 28" aria-hidden="true">
+    <path d="M23 15a2.01 2.01 0 0 1-.578 1.422L12.25 26.594c-.375.359-.891.578-1.422.578s-1.031-.219-1.406-.578L8.25 25.422c-.375-.375-.594-.891-.594-1.422s.219-1.047.594-1.422L12.828 18h-11C.703 18 0 17.062 0 16v-2c0-1.062.703-2 1.828-2h11L8.25 7.406a1.96 1.96 0 0 1 0-2.812l1.172-1.172c.375-.375.875-.594 1.406-.594s1.047.219 1.422.594l10.172 10.172c.375.359.578.875.578 1.406z"></path>
+</svg>
+                </button>
+            </div>
+        </div>
+    </form>
+    <div id="newsletterThanks" class="newsletter-thanks hidden">
+        <h2>Merci&nbsp;! Veuillez vérifier votre boîte de réception afin de confirmer votre inscription.</h2>
+        <p>Si vous n'avez pas déjà confirmé d'inscription à une lettre 
+d'information Mozilla, vous devrez valider cette inscription. Veuillez 
+vérifier votre boîte de réception, éventuellement vos messages 
+indésirables, pour consulter le message que nous vous avons envoyé.
+        </p>
+    </div>
+    <button id="newsletterHide" type="button" class="only-icon newsletter-hide">
+        <span>Masquer l'inscription à la lettre d'information</span>
+        <svg class="icon icon-close" xmlns="http://www.w3.org/2000/svg" width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M20.281 20.656c0 .391-.156.781-.438 1.062l-2.125 2.125c-.281.281-.672.438-1.062.438s-.781-.156-1.062-.438L11 19.249l-4.594 4.594c-.281.281-.672.438-1.062.438s-.781-.156-1.062-.438l-2.125-2.125c-.281-.281-.438-.672-.438-1.062s.156-.781.438-1.062L6.751 15l-4.594-4.594c-.281-.281-.438-.672-.438-1.062s.156-.781.438-1.062l2.125-2.125c.281-.281.672-.438 1.062-.438s.781.156 1.062.438L11 10.751l4.594-4.594c.281-.281.672-.438 1.062-.438s.781.156 1.062.438l2.125 2.125c.281.281.438.672.438 1.062s-.156.781-.438 1.062L15.249 15l4.594 4.594c.281.281.438.672.438 1.062z"></path></svg>
+    </button>
+</div>
+      </div>
+    
+
+  <menu type="context" id="edit-history-menu">
+    <menuitem data-action="/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise$edit" label="Modifier la page"></menuitem>
+    <menuitem data-action="/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise$history" label="Voir l'historique de la page"></menuitem>
+  </menu>
+
+      </div>
+  </main>
+
+  <!-- Footer -->
+    <footer id="nav-footer" class="nav-footer">
+      <div class="center">
+          <a href="https://developer.mozilla.org/fr/" class="nav-footer-logo">Documentation du Web - MDN</a>
+<div class="footer-group footer-group-mdn">
+  <h2 class="footer-title">MDN</h2>
+  <ul class="footer-list">
+    <li><a href="https://developer.mozilla.org/fr/docs/Web">Technologies web</a></li>
+    <li><a href="https://developer.mozilla.org/fr/docs/Learn">Apprendre le développement web</a></li>
+    <li><a href="https://developer.mozilla.org/docs/MDN/About">À propos de MDN</a></li>
+    <li><a href="https://developer.mozilla.org/fr/docs/MDN/Feedback">Votre avis</a></li>
+    <li class="footer-social">
+        <a href="https://twitter.com/mozdevnet">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-twitter" width="26" height="28" viewBox="0 0 26 28" aria-label="Twitter" role="img" focusable="false">
+    <title>Twitter</title>
+    <path d="M25.312 6.375a10.85 10.85 0 0 1-2.531 2.609c.016.219.016.438.016.656 0 6.672-5.078 14.359-14.359 14.359-2.859 0-5.516-.828-7.75-2.266.406.047.797.063 1.219.063 2.359 0 4.531-.797 6.266-2.156a5.056 5.056 0 0 1-4.719-3.5c.313.047.625.078.953.078.453 0 .906-.063 1.328-.172a5.048 5.048 0 0 1-4.047-4.953v-.063a5.093 5.093 0 0 0 2.281.641 5.044 5.044 0 0 1-2.25-4.203c0-.938.25-1.797.688-2.547a14.344 14.344 0 0 0 10.406 5.281 5.708 5.708 0 0 1-.125-1.156 5.045 5.045 0 0 1 5.047-5.047 5.03 5.03 0 0 1 3.687 1.594 9.943 9.943 0 0 0 3.203-1.219 5.032 5.032 0 0 1-2.219 2.781c1.016-.109 2-.391 2.906-.781z"></path>
+</svg>
+        </a>
+    </li>
+    <li class="footer-social">
+        <a href="https://github.com/mdn/">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-github" width="24" height="28" viewBox="0 0 24 28" aria-label="GitHub" role="img" focusable="false">
+    <title>GitHub</title>
+    <path d="M12 2c6.625 0 12 5.375 12 12 0 5.297-3.437 9.797-8.203 11.391-.609.109-.828-.266-.828-.578 0-.391.016-1.687.016-3.297 0-1.125-.375-1.844-.812-2.219 2.672-.297 5.484-1.313 5.484-5.922 0-1.313-.469-2.375-1.234-3.219.125-.313.531-1.531-.125-3.187-1-.313-3.297 1.234-3.297 1.234a11.28 11.28 0 0 0-6 0S6.704 6.656 5.704 6.969c-.656 1.656-.25 2.875-.125 3.187-.766.844-1.234 1.906-1.234 3.219 0 4.594 2.797 5.625 5.469 5.922-.344.313-.656.844-.766 1.609-.688.313-2.438.844-3.484-1-.656-1.141-1.844-1.234-1.844-1.234-1.172-.016-.078.734-.078.734.781.359 1.328 1.75 1.328 1.75.703 2.141 4.047 1.422 4.047 1.422 0 1 .016 1.937.016 2.234 0 .313-.219.688-.828.578C3.439 23.796.002 19.296.002 13.999c0-6.625 5.375-12 12-12zM4.547 19.234c.031-.063-.016-.141-.109-.187-.094-.031-.172-.016-.203.031-.031.063.016.141.109.187.078.047.172.031.203-.031zm.484.532c.063-.047.047-.156-.031-.25-.078-.078-.187-.109-.25-.047-.063.047-.047.156.031.25.078.078.187.109.25.047zm.469.703c.078-.063.078-.187 0-.297-.063-.109-.187-.156-.266-.094-.078.047-.078.172 0 .281s.203.156.266.109zm.656.656c.063-.063.031-.203-.063-.297-.109-.109-.25-.125-.313-.047-.078.063-.047.203.063.297.109.109.25.125.313.047zm.891.391c.031-.094-.063-.203-.203-.25-.125-.031-.266.016-.297.109s.063.203.203.234c.125.047.266 0 .297-.094zm.984.078c0-.109-.125-.187-.266-.172-.141 0-.25.078-.25.172 0 .109.109.187.266.172.141 0 .25-.078.25-.172zm.906-.156c-.016-.094-.141-.156-.281-.141-.141.031-.234.125-.219.234.016.094.141.156.281.125s.234-.125.219-.219z"></path>
+</svg>
+        </a>
+    </li>
+  </ul>
+</div>
+
+          <a href="https://mozilla.org/" class="nav-footer-mozilla">Mozilla</a>
+<div class="footer-group footer-group-mozilla">
+  <h2 class="footer-title">Mozilla</h2>
+  <ul class="footer-list">
+    <li><a href="https://www.mozilla.org/about/">À propos</a></li>
+    <li><a href="https://www.mozilla.org/contact/">Nous contacter</a></li>
+    <li><a href="https://www.mozilla.org/firefox/?utm_source=developer.mozilla.org&amp;utm_campaign=footer&amp;utm_medium=referral">Firefox</a></li>
+    <li class="footer-social">
+        <a href="https://twitter.com/mozilla">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-twitter" width="26" height="28" viewBox="0 0 26 28" aria-label="Twitter" role="img" focusable="false">
+    <title>Twitter</title>
+    <path d="M25.312 6.375a10.85 10.85 0 0 1-2.531 2.609c.016.219.016.438.016.656 0 6.672-5.078 14.359-14.359 14.359-2.859 0-5.516-.828-7.75-2.266.406.047.797.063 1.219.063 2.359 0 4.531-.797 6.266-2.156a5.056 5.056 0 0 1-4.719-3.5c.313.047.625.078.953.078.453 0 .906-.063 1.328-.172a5.048 5.048 0 0 1-4.047-4.953v-.063a5.093 5.093 0 0 0 2.281.641 5.044 5.044 0 0 1-2.25-4.203c0-.938.25-1.797.688-2.547a14.344 14.344 0 0 0 10.406 5.281 5.708 5.708 0 0 1-.125-1.156 5.045 5.045 0 0 1 5.047-5.047 5.03 5.03 0 0 1 3.687 1.594 9.943 9.943 0 0 0 3.203-1.219 5.032 5.032 0 0 1-2.219 2.781c1.016-.109 2-.391 2.906-.781z"></path>
+</svg>
+        </a>
+    </li>
+    <li class="footer-social">
+        <a href="https://www.facebook.com/mozilla">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-facebook" width="16" height="28" viewBox="0 0 16 28" aria-label="Facebook" role="img" focusable="false">
+    <title>Facebook</title>
+    <path d="M14.984.187v4.125h-2.453c-1.922 0-2.281.922-2.281 2.25v2.953h4.578l-.609 4.625H10.25v11.859H5.469V14.14H1.485V9.515h3.984V6.109C5.469 2.156 7.891 0 11.422 0c1.687 0 3.141.125 3.563.187z"></path>
+</svg>
+        </a>
+    </li>
+    <li class="footer-social">
+        <a href="https://www.instagram.com/mozillagram/">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-instagram" width="24" height="28" viewBox="0 0 24 28" aria-label="Instagram" role="img" focusable="false">
+    <title>Instagram</title>
+    <path d="M16 14c0-2.203-1.797-4-4-4s-4 1.797-4 4 1.797 4 4 4 4-1.797 4-4zm2.156 0c0 3.406-2.75 6.156-6.156 6.156S5.844 17.406 5.844 14 8.594 7.844 12 7.844s6.156 2.75 6.156 6.156zm1.688-6.406c0 .797-.641 1.437-1.437 1.437S16.97 8.39 16.97 7.594s.641-1.437 1.437-1.437 1.437.641 1.437 1.437zM12 4.156c-1.75 0-5.5-.141-7.078.484-.547.219-.953.484-1.375.906s-.688.828-.906 1.375c-.625 1.578-.484 5.328-.484 7.078s-.141 5.5.484 7.078c.219.547.484.953.906 1.375s.828.688 1.375.906c1.578.625 5.328.484 7.078.484s5.5.141 7.078-.484c.547-.219.953-.484 1.375-.906s.688-.828.906-1.375c.625-1.578.484-5.328.484-7.078s.141-5.5-.484-7.078c-.219-.547-.484-.953-.906-1.375s-.828-.688-1.375-.906C17.5 4.015 13.75 4.156 12 4.156zM24 14c0 1.656.016 3.297-.078 4.953-.094 1.922-.531 3.625-1.937 5.031s-3.109 1.844-5.031 1.937c-1.656.094-3.297.078-4.953.078s-3.297.016-4.953-.078c-1.922-.094-3.625-.531-5.031-1.937S.173 20.875.08 18.953C-.014 17.297.002 15.656.002 14s-.016-3.297.078-4.953c.094-1.922.531-3.625 1.937-5.031s3.109-1.844 5.031-1.937c1.656-.094 3.297-.078 4.953-.078s3.297-.016 4.953.078c1.922.094 3.625.531 5.031 1.937s1.844 3.109 1.937 5.031C24.016 10.703 24 12.344 24 14z"></path>
+</svg>
+        </a>
+    </li>
+  </ul>
+</div>
+
+          
+  
+    <form class="languages go" method="get" action="/fr/docs/Web">
+      <label for="language">Autres langues&nbsp;:</label>
+      <select id="language" class="wiki-l10n" name="next" dir="ltr">
+        <option title="Français" data-locale="fr" value="/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise" selected="selected">
+          Français (fr)
+        </option>
+        
+          <option title="Anglais américain" data-locale="fr" value="/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            English (US) (en-US)
+          </option>
+          <option title="Catalan" data-locale="fr" value="/ca/docs/Web/JavaScript/Referencia/Objectes_globals/Promesa">
+            Català (ca)
+          </option>
+          <option title="Allemand" data-locale="fr" value="/de/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            Deutsch (de)
+          </option>
+          <option title="Espagnol" data-locale="fr" value="/es/docs/Web/JavaScript/Referencia/Objetos_globales/Promise">
+            Español (es)
+          </option>
+          <option title="Hindi (d'Inde)" data-locale="fr" value="/hi-IN/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            हिन्दी (भारत) (hi-IN)
+          </option>
+          <option title="Indonésien" data-locale="fr" value="/id/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            Bahasa Indonesia (id)
+          </option>
+          <option title="Italien" data-locale="fr" value="/it/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            Italiano (it)
+          </option>
+          <option title="Japonais" data-locale="fr" value="/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            日本語 (ja)
+          </option>
+          <option title="Coréen" data-locale="fr" value="/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            한국어 (ko)
+          </option>
+          <option title="Néerlandais" data-locale="fr" value="/nl/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            Nederlands (nl)
+          </option>
+          <option title="Polonais" data-locale="fr" value="/pl/docs/Web/JavaScript/Referencje/Obiekty/Promise">
+            Polski (pl)
+          </option>
+          <option title="Portugais brésilien" data-locale="fr" value="/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            Português (do&nbsp;Brasil) (pt-BR)
+          </option>
+          <option title="Russe" data-locale="fr" value="/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            Русский (ru)
+          </option>
+          <option title="Turc" data-locale="fr" value="/tr/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            Türkçe (tr)
+          </option>
+          <option title="Ukrainien" data-locale="fr" value="/uk/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            Українська (uk)
+          </option>
+          <option title="Vietnamien" data-locale="fr" value="/vi/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            Tiếng Việt (vi)
+          </option>
+          <option title="Chinois (simplifié)" data-locale="fr" value="/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            中文 (简体) (zh-CN)
+          </option>
+          <option title="Chinois (traditionnel)" data-locale="fr" value="/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+            正體中文 (繁體) (zh-TW)
+          </option>
+      </select>
+      <noscript><button type="submit">OK</button></noscript>
+    </form>
+  
+
+
+          
+            <ul class="footer-tos">
+              <li><a href="https://www.mozilla.org/about/legal/terms/mozilla">Conditions d'utilisation</a></li>
+              <li><a href="https://www.mozilla.org/privacy/websites/">Confidentialité</a></li>
+              <li><a href="https://www.mozilla.org/privacy/websites/#cookies">Cookies</a></li>
+            </ul>
+
+            <div id="license" class="contentinfo">
+              <p>© 2005-2018 Mozilla et contributeurs individuels.</p> <p>Tous les contenus sont disponibles sous <a href="https://developer.mozilla.org/en-US/docs/MDN/About#Copyrights_and_licenses">ces licences</a>.</p>
+            </div>
+          
+      </div>
+    </footer> 
+
+  <!-- site js -->
+  
+    
+    <!--[if lte IE 8]><script type="text/javascript" src="https://developer.mozilla.org/static/build/js/selectivizr.8bb9e662e963.js" charset="utf-8"></script><![endif]-->
+
+    
+    <script src="Promise%20-%20JavaScript%20%20%20MDN_fichiers/javascript.js"></script>
+    <script type="text/javascript" src="Promise%20-%20JavaScript%20%20%20MDN_fichiers/main.js" charset="utf-8"></script>
+    <script>
+    if (window.mdn && mdn.analytics) mdn.analytics.trackOutboundLinks();
+  </script>
+    
+  
+
+    <script async="" type="text/javascript" src="Promise%20-%20JavaScript%20%20%20MDN_fichiers/wiki.js" charset="utf-8"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+    <script async="" type="text/javascript" src="Promise%20-%20JavaScript%20%20%20MDN_fichiers/newsletter.js" charset="utf-8"></script>
+  
+
+
+
+</body></html>

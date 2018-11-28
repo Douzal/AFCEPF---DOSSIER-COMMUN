@@ -1,0 +1,8 @@
+* javascript (es5 , es2015 , es 2017 , typescript)
+* utilisation dans navigateur
+* utilisation coté serveur (nodeJs)
+
+=======
+Promise
+=======
+RxJs ?
