@@ -1,0 +1,58 @@
+<html>
+<head>
+   <style>
+   .titre { background-color : yellow ; }
+   .body { background-color : cyan ; }
+   .plusMoins { font-size : 24pt;  }
+   </style>
+   <script>
+       function initComportementPage(){
+	   
+	   var zonesPlusMoins = document.querySelectorAll(".plusMoins");
+	   for(i=0;i<zonesPlusMoins.length;i++){
+	   zonesPlusMoins[i].addEventListener("click" , function (evt) {
+	       //console.log("evt.target="+evt.target);
+		   var zonePlusMoins = evt.target;
+		   var zoneParent = evt.target.parentNode; //parent <div class="titre">
+		   zoneParent = zoneParent.parentNode;//parent <div class="togglePanel">
+		   //code js qui sera declenché lors d'un click:
+		   var zoneBodyDuPanel = zoneParent.querySelector(".body");
+		   if(zoneBodyDuPanel.style.display != "none"){
+		         zonePlusMoins.innerHTML="+";
+		         zoneBodyDuPanel.style.display = "none"; 
+				}
+			else {
+				  zoneBodyDuPanel.style.display ="block";
+				  zonePlusMoins.innerHTML="-";
+				 }
+		   }); //fin de addEventListener()
+	   } //fin de for()
+	  } //fin de initComportementPage()
+   </script>
+</head>
+<body onload="initComportementPage()">
+	<div class="togglePanel">
+		<div class="titre" > 
+		    <span class="plusMoins" >-</span> 
+			Titre qui va bien 
+		</div>
+		<div class="body">	
+			123 nous irons au bois <br/>
+			456 cueillir des cerises <br/>
+			789 dans un panier tout neuf . 
+		</div>
+	</div>
+	suite du texte (apres le panel).
+	<div class="togglePanel">
+		<div class="titre" > 
+		    <span class="plusMoins" >-</span> 
+			Titre 2 
+		</div>
+		<div class="body">	
+			java <br/>
+			javascript <br/>
+			html , css . 
+		</div>
+	</div>
+</body>
+</html>

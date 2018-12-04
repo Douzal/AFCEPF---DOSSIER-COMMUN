@@ -1,0 +1,21 @@
+<html>
+<head>
+   <script>
+       function evaluerExpression(){
+	      var zoneInputExpression1 = document.querySelector("#expression1");
+		  var zoneInputExpression2 = document.querySelector("#expression2");
+		  var zoneSpanResultat = document.querySelector("#spanResultat");
+		  eval(zoneInputExpression1);
+		  zoneSpanResultat.innerHTML = eval (zoneInputExpression2.value);
+		  //exemple d'expression evaluable : 2*Math.sin(Math.PI/4)
+	   }
+   </script>
+</head>
+<body>
+	expression1=<input type="text" id="expression1"  /> <br/>
+	expression2=<input type="text" id="expression2"  /> <br/>
+	<input type="button" value="evaluer" 
+	       onclick="evaluerExpression()" /> <br/>
+	resultat= <span id="spanResultat" ></span>
+</body>
+</html>

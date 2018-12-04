@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>  <meta charset="UTF-8">   <title>tri rapide</title>
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
+    <!-- <script src="lib/jquery-2.2.1.js"></script> -->
+    <script>
+	
+	  function echanger(tableau , indice1 , indice2){
+	     temp = tableau[indice1];
+		 tableau[indice1] = tableau[indice2];
+		 tableau[indice2] = temp;
+	  }
+	
+	  function  partition(tableau,deb,fin){
+        indicePivot=deb; //au sens indice initial qui va évoluer
+        valeurPivot=tableau[deb];//valeur du pivot (= arbitrairement valeur en première position du tableau)
+		                         //via une future permutation , cette valeur sera à une future autre position
+        
+        for(i=deb+1;i<=fin;i++){
+            if (tableau[i]<valeurPivot){
+                indicePivot++; //nouvelle valeur pour le futur indice du pivot (qui peut encore évoluer selon boucle en cours)
+                echanger(tableau,indicePivot,i); //pour placer à la "future gauche" de l'indice provisoire du pivot tous les éléments plus petits que le pivot
+             }
+        }
+        echanger(tableau,deb,indicePivot); //permutation pour que la valeur du pivot soit rangée à sa place (précédemment calculée)
+		                                   //et pour qu'un des éléments plus petits soit placé au début (à gauche )
+        return indicePivot;
+        }
+
+      function tri_rapide(tableau,deb,fin){
+        if(deb<fin){
+			 //partitionner le tableau en 2 parties partiellement ré-arrangées .
+			 //d'un coté tous les éléments plus petits que le pivot , de l'autre coté tous les éléments plus grands:
+            positionPivot=partition(tableau,deb,fin);
+			
+            tri_rapide(tableau,deb,positionPivot-1); //trier le sous tableau des plus petits éléments que le pivot
+            tri_rapide(tableau,positionPivot+1,fin); //trier le sous tableau des plus grands éléments que le pivot
+            }
+        }
+	  
+	  function quick_sort(tableau){
+		 tri_rapide(tableau, 0, tableau.length - 1 );
+	  }
+	 
+      function f_tri(){
+		  //var t1 = new Array(5,2,1,9,3,4,12,8,16,6); //syntaxe1
+		  var t1 = [ 5,2,1,9,3,4,12,8,16,6]; //syntaxe2
+		  quick_sort(t1);
+		  //$('#txtRes').html(t1.toString()); //via jquery
+		  document.getElementById("txtRes").innerHTML = t1.toString(); //sans jquery
+		  console.log(t1.toString());// affichage dans console web du navigateur
+	  }
+   </script>
+  </head>
+  <body>
+  <input type="button" value="trier" onclick="f_tri()" /><br/>
+  resultat: <span id="txtRes"></span>
+  </body>
+</html>

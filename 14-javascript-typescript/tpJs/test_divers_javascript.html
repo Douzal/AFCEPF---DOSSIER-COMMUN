@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>  <meta charset="UTF-8">   <title>tests javascript</title>
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
+    <!-- <script src="lib/jquery-2.2.1.js"></script> -->
+    <script>
+	
+	  function aff1( chaine){
+	    console.log(chaine);
+	  }
+	  
+	  function aff2(chaine){
+	    document.getElementById("txtRes").innerHTML = chaine;
+	  }
+	  
+	  function calculer_carre_et_afficher(x,fctAff){
+	     var xNum = Number(x);
+         var res = xNum * xNum;
+         fctAff(res);	//appel d'une "callback"	 
+	  }
+	  
+	  function f2(){
+	    var fAff = aff2; //aff1;
+		//calculer_carre_et_afficher(4,fAff);
+		
+		//fonction anonyme (avec son code) imbriquee dans l'appel:
+		calculer_carre_et_afficher( 4 , function (chaine) {
+			alert(chaine);
+		});
+	  }
+	
+      function f1(){
+		  var t1 = [ 5,2,1,9,3,4,12,8,16,6]; //syntaxe2
+		  var choix = "toto par defaut"; //prompt("votre nom ?" , "toto");
+		  //$('#txtRes').html(t1.toString()); //via jquery
+		  document.getElementById("txtRes").innerHTML = choix; //sans jquery
+		  console.log(choix);// affichage dans console web du navigateur
+		  //document.write(choix); //fonctionne mais écrase l'ancien contenu de la page !!!
+		  var v="lundi";
+		  var v2=null;
+		  switch(v){
+		    case "lundi":
+			   v2="ravioli";
+			   break;
+			case "mardi":
+			   v2="radis";
+			   break;
+			default:
+			   v2="autre";
+			   break;
+		  }
+		  var v3;
+		  console.log("v3="+v3);
+		  if(v3 == undefined)
+		     console.log("v3 vaut undefined");
+	      //console.log("v4="+v4);
+		  console.log("v2="+v2);
+	  }
+   </script>
+  </head>
+  <body>
+  <input type="button" value="f1" onclick="f1()" /><br/>
+  <input type="button" value="f2" onclick="f2()" /><br/>
+  resultat: <span id="txtRes"></span>
+  </body>
+</html>

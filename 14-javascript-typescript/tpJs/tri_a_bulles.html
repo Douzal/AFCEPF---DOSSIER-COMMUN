@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>  <meta charset="UTF-8">   <title>tri a bulles</title>
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
+    <!-- <script src="lib/jquery-2.2.1.js"></script> -->
+    <script>
+	
+	  function echanger(tableau , indice1 , indice2){
+	     temp = tableau[indice1];
+		 tableau[indice1] = tableau[indice2];
+		 tableau[indice2] = temp;
+	  }
+	
+	  function tri_bulle(tableau){
+		taille = tableau.length;
+	    for(i=0;i<taille-1;i++){
+		  for(j=i+1;j<taille;j++){
+		    if(tableau[i]>tableau[j]){
+			  echanger(tableau,i,j);
+			  }
+		  }
+		}
+	  }
+	 
+      function f_tri(){
+		  //var t1 = new Array(5,2,1,9,3,4,12,8,16,6); //syntaxe1
+		  var t1 = [ 5,2,1,9,3,4,12,8,16,6]; //syntaxe2
+		  tri_bulle(t1);
+		  //$('#txtRes').html(t1.toString()); //via jquery
+		  document.getElementById("txtRes").innerHTML = t1.toString(); //sans jquery
+		  console.log(t1.toString());// affichage dans console web du navigateur
+	  }
+   </script>
+  </head>
+  <body>
+  <input type="button" value="trier" onclick="f_tri()" /><br/>
+  resultat: <span id="txtRes"></span>
+  </body>
+</html>

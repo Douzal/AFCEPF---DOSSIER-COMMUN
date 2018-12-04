@@ -1,0 +1,75 @@
+<html>
+<head>
+   
+   <script>
+       //varaibles globales (accessibles de partout):
+       var zoneElement ;
+       var zoneBtnAdd ;
+	   
+       function initComportementPage(){
+	   
+	   zoneElement = document.querySelector("#idElement");
+      zoneBtnAdd = document.querySelector("#btnAdd");
+	   
+	   zoneBtnAdd.addEventListener("click", function (evt){
+	      console.log(evt.target + " " + evt.type + " " + evt.which );
+	      ajouterElementDansListe();
+	   });
+	   
+	   zoneElement.addEventListener("keypress", function (evt){
+	      console.log(evt.target + " " + evt.type + " " + evt.which );
+	      if(evt.which==13){ //13 = code de la touche "Enter"
+			ajouterElementDansListe();
+		  }
+	   });
+	   
+	  } //fin de initComportementPage()
+	  
+	  function ajouterElementDansListe(){
+		  var zoneListe = document.querySelector("#idListe");
+		  //récupérer le texte saisi dans zone element via .value
+		  var textElement = zoneElement.value;
+		  //créer un nouveau noeud de type li
+		  var zoneLi = document.createElement("li");
+		  //affecter le texte récupéré en tant que .innerHTML du noeud li
+		  zoneLi.innerHTML = textElement;
+		  //ajouter li en tant que nouvel enfant de zoneListe
+		  zoneListe.appendChild(zoneLi);
+		  zoneLi.addEventListener("click", reagirAuSimpleClickSurLi);
+		  zoneLi.addEventListener("dblclick",reagirAuDoubleClickSurLi );
+	  }
+	  
+	  function reagirAuSimpleClickSurLi(evt){
+	   //changer la couleur pour montrer la sélection
+	   var selectedLiNode = evt.target;
+	   var parentNode = selectedLiNode.parentNode;
+	   selectedLiNode.style.color = "blue";
+	   //déselectionner les autres :
+	   var listeLi = parentNode.querySelectorAll("li");
+	   for(i=0;i<listeLi.length;i++){
+	     if(listeLi[i]!=selectedLiNode){
+		     listeLi[i].style.color = "black";
+		    }
+	     }
+	   }
+	   
+	   function reagirAuDoubleClickSurLi(evt){
+	   //supprimer l'élément sélectionné 
+	   //(appeler .removeChild() sur le parent de li , ici zoneList '#idListe) 
+	   var selectedLiNode = evt.target;
+	   var parentNode = selectedLiNode.parentNode;
+	   parentNode.removeChild(selectedLiNode);
+	   }
+   </script>
+</head>
+<body onload="initComportementPage()">
+	element : <input type="text" id="idElement" /> <br/>
+	<input type="button" id="btnAdd" value="ajouter" /> <br/>
+	<ul id="idListe">
+	   <!--
+	   <li>elt1</li>
+	   <li>elt2</li>
+	   -->
+	</ul>
+</body>
+</html>

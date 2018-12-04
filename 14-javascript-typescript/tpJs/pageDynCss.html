@@ -1,0 +1,43 @@
+<html>
+<head>
+   <style>
+   .titre { background-color : yellow ; }
+   .body { background-color : cyan ; }
+   .plusMoins { font-size : 24pt;  }
+   </style>
+   <script>
+       function initComportementPage(){
+	   
+	   var zonePlusMoins = document.querySelector(".plusMoins");
+	   zonePlusMoins.addEventListener("click" , function () {
+	   console.log("aaaaaaaaaa");
+		   //code js qui sera declenché lors d'un click:
+		   var zoneBodyDuPanel = document.querySelector(".body");
+		   if(zoneBodyDuPanel.style.display == "block"){
+		        zonePlusMoins.innerHTML="+";
+		        zoneBodyDuPanel.style.display = "none";
+				}
+			else {
+			     zoneBodyDuPanel.style.display ="block";
+				 zonePlusMoins.innerHTML="-";
+				 }
+		   }); //fin de addEventListener()
+		   
+	   } //fin de initComportementPage()
+   </script>
+</head>
+<body onload="initComportementPage()">
+	<div class="togglePanel">
+		<div class="titre" > 
+		    <span class="plusMoins" >-</span> 
+			Titre qui va bien 
+		</div>
+		<div class="body">	
+			123 nous irons au bois <br/>
+			456 cueillir des cerises <br/>
+			789 dans un panier tout neuf . 
+		</div>
+	</div>
+	suite du texte (apres le panel).
+</body>
+</html>

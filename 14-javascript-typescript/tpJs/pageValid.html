@@ -1,0 +1,35 @@
+<html>
+<head>
+   <script>
+       function validerFormulaire(){
+	      var zoneInputNom = document.querySelector("#nom");
+		  var zoneSpanMessage = document.querySelector("#spanMessage");
+		  var zoneInputAnnee = document.querySelector("#annee");
+		  var nom = zoneInputNom.value; console.log("nom="+nom);
+		  var annee = zoneInputAnnee.value; console.log("annee="+annee);
+		  //en tp:
+		  // verifier si annee est bien numerique via !isNaN(...)
+		  // verifier si nom comporte au moins 2 caractères et commence par une // majuscule . Afficher resultat validation dans zone spanMessage
+		  var msgErreur="";
+		  if(annee.length<1 || isNaN(annee)){
+		       msgErreur+="annee="+annee + " doit etre une valeur numerique <br/>";
+		  }
+		  if(nom.length<2){
+		       msgErreur+="le nom doit comporter au moins 2 caracteres <br/>";
+		  }
+		  var premierCaractere = nom.charAt(0);
+		  if(premierCaractere<'A' || premierCaractere > 'Z'){
+		       msgErreur+="le nom doit commencer par une majuscule <br/>";
+		  }
+		  zoneSpanMessage.innerHTML=msgErreur;
+	   }
+   </script>
+</head>
+<body>
+	nom=<input type="text" id="nom"  /> (ex: Dupond) <br/>
+	annee=<input type="text" id="annee"  /> (ex: 2018) <br/>
+	<input type="button" value="valider" 
+	       onclick="validerFormulaire()" /> <br/>
+	message= <span id="spanMessage" ></span>
+</body>
+</html>
