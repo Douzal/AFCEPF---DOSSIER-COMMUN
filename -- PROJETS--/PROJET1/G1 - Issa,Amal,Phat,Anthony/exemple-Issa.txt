@@ -1,2 +1,0 @@
-
-https://www.primefaces.org/showcase/ui/data/datatable/selection.xhtml
