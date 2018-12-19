@@ -1,0 +1,4 @@
+Hello Hadoop
+Goodbye Hadoop
+Good morning my friend
+Nice to meet you my friend

@@ -1,0 +1,5 @@
+1201	Jean	45000	DBA
+1202	Victor	45000	Programmeur
+1203	Marc	40000	Developpeur
+1204	Moumadi	40000	Chef de projet
+1205	Douglas	30000	Architecte
