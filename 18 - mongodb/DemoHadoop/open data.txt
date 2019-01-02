@@ -1,0 +1,11 @@
+http://bit.ly/imdbratings => movies rating
+http://mlr.cs.umass.edu/ml/index.html => Machine Learning Repository
+https://drive.google.com/file/d/18Dsja5_1jRY1GnWoORXFFKGTJhylk6rJ/view => shopping trends
+https://grouplens.org/datasets/movielens/100k/ => movies 
+https://www.bankofengland.co.uk/statistics => bank
+https://opendata.paris.fr/explore/dataset/les-arbres/export/ => Paris Open Data (arbres)
+http://archive.ics.uci.edu/ml/index.php
+
+
+
+

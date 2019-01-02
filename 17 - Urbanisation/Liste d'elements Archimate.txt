@@ -1,0 +1,15 @@
+1 Augmenter la capacité à contribuer au développement du domaine ADP (Assurance De Personne) sur l'ensemble des marchés et segments de clientèle
+1.1 Améliorer la performance opérationnelle
+1.1.1 Refondre les applications
+1.1.1.1 Décommissionner les applications de complémentaire santé et prévoyance existantes
+1.1.1.2 ComSaniT 
+1.1.1.3 PrevIT
+1.2 Améliorer la satisfaction client
+1.3 Améliorer la qualité de service
+1.3.1 Refondre les processus
+1.3.1.1 Refondre les modes de travail
+1.3.1.2 Refondre les organisations
+1.4 Se conformer aux directives européennes
+1.4.1 Améliorer le time to market
+1.4.1.1 Agilité et Evolutivité du SI
+1.4.1.2 Accroitre la réutilisation de composants logiciels
